@@ -20,36 +20,43 @@ import frc.robot.Constants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
 
-
+    //just defining the classes for each sparkmax
     CANSparkMax frontLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontLeftCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax frontRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontRightCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.backLeftCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
-
+    //same as previus except for encoders
+    //only one per side because its tank drive
     RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
     RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
-
+    //uwu or owo
+    //groups left and right side for tank drive
     MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
     MotorControllerGroup righControllerGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
 
+    //it just works man I dont know how I got here
     DifferentialDrive differentialDrive = new DifferentialDrive(leftControllerGroup, righControllerGroup);
 
+    //honk honk its the sound of the police
     public DrivetrainSubsystem(){
-        frontLeftMotor.restoreFactoryDefaults();
+        frontLeftMotor.restoreFactoryDefaults(); // factory knows best
         frontRightMotor.restoreFactoryDefaults();
         backLeftMotor.restoreFactoryDefaults();
         backRightMotor.restoreFactoryDefaults();
         
+        // restoring to defaults incase drivers messed something up (because they suck)
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
 
+        //groups them together
         backLeftMotor.follow(frontLeftMotor);
         backRightMotor.follow(frontRightMotor);
 
+        //right controller group > left controller group
         righControllerGroup.setInverted(true);//play with these until it works
         leftControllerGroup.setInverted(false);
     }
-    
+    //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {
       differentialDrive.tankDrive(left, right);
     }

@@ -13,8 +13,9 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  
+  //Programing >>>>>>>>>
   public static final class DriveTrainConstantants{
+    //change depending on what port the CAN is
     public static final int frontLeftCANID = 1;
     public static final int frontRightCANID = 2;
     public static final int backLeftCANID = 3;

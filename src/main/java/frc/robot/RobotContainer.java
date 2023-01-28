@@ -26,14 +26,14 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
     /**left is used for arcade both are used for tank*/
-  public static Joystick leftJoystick = new Joystick(0);
+  public static Joystick leftJoystick = new Joystick(0); // ports were just guessed who knows if its right
   public static Joystick rightJoystick = new Joystick(1);
-  public buttonstate myButtonStates = new buttonstate();
+  public buttonstate myButtonStates = new buttonstate(); // initializes class
 
-  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
-
+  //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   //private final CommandXboxController m_driverController =
@@ -43,7 +43,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand);
+    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
   }
 
   /**
@@ -66,12 +66,13 @@ public class RobotContainer {
     //when the button is toggled it is should set as true
   }
 
+  //incomplete so ignore
   public class jbuttons {
     public JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
     public JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
     public JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);
   }
-
+  //incomplete so ingnore
   public class buttonstate {
     public boolean leftj8IsPressed = false;
   }

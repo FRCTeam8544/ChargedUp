@@ -25,7 +25,7 @@ public class DriveWithJoystickCommand extends CommandBase {
 
   }
 
-  //arcade drive, comment one out
+  //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
     double lForwardSpeed = RobotContainer.leftJoystick.getX();
