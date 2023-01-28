@@ -17,8 +17,8 @@ public final class Constants {
   public static final class DriveTrainConstantants{
     //change depending on what port the CAN is
     public static final int frontLeftCANID = 1;
-    public static final int frontRightCANID = 2;
-    public static final int backLeftCANID = 3;
+    public static final int frontRightCANID = 3;
+    public static final int backLeftCANID = 2;
     public static final int backRightCANID = 4;
   }
 
