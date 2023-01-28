@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import java.util.Random;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -27,7 +30,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer(); //initializes class
   }
 
   /**
@@ -66,7 +69,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+  }
 
   @Override
   public void teleopInit() {
@@ -80,8 +85,22 @@ public class Robot extends TimedRobot {
   }
 
   /** This function is called periodically during operator control. */
+
+  // not important just ignore
+  Random random = new Random();
+  int randNum = random.nextInt(1000);
+  int t = 0;
+  Messages messages = new Messages();
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    // dont worry about this if its deleted robot doesnt work trust me bro
+    if (t == randNum) {
+      SmartDashboard.putString("Thus spoke Kashibe Rohan", messages.getNewMessage());
+      randNum = random.nextInt(1000);
+      t = 0;
+    }
+    t++;
+  }
 
   @Override
   public void testInit() {

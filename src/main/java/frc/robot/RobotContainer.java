@@ -4,12 +4,16 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+//import frc.robot.Constants.OperatorConstants;
+//import frc.robot.commands.Autos;
+import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.RobotBase;
+//import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -20,16 +24,26 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+    /**left is used for arcade both are used for tank*/
+  public static Joystick leftJoystick = new Joystick(0); // ports were just guessed who knows if its right
+  public static Joystick rightJoystick = new Joystick(1);
+  public buttonstate myButtonStates = new buttonstate(); // initializes class
+
+  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
+
+  private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+  //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  //private final CommandXboxController m_driverController =
+      //new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
   }
 
   /**
@@ -43,12 +57,24 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    /*JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
+    JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
+    JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);*/
+    //add button to set coast and break mode
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //leftj8.toggleOnTrue(driveWithJoystickCommand)//shouldnt call function because the execute function should do it
+    //when the button is toggled it is should set as true
+  }
+
+  //incomplete so ignore
+  public class jbuttons {
+    public JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
+    public JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
+    public JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);
+  }
+  //incomplete so ingnore
+  public class buttonstate {
+    public boolean leftj8IsPressed = false;
   }
 
   /**
@@ -56,8 +82,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  
   public Command getAutonomousCommand() {
+    
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null;
   }
 }
