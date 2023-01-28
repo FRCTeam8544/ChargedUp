@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //import java.rmi.server.RemoteObjectInvocationHandler;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -28,8 +30,14 @@ public class DriveWithJoystickCommand extends CommandBase {
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
-    double lForwardSpeed = RobotContainer.leftJoystick.getX();
-    double rForwardSpeed = RobotContainer.rightJoystick.getX();
+    double lForwardSpeed = RobotContainer.leftJoystick.getY();
+    double rForwardSpeed = RobotContainer.rightJoystick.getY();
+
+    //lForwardSpeed = (lForwardSpeed*lForwardSpeed*lForwardSpeed)/2;
+    //rForwardSpeed = (rForwardSpeed*rForwardSpeed*rForwardSpeed)/2; //parabala is too low needs to be edited
+
+    //SmartDashboard.putNumber("forward speed outputleft", lForwardSpeed);
+    //SmartDashboard.putNumber("forward speed output right", rForwardSpeed);
 
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler

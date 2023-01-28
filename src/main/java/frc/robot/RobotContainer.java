@@ -26,8 +26,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
     /**left is used for arcade both are used for tank*/
-  public static Joystick leftJoystick = new Joystick(0); // ports were just guessed who knows if its right
-  public static Joystick rightJoystick = new Joystick(1);
+  public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
+  public static Joystick rightJoystick = new Joystick(0);
   public buttonstate myButtonStates = new buttonstate(); // initializes class
 
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
