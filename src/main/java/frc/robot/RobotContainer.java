@@ -28,9 +28,8 @@ public class RobotContainer {
     /**left is used for arcade both are used for tank*/
   public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
   public static Joystick rightJoystick = new Joystick(0);
-  public buttonstate myButtonStates = new buttonstate(); // initializes class
 
-  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
+  public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
   //initializes class
@@ -56,27 +55,14 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    /*JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
-    JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
-    JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);*/
-    //add button to set coast and break mode
+    JoystickButton button8 = new JoystickButton(leftJoystick, 8);
+    JoystickButton button10 = new JoystickButton(leftJoystick, 10);
+    JoystickButton button12 = new JoystickButton(leftJoystick, 12);
 
-    //leftj8.toggleOnTrue(driveWithJoystickCommand)//shouldnt call function because the execute function should do it
-    //when the button is toggled it is should set as true
+    button12.onTrue(drivetrainSubsystem.testingThings());
+    button8.onTrue(drivetrainSubsystem.setBreakMode());
+    button10.onTrue(drivetrainSubsystem.setCoastMode());
   }
-
-  //incomplete so ignore
-  public class jbuttons {
-    public JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
-    public JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
-    public JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);
-  }
-  //incomplete so ingnore
-  public class buttonstate {
-    public boolean leftj8IsPressed = false;
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

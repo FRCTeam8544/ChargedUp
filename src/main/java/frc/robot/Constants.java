@@ -20,6 +20,11 @@ public final class Constants {
     public static final int frontRightCANID = 3;
     public static final int backLeftCANID = 2;
     public static final int backRightCANID = 4;
+
+  }
+
+  public static final class JoystickConstants {
+    public static final int butEnableBreakmode = 8;
   }
 
 }

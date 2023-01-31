@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -93,19 +94,27 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
 */
-    public void setBreakMode() {
+    public Command setBreakMode() {
       backLeftMotor.setIdleMode(IdleMode.kBrake);
       frontLeftMotor.setIdleMode(IdleMode.kBrake);
       backRightMotor.setIdleMode(IdleMode.kBrake);
       frontRightMotor.setIdleMode(IdleMode.kBrake);
+      return null;
     }
 
-    public void setCoastMode() {
+    public Command setCoastMode() {
       backLeftMotor.setIdleMode(IdleMode.kCoast);
       frontLeftMotor.setIdleMode(IdleMode.kCoast);
       backRightMotor.setIdleMode(IdleMode.kCoast);
       frontRightMotor.setIdleMode(IdleMode.kCoast);
+      return null;
     }
+
+    public Command testingThings() {
+      SmartDashboard.putString("test", "working?????");
+      return null;
+    }
+
     @Override
   public void periodic() {
     SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());
