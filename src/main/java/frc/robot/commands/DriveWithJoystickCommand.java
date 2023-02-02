@@ -31,25 +31,52 @@ public class DriveWithJoystickCommand extends CommandBase {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
 
-    lForwardSpeed = formulas(lForwardSpeed);
-    rForwardSpeed = formulas(rForwardSpeed);
+
+    /**Chose one comment the rest out
+     * it changes the input to output ratio
+     * all can be commented out for linear drive
+     */
+    //square root function
+    //lForwardSpeed = formulas(lForwardSpeed);
+    //rForwardSpeed = formulas(rForwardSpeed);
+
+    //normal exponential (x^3)
+    //lForwardSpeed = formulaEx(lForwardSpeed);
+    //rForwardSpeed = formulaEx(rForwardSpeed);
+
+    //cool exponential (2^x) but better
+    lForwardSpeed = formula1(lForwardSpeed);
+    rForwardSpeed = formula1(rForwardSpeed);
 
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
   }
 
+  private double formulaEx (double value) {
+    value = Math.pow(value, 3);
+    return value;
+  }
 
-  private double formulas(double yValue) {
-    //comment one out
-    //yValue = yValue*yValue*yValue;
+
+  private double formulas(double value) {
     
-    if (yValue < 0) {
-      yValue = (Math.sqrt(yValue))*-1;
+    if (value < 0) {
+      value = (Math.sqrt(value))*-1;
     }
     else{
-      yValue = Math.sqrt(yValue);
+      value = Math.sqrt(value);
     }
-    return yValue;
+    return value;
+  }
+
+  private double formula1( double value ){
+    if (value > 0){
+      value = Math.pow(2, value) - 1;
+    }
+    else if (value < 0) {
+      value = Math.pow(-2, (value * -1)) + 1;
+    }
+    return value;
   }
 
   //tank drive, comment one out
