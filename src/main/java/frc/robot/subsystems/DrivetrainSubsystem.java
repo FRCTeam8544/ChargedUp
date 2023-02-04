@@ -94,12 +94,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
 */
-    public Command setBreakMode() {
+    public void setBreakMode() {
       backLeftMotor.setIdleMode(IdleMode.kBrake);
       frontLeftMotor.setIdleMode(IdleMode.kBrake);
       backRightMotor.setIdleMode(IdleMode.kBrake);
       frontRightMotor.setIdleMode(IdleMode.kBrake);
-      return null;
+      //return null;
     }
 
     public Command setCoastMode() {
@@ -110,9 +110,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
       return null;
     }
 
-    public Command testingThings() {
+    public void testingThings() {
       SmartDashboard.putString("test", "working?????");
-      return null;
+    }
+    public void testtwo() {
+      SmartDashboard.putString("test", " BP New "+Math.random());
     }
 
     @Override

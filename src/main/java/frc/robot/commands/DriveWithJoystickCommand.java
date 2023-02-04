@@ -21,18 +21,30 @@ public class DriveWithJoystickCommand extends CommandBase {
     this.drivetrainSubsystem = drivetrainSubsystem;
     addRequirements(drivetrainSubsystem);
   }
+  /*public CommandBase testbutton() {
+    drivetrainSubsystem.testingThings();
+    return this;
+  }
+  public CommandBase testbuttontwo(){
+    drivetrainSubsystem.testtwo();
+    return this;
+  }
+   public CommandBase setBreakMode(){
+    drivetrainSubsystem.setBreakMode();
+    return this;
+     }*/
 
-  @Override
+     @Override
   public void initialize(){
     System.out.println("use joysticks");
 
   }
-
-  public CommandBase setFormulaValue (int val) {
+  //value to determine what formula used
+  /*public CommandBase setFormulaValue (int val) {
     m_val = val;
     System.out.println(m_val);
     return this ;
-  }
+  }*/
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
@@ -41,7 +53,40 @@ public class DriveWithJoystickCommand extends CommandBase {
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
     //linuwux > windowos
     //my opinions >>>>>>>>>> everything else
-    
+
+    //RobotContainer.button11.whenPressed(testbuttontwo());
+    //RobotContainer.button11.whenReleased(testbutton());
+    //button11.onTrue(testbutton());
+
+  
+
+    if (RobotContainer.controller.getYButtonPressed() == true) {
+      SmartDashboard.putString("testing 13", "askdfjh"+Math.random());
+    }    
+    if (RobotContainer.controller.getYButtonReleased() == true) {
+      SmartDashboard.putString("released 13", "a;sldfkj"+Math.random());
+    }
+
+    if (RobotContainer.controller.getBButtonPressed() == true) {
+      m_val = 8;
+      SmartDashboard.putString("B button", "using sqrt");
+      SmartDashboard.putString("A button", "not in use");
+      SmartDashboard.putString("X button", "not in use");
+    }
+    else if (RobotContainer.controller.getAButtonPressed() == true) {
+      m_val = 10;
+      SmartDashboard.putString("A button", "using expo");
+      SmartDashboard.putString("B button", "not in use");
+      SmartDashboard.putString("X button", "not in use");
+    }
+    else if (RobotContainer.controller.getXButtonPressed() == true) {
+      m_val = 12;
+      SmartDashboard.putString("X button", "using cool expo (y = 2^x - 1 0r y = -2^-x - 1)");
+      SmartDashboard.putString("B button", "not in use");
+      SmartDashboard.putString("A button", "not in use");
+    }
+
+
     //sqrt
     if (m_val == 8){
       lForwardSpeed = formulas(lForwardSpeed);
@@ -67,13 +112,12 @@ public class DriveWithJoystickCommand extends CommandBase {
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
   }
-
+  //y=x^2
   private double formulaEx (double value) {
     value = Math.pow(value, 3);
     return value;
   }
-
-
+  //sqrt
   private double formulas(double value) {
     
     if (value < 0) {
@@ -84,7 +128,8 @@ public class DriveWithJoystickCommand extends CommandBase {
     }
     return value;
   }
-
+  //y=2^(x) -1 or y=-2^(-x) +1
+  //its 727 wysi
   private double formula1( double value ){
     if (value > 0){
       value = Math.pow(2, value) - 1;
