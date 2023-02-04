@@ -9,11 +9,11 @@ package frc.robot;
 import frc.robot.commands.DriveWithJoystickCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -27,10 +27,10 @@ public class RobotContainer {
 
     /**left is used for arcade both are used for tank*/
   public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
-  public static Joystick rightJoystick = new Joystick(0);
-  public buttonstate myButtonStates = new buttonstate(); // initializes class
+  public static Joystick rightJoystick = new Joystick(0);// add a way to change it through smart dashboard
+  public static XboxController controller = new XboxController(2);
 
-  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
+  public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
   //initializes class
@@ -56,27 +56,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    /*JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
-    JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
-    JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);*/
-    //add button to set coast and break mode
-
-    //leftj8.toggleOnTrue(driveWithJoystickCommand)//shouldnt call function because the execute function should do it
-    //when the button is toggled it is should set as true
+    //what is the point of this
+    
   }
-
-  //incomplete so ignore
-  public class jbuttons {
-    public JoystickButton leftj8 = new JoystickButton(leftJoystick, 8);
-    public JoystickButton leftj10 = new JoystickButton(leftJoystick, 10);
-    public JoystickButton leftj12 = new JoystickButton(leftJoystick, 12);
-  }
-  //incomplete so ingnore
-  public class buttonstate {
-    public boolean leftj8IsPressed = false;
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

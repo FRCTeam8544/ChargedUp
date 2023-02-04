@@ -106,6 +106,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       backRightMotor.setIdleMode(IdleMode.kCoast);
       frontRightMotor.setIdleMode(IdleMode.kCoast);
     }
+
     @Override
   public void periodic() {
     SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());
