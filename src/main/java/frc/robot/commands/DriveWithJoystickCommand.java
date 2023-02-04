@@ -59,14 +59,16 @@ public class DriveWithJoystickCommand extends CommandBase {
     //button11.onTrue(testbutton());
 
   
-
+    int coastnum = 1;
     if (RobotContainer.controller.getYButtonPressed() == true) {
-      SmartDashboard.putString("testing 13", "askdfjh"+Math.random());
-    }    
-    if (RobotContainer.controller.getYButtonReleased() == true) {
-      SmartDashboard.putString("released 13", "a;sldfkj"+Math.random());
+      coastnum ++;
+      if (coastnum % 2 == 0) {
+        drivetrainSubsystem.setCoastMode();
+      }
+      else{
+        drivetrainSubsystem.setBreakMode();
+      }
     }
-
     if (RobotContainer.controller.getBButtonPressed() == true) {
       m_val = 8;
       SmartDashboard.putString("B button", "using sqrt");
