@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.DriveTrainConstantants;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
@@ -15,7 +14,6 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -29,7 +27,7 @@ public class RobotContainer {
 
     /**left is used for arcade both are used for tank*/
   public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
-  public static Joystick rightJoystick = new Joystick(0);
+  public static Joystick rightJoystick = new Joystick(0);// add a way to change it through smart dashboard
   public static XboxController controller = new XboxController(2);
 
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
@@ -58,26 +56,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /*JoystickButton button8 = new JoystickButton(leftJoystick, 8);
-    JoystickButton button10 = new JoystickButton(leftJoystick, 10);
-    JoystickButton button12 = new JoystickButton(leftJoystick, 12);
-    JoystickButton button11 = new JoystickButton(leftJoystick, 11);
-
-    JoystickButton rightButton8 = new JoystickButton(rightJoystick, 8);
-    JoystickButton rightButton10 = new JoystickButton(rightJoystick, 10);
-    JoystickButton rightButton12 = new JoystickButton(rightJoystick, 12);
-
-    
-    button11.onTrue(driveWithJoystickCommand.testbuttontwo());
-    button12.onTrue(driveWithJoystickCommand.testbutton());
-    //button8.onTrue(driveWithJoystickCommand.setBreakMode());
-    //button10.onTrue(drivetrainSubsystem.setCoastMode());
-
-    //driveWithJoystickCommand.setFormulaValue(8);
-    //rightButton8.onTrue(driveWithJoystickCommand.setFormulaValue(8)) ;
-    //rightButton10.onTrue(driveWithJoystickCommand.setFormulaValue(10));
-    //rightButton12.onTrue(driveWithJoystickCommand.setFormulaValue(12));*/
-
+    //what is the point of this
     
   }
   /**
