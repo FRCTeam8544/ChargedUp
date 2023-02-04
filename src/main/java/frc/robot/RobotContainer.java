@@ -7,7 +7,9 @@ package frc.robot;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.commands.TurretMoveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -31,8 +33,10 @@ public class RobotContainer {
   public static XboxController controller = new XboxController(2);
 
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
+  public final TurretSubsystem turretSubsystem = new TurretSubsystem();
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+  private final TurretMoveCommand turretMoveCommand = new TurretMoveCommand(turretSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
