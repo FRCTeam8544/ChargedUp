@@ -59,9 +59,18 @@ public class RobotContainer {
     JoystickButton button10 = new JoystickButton(leftJoystick, 10);
     JoystickButton button12 = new JoystickButton(leftJoystick, 12);
 
+    JoystickButton rightButton8 = new JoystickButton(rightJoystick, 8);
+    JoystickButton rightButton10 = new JoystickButton(rightJoystick, 10);
+    JoystickButton rightButton12 = new JoystickButton(rightJoystick, 12);
+
     button12.onTrue(drivetrainSubsystem.testingThings());
     button8.onTrue(drivetrainSubsystem.setBreakMode());
     button10.onTrue(drivetrainSubsystem.setCoastMode());
+
+    //driveWithJoystickCommand.setFormulaValue(8);
+    rightButton8.onTrue(driveWithJoystickCommand.setFormulaValue(8)) ;
+    rightButton10.onTrue(driveWithJoystickCommand.setFormulaValue(10));
+    rightButton12.onTrue(driveWithJoystickCommand.setFormulaValue(12));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

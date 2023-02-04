@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //import java.rmi.server.RemoteObjectInvocationHandler;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,6 +15,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveWithJoystickCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
+  int m_val ;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
@@ -25,28 +28,41 @@ public class DriveWithJoystickCommand extends CommandBase {
 
   }
 
+  public CommandBase setFormulaValue (int val) {
+    m_val = val;
+    System.out.println(m_val);
+    return this ;
+  }
+
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
-
-
-    /**Chose one comment the rest out
-     * it changes the input to output ratio
-     * all can be commented out for linear drive
-     */
-    //square root function
-    //lForwardSpeed = formulas(lForwardSpeed);
-    //rForwardSpeed = formulas(rForwardSpeed);
-
+    //linuwux > windowos
+    //my opinions >>>>>>>>>> everything else
+    
+    //sqrt
+    if (m_val == 8){
+      lForwardSpeed = formulas(lForwardSpeed);
+      rForwardSpeed = formulas(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
     //normal exponential (x^3)
-    //lForwardSpeed = formulaEx(lForwardSpeed);
-    //rForwardSpeed = formulaEx(rForwardSpeed);
-
+    else if (m_val == 10) {
+      lForwardSpeed = formulaEx(lForwardSpeed);
+      rForwardSpeed = formulaEx(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
     //cool exponential (2^x) but better
-    lForwardSpeed = formula1(lForwardSpeed);
-    rForwardSpeed = formula1(rForwardSpeed);
+    else if (m_val == 12) {
+      lForwardSpeed = formula1(lForwardSpeed);
+      rForwardSpeed = formula1(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
 
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
