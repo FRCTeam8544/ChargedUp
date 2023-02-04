@@ -31,6 +31,9 @@ public class DriveWithJoystickCommand extends CommandBase {
     double lForwardSpeed = RobotContainer.leftJoystick.getX();
     double rForwardSpeed = RobotContainer.rightJoystick.getX();
 
+    lForwardSpeed = lForwardSpeed/4;
+    rForwardSpeed = rForwardSpeed/4;
+
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
   }

@@ -6,7 +6,6 @@
     * Go to link
         * [WPILIB](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html)
         * Click download (1.81GB on 2023 as of 1/27/2023 7:22PM)
-</br>
 
     * Open ISO file
         * Run exe inside ISO

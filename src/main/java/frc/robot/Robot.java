@@ -94,6 +94,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // dont worry about this if its deleted robot doesnt work trust me bro
+
+    // If you are not on team 8544 and using this code got to messages.java and read the breaks there too
+
     if (t == randNum) {
       SmartDashboard.putString("Thus spoke Kashibe Rohan", messages.getNewMessage());
       randNum = random.nextInt(1000);
