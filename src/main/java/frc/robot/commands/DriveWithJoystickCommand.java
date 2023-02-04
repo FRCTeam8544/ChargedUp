@@ -86,6 +86,13 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putString("A button", "not in use");
     }
 
+    if (RobotContainer.controller.getLeftBumperPressed() == true) {
+      m_val = 0;
+      SmartDashboard.putString("X button", "not in use");
+      SmartDashboard.putString("B button", "not in use");
+      SmartDashboard.putString("A button", "not in use");
+    }
+
 
     //sqrt
     if (m_val == 8){
