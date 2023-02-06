@@ -6,9 +6,10 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class TurretSubsystem {
+public class TurretSubsystem extends SubsystemBase{
     public CANSparkMax turretMotor = new CANSparkMax(Constants.TurretConstants.turretCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     RelativeEncoder turretEncoder = turretMotor.getEncoder();
     Spark turretSpark = new Spark(0);
