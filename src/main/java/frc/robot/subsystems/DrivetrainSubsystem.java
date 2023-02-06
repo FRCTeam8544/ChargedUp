@@ -53,8 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRightMotor.follow(frontRightMotor);
 
         //right controller group > left controller group
-        righControllerGroup.setInverted(true);//play with these until it works
-        leftControllerGroup.setInverted(false);
+        righControllerGroup.setInverted(false);//play with these until it works
+        leftControllerGroup.setInverted(true);
     }
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {
@@ -106,6 +106,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       backRightMotor.setIdleMode(IdleMode.kCoast);
       frontRightMotor.setIdleMode(IdleMode.kCoast);
     }
+
     @Override
   public void periodic() {
     SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());

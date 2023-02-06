@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+// who's in paris
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -17,9 +17,14 @@ public final class Constants {
   public static final class DriveTrainConstantants{
     //change depending on what port the CAN is
     public static final int frontLeftCANID = 1;
-    public static final int frontRightCANID = 2;
-    public static final int backLeftCANID = 3;
+    public static final int frontRightCANID = 3;
+    public static final int backLeftCANID = 2;
     public static final int backRightCANID = 4;
+
+  }
+
+  public static final class JoystickConstants {
+    public static final int butEnableBreakmode = 8;
   }
 
 }
