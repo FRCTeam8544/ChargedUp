@@ -72,30 +72,22 @@ public class DriveWithJoystickCommand extends CommandBase {
     //sets sqrt
     if (RobotContainer.controller.getBButtonPressed() == true) {
       m_val = 8;
-      SmartDashboard.putString("B button", "using sqrt");
-      SmartDashboard.putString("A button", "not in use");
-      SmartDashboard.putString("X button", "not in use");
+      SmartDashboard.putString("drive mode", "using sqrt");
     }
     //changes input output ratio to be exponential
     else if (RobotContainer.controller.getAButtonPressed() == true) {
       m_val = 10;
-      SmartDashboard.putString("A button", "using expo");
-      SmartDashboard.putString("B button", "not in use");
-      SmartDashboard.putString("X button", "not in use");
+      SmartDashboard.putString("drive mode", "using expo");
     }
     //changes input output ratio to be cooler exponential(y = 2^x - 1 0r y = -2^-x - 1)
     else if (RobotContainer.controller.getXButtonPressed() == true) {
       m_val = 12;
-      SmartDashboard.putString("X button", "using cool expo");
-      SmartDashboard.putString("B button", "not in use");
-      SmartDashboard.putString("A button", "not in use");
+      SmartDashboard.putString("drive mode", "using cool expo");
     }
     //resets so input = output
     if (RobotContainer.controller.getLeftBumperPressed() == true) {
       m_val = 0;
-      SmartDashboard.putString("X button", "not in use");
-      SmartDashboard.putString("B button", "not in use");
-      SmartDashboard.putString("A button", "not in use");
+      SmartDashboard.putString("drive mode", "linear");
     }
 
 
