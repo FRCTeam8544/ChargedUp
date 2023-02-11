@@ -84,7 +84,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putString("mode", "using expo");
     }
     //changes input output ratio to be cooler exponential(y = 2^x - 1 0r y = -2^-x - 1)
-    else if (RobotContainer.controller.getXButtonPressed() == true) {
+    else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
       m_val = 12;
       SmartDashboard.putString("mode", "using cool expo");
     }
@@ -95,11 +95,11 @@ public class DriveWithJoystickCommand extends CommandBase {
     }
     // starts balance
     else if (RobotContainer.controller.getRightBumper() == true) {
-      uwu++; //owo
       SmartDashboard.putString("mode", "balancing");
       m_val = 16;
     }
-    else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
+    //logrithms (best option)
+    else if (RobotContainer.controller.getXButtonPressed() == true) {
       SmartDashboard.putString("mode", "logrithm");
       m_val = 69;
     }
@@ -112,11 +112,10 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     else if (m_val == 16){
-      SmartDashboard.putNumber("left speed", 69);
-      SmartDashboard.putNumber("right speed", 69);
-      lForwardSpeed = balancepwease(lForwardSpeed);
-      rForwardSpeed = balancepwease(rForwardSpeed);
-
+      lForwardSpeed = balancepwease();
+      rForwardSpeed = lForwardSpeed;
+      SmartDashboard.putNumber("left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     //normal exponential (x^3) function
     else if (m_val == 10) {
@@ -132,6 +131,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
+    //log
     else if (m_val == 69) {
       lForwardSpeed = wammy(lForwardSpeed);
       rForwardSpeed = wammy(rForwardSpeed);
@@ -139,6 +139,8 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
 
+    SmartDashboard.putNumber("actual speed left", lForwardSpeed);
+    SmartDashboard.putNumber("actual speed right", rForwardSpeed);
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
   }
@@ -151,7 +153,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   private double formulas(double value) {
     
     if (value < 0) {
-      value = (Math.sqrt(value))*-1;
+      value = (Math.sqrt(value*(-1)))*-1;
     }
     else{
       value = Math.sqrt(value);
@@ -169,7 +171,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     }
     return value;
   }
-
+  //logrithms
   private double wammy( double value){
     if (value > 0) {
       value = Math.log(((1.264241118*Math.E*value)/2) + 1 );
@@ -180,15 +182,26 @@ public class DriveWithJoystickCommand extends CommandBase {
     return value;
   }
 
-  private double balancepwease(double value) {
+  private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
-    if (navXRoll > 10){
-      value = -0.5;
+    double value = 0;
+    double rolex = navXRoll / 180;
+    /**
+     * 17.5 max angle when fully on
+     * 0.25 keeps balanced
+     */
+    value = -0.25;
+    /*if (navXRoll > 10){
+      value = -0.25;
+      //value = 2*Math.pow((rolex+.5), 2) - .5; 
     }
     else if (navXRoll < -10) {
-      value = 0.5;
-    }
+      value = 0.25;
+      //value = (-2*Math.pow((rolex-.5), 2)+.5);
+    }*/
+      
+    
 
     if (navXPitch < -10 || navXRoll > 10) {
       System.out.println("how did we get here");
