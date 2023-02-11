@@ -167,21 +167,14 @@ public class DriveWithJoystickCommand extends CommandBase {
     if (navXPitch > 10){
       drivetrainSubsystem.tankDrive(-0.2, -0.2);
     }
-    if (navXPitch < -10) {
+    else if (navXPitch < -10) {
       drivetrainSubsystem.tankDrive(0.2, 0.2);
     }
 
+    if (navXRoll < -10 || navXRoll > 10) {
+      System.out.print("how did we get here");
+    }
   }
-
-  //tank drive, comment one out
- /*  @Override
-  public void execute() {
-    double leftController = RobotContainer.leftJoystick.getX();
-    double rightController = RobotContainer.rightJoystick.getX();
-
-    DrivetrainSubsystem.mode(leftController, rightController); */
-
-    //drivetrainSubsystem.tankDrive(leftController, rightController);
 }
 
 
