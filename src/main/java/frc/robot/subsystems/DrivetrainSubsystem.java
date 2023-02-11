@@ -63,7 +63,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     /*public void arcadeDrive(double forward, double rotation) {
       differentialDrive.arcadeDrive(forward, rotation);
     }
-
+    
     public static void mode(double l, double r) {
       if ( == true) {
         

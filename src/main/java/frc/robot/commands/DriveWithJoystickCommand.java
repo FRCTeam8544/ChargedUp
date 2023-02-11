@@ -4,8 +4,6 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -18,8 +16,8 @@ public class DriveWithJoystickCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
   int m_val ;
-  public int uwu = 69;
-  AHRS ahrs;
+  public int uwu = 0;
+  int coastnum = 1;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
@@ -63,7 +61,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     //button11.onTrue(testbutton());
 
     //changes between break and coast
-    int coastnum = 1;
+
     if (RobotContainer.controller.getYButtonPressed() == true) {
       coastnum ++;
       if (coastnum % 2 == 0) {
@@ -95,25 +93,30 @@ public class DriveWithJoystickCommand extends CommandBase {
       m_val = 0;
       SmartDashboard.putString("mode", "not in use");
     }
+    // starts balance
     else if (RobotContainer.controller.getRightBumper() == true) {
-      uwu = 42;
+      uwu++; //owo
       SmartDashboard.putString("mode", "balancing");
       m_val = 16;
+    }
+    else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
+      SmartDashboard.putString("mode", "logrithm");
+      m_val = 69;
     }
 
     //sqrt function
     if (m_val == 8){
-      lForwardSpeed = formulas(lForwardSpeed);
-      rForwardSpeed = formulas(rForwardSpeed);
+        lForwardSpeed = formulas(lForwardSpeed);
+        rForwardSpeed = formulas(rForwardSpeed);
       SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     else if (m_val == 16){
-      lForwardSpeed = 0;
-      rForwardSpeed = 0;
       SmartDashboard.putNumber("left speed", 69);
       SmartDashboard.putNumber("right speed", 69);
-      balancepwease();
+      lForwardSpeed = balancepwease(lForwardSpeed);
+      rForwardSpeed = balancepwease(rForwardSpeed);
+
     }
     //normal exponential (x^3) function
     else if (m_val == 10) {
@@ -126,6 +129,12 @@ public class DriveWithJoystickCommand extends CommandBase {
     else if (m_val == 12) {
       lForwardSpeed = formula1(lForwardSpeed);
       rForwardSpeed = formula1(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
+    else if (m_val == 69) {
+      lForwardSpeed = wammy(lForwardSpeed);
+      rForwardSpeed = wammy(rForwardSpeed);
       SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
@@ -161,20 +170,34 @@ public class DriveWithJoystickCommand extends CommandBase {
     return value;
   }
 
-  private void balancepwease() {
-    double navXPitch = ahrs.getPitch();
-    double navXRoll = ahrs.getRoll();
-    if (navXPitch > 10){
-      drivetrainSubsystem.tankDrive(-0.2, -0.2);
+  private double wammy( double value){
+    if (value > 0) {
+      value = Math.log(((1.264241118*Math.E*value)/2) + 1 );
     }
-    else if (navXPitch < -10) {
-      drivetrainSubsystem.tankDrive(0.2, 0.2);
+    else if (value < 0) {
+      value = (Math.log(((1.264241118*Math.E*value)/2) + 1)) *-1;
+    }
+    return value;
+  }
+
+  private double balancepwease(double value) {
+    double navXPitch = RobotContainer.ahrs.getPitch();
+    double navXRoll = RobotContainer.ahrs.getRoll();
+    if (navXRoll > 10){
+      value = -0.5;
+    }
+    else if (navXRoll < -10) {
+      value = 0.5;
     }
 
-    if (navXRoll < -10 || navXRoll > 10) {
-      System.out.print("how did we get here");
+    if (navXPitch < -10 || navXRoll > 10) {
+      System.out.println("how did we get here");
     }
+    SmartDashboard.putNumber("ahrs", RobotContainer.ahrs.getPitch());
+    SmartDashboard.putNumber("ahrs roll", RobotContainer.ahrs.getRoll());
+    return value;
   }
+  
 }
 
 
