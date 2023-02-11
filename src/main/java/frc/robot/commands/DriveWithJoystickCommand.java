@@ -191,7 +191,11 @@ public class DriveWithJoystickCommand extends CommandBase {
      * 17.5 max angle when fully on
      * 0.25 keeps balanced
      */
-    value = -0.25;
+
+    if (navXRoll != 0) {
+       value = (.29 / 17.5 ) * navXRoll * -1 ;
+    }
+    
     /*if (navXRoll > 10){
       value = -0.25;
       //value = 2*Math.pow((rolex+.5), 2) - .5; 
