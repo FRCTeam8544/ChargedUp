@@ -175,7 +175,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       value = Math.log(((1.264241118*Math.E*value)/2) + 1 );
     }
     else if (value < 0) {
-      value = (Math.log(((1.264241118*Math.E*value)/2) + 1)) *-1;
+      value = (Math.log(((1.264241118*Math.E*(-1)*value)/2) + 1)) *-1;
     }
     return value;
   }
