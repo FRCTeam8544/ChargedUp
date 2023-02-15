@@ -52,7 +52,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
     //linuwux > windowos
-    //my opinions >>>>>>>>>> everything else
+    //my opinions <<<<<<<<<< everything else
 
     //RobotContainer.button11.whenPressed(testbuttontwo());
     //RobotContainer.button11.whenReleased(testbutton());
