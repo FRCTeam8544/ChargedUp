@@ -25,30 +25,12 @@ public class DriveWithJoystickCommand extends CommandBase {
     this.drivetrainSubsystem = drivetrainSubsystem;
     addRequirements(drivetrainSubsystem);
   }
-  /*public CommandBase testbutton() {
-    drivetrainSubsystem.testingThings();
-    return this;
-  }
-  public CommandBase testbuttontwo(){
-    drivetrainSubsystem.testtwo();
-    return this;
-  }
-   public CommandBase setBreakMode(){
-    drivetrainSubsystem.setBreakMode();
-    return this;
-     }*/
 
      @Override
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
   }
-  //value to determine what formula used
-  /*public CommandBase setFormulaValue (int val) {
-    m_val = val;
-    System.out.println(m_val);
-    return this ;
-  }*/
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
@@ -58,12 +40,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     //linuwux > windowos
     //my opinions >>>>>>>>>> everything else
 
-    //RobotContainer.button11.whenPressed(testbuttontwo());
-    //RobotContainer.button11.whenReleased(testbutton());
-    //button11.onTrue(testbutton());
-
     //changes between break and coast
-
     if (RobotContainer.controller.getYButtonPressed() == true) {
       coastnum ++;
       if (coastnum % 2 == 0) {
@@ -75,37 +52,10 @@ public class DriveWithJoystickCommand extends CommandBase {
         SmartDashboard.putString("coast or break?", "break");
       }
     }
-    //sets sqrt
-    /*
-    if (RobotContainer.controller.getBButtonPressed() == true) {
-      m_val = 8;
-      SmartDashboard.putString("mode", "using sqrt");
-    }*/
-    //changes input output ratio to be exponential
-    /*else if (RobotContainer.controller.getAButtonPressed() == true) {
-      m_val = 10;
-      SmartDashboard.putString("mode", "using expo");
-    }*/
-    //changes input output ratio to be cooler exponential(y = 2^x - 1 0r y = -2^-x - 1)
-    /*else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
-      m_val = 12;
-      SmartDashboard.putString("mode", "using cool expo");
-    }*/
-    //resets so input = output
-    /*else if (RobotContainer.controller.getLeftBumperPressed() == true) {
-      m_val = 0;
-      SmartDashboard.putString("mode", "not in use");
-      RobotContainer.autobalance = false;
-    }*/
     // starts balance
-    else if (RobotContainer.controller.getRightBumper() == true) {
+    else if (RobotContainer.controller.getBButtonPressed() == true) {
       if (RobotContainer.autobalance ) {RobotContainer.autobalance = false;  SmartDashboard.putString("mode", "auto balance off");} else {RobotContainer.autobalance = true; SmartDashboard.putString("mode", "balancing");} 
     }
-    //logrithms (best option)
-    /*else if (RobotContainer.controller.getXButtonPressed() == true) { //actually b button for some reason
-      SmartDashboard.putString("mode", "logrithm");
-      m_val = 69;
-    }*/
     else if (RobotContainer.leftJoystick.getTriggerPressed() == true) {// x button
       wantbalance(false);
     }
@@ -132,7 +82,18 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
-    //sqrt function
+
+    /*
+     * to implement just do:
+     * if(Robotcontainer.controller.getAButtonPressed == true) {
+     *    m_val = 8;
+     *    SmartDashboard.putstring("mode", "sqrt");
+     * }
+     * the controller works weirdly so pressing the button will return multiple true but using the button pressed 
+     * to set a value to do a method later on works well and gets around that issue
+     * 
+     * the stuff next are all just testing curves we ended up deciding on logrithms as of 2023/02/18
+     */
     /*
     else if (m_val == 8){
         lForwardSpeed = formulas(lForwardSpeed);
@@ -212,7 +173,7 @@ public class DriveWithJoystickCommand extends CommandBase {
         Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED + Constants.RAMPSPEEDADJUSTMENT;
         SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
       }
-      if (balancenum == 10 && up == false){
+      else if (balancenum == 10 && up == false){
         Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED - Constants.RAMPSPEEDADJUSTMENT;
         SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
       }
