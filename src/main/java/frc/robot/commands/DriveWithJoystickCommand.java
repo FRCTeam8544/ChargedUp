@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 //import java.rmi.server.RemoteObjectInvocationHandler;
@@ -17,7 +18,8 @@ public class DriveWithJoystickCommand extends CommandBase {
   private final DrivetrainSubsystem drivetrainSubsystem;
   int m_val ;
   public int uwu = 0;
-  int coastnum = 1;
+  int coastnum = 0;
+  int balancenum = 0;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
@@ -74,47 +76,68 @@ public class DriveWithJoystickCommand extends CommandBase {
       }
     }
     //sets sqrt
+    /*
     if (RobotContainer.controller.getBButtonPressed() == true) {
       m_val = 8;
       SmartDashboard.putString("mode", "using sqrt");
-    }
+    }*/
     //changes input output ratio to be exponential
-    else if (RobotContainer.controller.getAButtonPressed() == true) {
+    /*else if (RobotContainer.controller.getAButtonPressed() == true) {
       m_val = 10;
       SmartDashboard.putString("mode", "using expo");
-    }
+    }*/
     //changes input output ratio to be cooler exponential(y = 2^x - 1 0r y = -2^-x - 1)
-    else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
+    /*else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
       m_val = 12;
       SmartDashboard.putString("mode", "using cool expo");
-    }
+    }*/
     //resets so input = output
-    else if (RobotContainer.controller.getLeftBumperPressed() == true) {
+    /*else if (RobotContainer.controller.getLeftBumperPressed() == true) {
       m_val = 0;
       SmartDashboard.putString("mode", "not in use");
-    }
+      RobotContainer.autobalance = false;
+    }*/
     // starts balance
     else if (RobotContainer.controller.getRightBumper() == true) {
-      SmartDashboard.putString("mode", "balancing");
-      m_val = 16;
+      if (RobotContainer.autobalance ) {RobotContainer.autobalance = false;  SmartDashboard.putString("mode", "auto balance off");} else {RobotContainer.autobalance = true; SmartDashboard.putString("mode", "balancing");} 
     }
     //logrithms (best option)
-    else if (RobotContainer.controller.getXButtonPressed() == true) {
+    /*else if (RobotContainer.controller.getXButtonPressed() == true) { //actually b button for some reason
       SmartDashboard.putString("mode", "logrithm");
       m_val = 69;
+    }*/
+    else if (RobotContainer.leftJoystick.getTriggerPressed() == true) {// x button
+      wantbalance(false);
     }
+    /*else if (RobotContainer.controller.getAButtonReleased() == true) {
+      balancenum = 0;
+    }*/
+    else if (RobotContainer.rightJoystick.getTriggerPressed() == true) {
+      wantbalance(true);
+    }
+    /*else if (RobotContainer.controller.getBButtonReleased()) {
+      balancenum = 0;
+    }*/
 
-    //sqrt function
-    if (m_val == 8){
-        lForwardSpeed = formulas(lForwardSpeed);
-        rForwardSpeed = formulas(rForwardSpeed);
-      SmartDashboard.putNumber("Left speed", lForwardSpeed);
-      SmartDashboard.putNumber("right speed", rForwardSpeed);
-    }
-    else if (m_val == 16){
+
+    if (RobotContainer.autobalance){
       lForwardSpeed = balancepwease();
       rForwardSpeed = lForwardSpeed;
       SmartDashboard.putNumber("left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
+    else {
+      lForwardSpeed = wammy(lForwardSpeed);
+      rForwardSpeed = wammy(rForwardSpeed);
+      SmartDashboard.putNumber("left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
+    //sqrt function
+    /*
+    else if (m_val == 8){
+        lForwardSpeed = formulas(lForwardSpeed);
+        rForwardSpeed = formulas(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     //normal exponential (x^3) function
@@ -138,6 +161,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
+    */
 
     SmartDashboard.putNumber("actual speed left", lForwardSpeed);
     SmartDashboard.putNumber("actual speed right", rForwardSpeed);
@@ -182,39 +206,39 @@ public class DriveWithJoystickCommand extends CommandBase {
     return value;
   }
 
+  private void wantbalance(boolean up) {
+    if (Constants.CURRENTRAMPSPEED < 0.1 && Constants.CURRENTRAMPSPEED > -0.1){
+      if (balancenum == 10 && up == true) {
+        Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED + Constants.RAMPSPEEDADJUSTMENT;
+        SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
+      }
+      if (balancenum == 10 && up == false){
+        Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED - Constants.RAMPSPEEDADJUSTMENT;
+        SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
+      }
+      else if (balancenum < 10) {
+        balancenum ++;
+      }
+      else {
+        balancenum = 0;
+      }
+    }
+  }
+
   private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
     double value = 0;
-    double rolex = navXRoll / 180;
     /**
      * 17.5 max angle when fully on
      * 0.25 keeps balanced
      */
-
-    if (navXRoll != 0) {
-       value = (.29 / 17.5 ) * navXRoll * -1 ;
-    }
-    
-    /*if (navXRoll > 10){
-      value = -0.25;
-      //value = 2*Math.pow((rolex+.5), 2) - .5; 
-    }
-    else if (navXRoll < -10) {
-      value = 0.25;
-      //value = (-2*Math.pow((rolex-.5), 2)+.5);
-    }*/
-      
-    
-
-    if (navXPitch < -10 || navXRoll > 10) {
-      System.out.println("how did we get here");
-    }
+    value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll * -1 ;
+    SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
     SmartDashboard.putNumber("ahrs", RobotContainer.ahrs.getPitch());
     SmartDashboard.putNumber("ahrs roll", RobotContainer.ahrs.getRoll());
     return value;
   }
-  
 }
 
 

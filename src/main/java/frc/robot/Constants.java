@@ -23,6 +23,11 @@ public final class Constants {
 
   }
 
+  public static final double BASESPEED = 0.25; //speed at which robot should be stable when it is fully on the ramp
+  public static final double MAXANGLE = 17; // max ramp angle is 17 degrees
+  public static final double RAMPSPEEDADJUSTMENT = .01; //speed adjustment when auto mode is on
+  public static double CURRENTRAMPSPEED = 0.04; // starting adjustment speed
+
   public static final class JoystickConstants {
     public static final int butEnableBreakmode = 8;
   }
