@@ -20,6 +20,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   public int uwu = 0;
   int coastnum = 0;
   int balancenum = 0;
+  int balancetri = 4;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
@@ -53,8 +54,27 @@ public class DriveWithJoystickCommand extends CommandBase {
       }
     }
     // starts balance
-    else if (RobotContainer.controller.getBButtonPressed() == true) {
+    /*else if (RobotContainer.controller.getBButtonPressed() == true) {
       if (RobotContainer.autobalance ) {RobotContainer.autobalance = false;  SmartDashboard.putString("mode", "auto balance off");} else {RobotContainer.autobalance = true; SmartDashboard.putString("mode", "balancing");} 
+    }*/
+    //balancetri:1 means pressed on 2 means released on 3 means pressed off 4 means released off
+    else if (RobotContainer.controller.getBButtonPressed() == true) {
+      if (balancetri == 4 ||balancetri == 1) {
+        balancetri = 1;
+        RobotContainer.autobalance = true;
+      }
+      else if (balancetri == 2 || balancetri == 3) {
+        RobotContainer.autobalance = false;
+        balancetri = 3;
+      }
+    }
+    else if (RobotContainer.controller.getBButtonReleased() == true) {
+      if(balancetri == 1) {
+        balancetri = 2;
+      }  
+      if (balancetri == 3) {
+        balancetri = 4;
+      }
     }
     else if (RobotContainer.leftJoystick.getTriggerPressed() == true) {// x button
       wantbalance(false);
@@ -169,15 +189,15 @@ public class DriveWithJoystickCommand extends CommandBase {
 
   private void wantbalance(boolean up) {
     if (Constants.CURRENTRAMPSPEED < 0.1 && Constants.CURRENTRAMPSPEED > -0.1){
-      if (balancenum == 10 && up == true) {
+      if (balancenum == 5 && up == true) {
         Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED + Constants.RAMPSPEEDADJUSTMENT;
         SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
       }
-      else if (balancenum == 10 && up == false){
+      else if (balancenum == 5 && up == false){
         Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED - Constants.RAMPSPEEDADJUSTMENT;
         SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
       }
-      else if (balancenum < 10) {
+      else if (balancenum < 5) {
         balancenum ++;
       }
       else {
