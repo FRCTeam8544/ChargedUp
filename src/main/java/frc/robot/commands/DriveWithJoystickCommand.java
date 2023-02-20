@@ -14,6 +14,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 
 public class DriveWithJoystickCommand extends CommandBase {
+  private static final double NavXRollOriginal = 0;
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
   int m_val ;
@@ -31,6 +32,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
+    double NavXRollOriginal = RobotContainer.ahrs.getRoll();
   }
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
@@ -38,6 +40,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   public void execute() {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
+    SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
     //linuwux > windowos
     //my opinions >>>>>>>>>> everything else
 
@@ -188,7 +191,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   }
 
   private void wantbalance(boolean up) {
-    if (Constants.CURRENTRAMPSPEED < 0.1 && Constants.CURRENTRAMPSPEED > -0.1){
+    if (Constants.CURRENTRAMPSPEED < 0.5 && Constants.CURRENTRAMPSPEED > -0.5){
       if (balancenum == 5 && up == true) {
         Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED + Constants.RAMPSPEEDADJUSTMENT;
         SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
@@ -209,15 +212,19 @@ public class DriveWithJoystickCommand extends CommandBase {
   private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
+    double navXYaw = RobotContainer.ahrs.getYaw();
     double value = 0;
+    navXRoll = navXRoll - NavXRollOriginal;
     /**
      * 17.5 max angle when fully on
      * 0.25 keeps balanced
      */
-    value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll * -1 ;
+    //value = 0; // used for testing
+    value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll ;
     SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
-    SmartDashboard.putNumber("ahrs", RobotContainer.ahrs.getPitch());
-    SmartDashboard.putNumber("ahrs roll", RobotContainer.ahrs.getRoll());
+    SmartDashboard.putNumber("ahrs pitch", navXPitch);
+    SmartDashboard.putNumber("ahrs roll", navXRoll);
+    SmartDashboard.putNumber("ahrs yaw", navXYaw);
     return value;
   }
 }
