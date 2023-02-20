@@ -16,10 +16,10 @@ public final class Constants {
   //Programing >>>>>>>>>
   public static final class DriveTrainConstantants{
     //change depending on what port the CAN is
-    public static final int frontLeftCANID = 1;
-    public static final int frontRightCANID = 2;
-    public static final int backLeftCANID = 3;
-    public static final int backRightCANID = 4;
+    public static final int frontLeftCANID = 2; //one for old robot
+    public static final int frontRightCANID = 4;//2 for old robot
+    public static final int backLeftCANID = 1; //old robot is 3
+    public static final int backRightCANID = 3;
 
   }
 
