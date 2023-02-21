@@ -14,7 +14,9 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 
 public class DriveWithJoystickCommand extends CommandBase {
-  private static final double NavXRollOriginal = 0;
+  public static final double NavXRollinit = RobotContainer.ahrs.getRoll();
+  public static final double navXPitchinit = RobotContainer.ahrs.getPitch();
+  public static final double navXYawinit = RobotContainer.ahrs.getYaw();
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
   int m_val ;
@@ -32,7 +34,6 @@ public class DriveWithJoystickCommand extends CommandBase {
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
-    double NavXRollOriginal = RobotContainer.ahrs.getRoll();
   }
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
@@ -214,12 +215,14 @@ public class DriveWithJoystickCommand extends CommandBase {
     double navXRoll = RobotContainer.ahrs.getRoll();
     double navXYaw = RobotContainer.ahrs.getYaw();
     double value = 0;
-    navXRoll = navXRoll - NavXRollOriginal;
+    navXRoll = navXRoll - NavXRollinit;
+    navXPitch = navXPitch - navXPitchinit;
+    navXYaw = navXYaw - navXYawinit;
     /**
      * 17.5 max angle when fully on
-     * 0.25 keeps balanced
+     * 0.25 keeps balanced 
+     * ^ old robot data ^
      */
-    //value = 0; // used for testing
     value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll ;
     SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
     SmartDashboard.putNumber("ahrs pitch", navXPitch);
