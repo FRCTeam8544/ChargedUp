@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
@@ -23,6 +24,10 @@ public class ArmControls extends CommandBase{
         double firstJointSpeedup = RobotContainer.controller.getRightTriggerAxis();
         double firstJointSpeeddown = RobotContainer.controller.getLeftTriggerAxis();
         double actualfirstjoint = (firstJointSpeedup - firstJointSpeeddown) / 2;
+
+        if (actualfirstjoint != 0) {
+            armSubsystem.movejoints(Constants.armthings.firstnum, actualfirstjoint);
+        }
 
 
 
