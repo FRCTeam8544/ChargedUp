@@ -25,12 +25,12 @@ public class ArmControls extends CommandBase{
         double firstJointSpeeddown = RobotContainer.controller.getLeftTriggerAxis();
         double actualfirstjoint = (firstJointSpeedup - firstJointSpeeddown) / 2;
 
-        if (actualfirstjoint != 0) {
-            armSubsystem.movejoints(Constants.armthings.firstnum, actualfirstjoint);
+        if (actualfirstjoint != 0 && Constants.armthings.issparkFirst) {
+            armSubsystem.movejointsspark(Constants.armthings.firstnum, actualfirstjoint);
         }
-
-
-
+        else if (actualfirstjoint != 0) {
+            armSubsystem.movejointsv(Constants.armthings.firstnum, actualfirstjoint);
+        }
     }
 
 }

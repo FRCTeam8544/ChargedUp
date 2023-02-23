@@ -27,6 +27,8 @@ public final class Constants {
     public static final int jointoneCANID = 7;
 
     public static final int firstnum = 1;
+
+    public static final boolean issparkFirst = true;
   }
 
   public static final double BASESPEED = 0.22; //speed at which robot should be stable when it is fully on the ramp

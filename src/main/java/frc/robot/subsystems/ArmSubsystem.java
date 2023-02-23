@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,7 +16,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
-    Spark firstSpark = new Spark(0);
+    Spark firstJointSpark = new Spark(0);
+
+    Victor firstJointVictor = new Victor(0);
 
     public void DrivetrainSubsystem(){
         firstJoint.restoreFactoryDefaults();
@@ -29,10 +32,18 @@ public class ArmSubsystem extends SubsystemBase {
         firstJoint.setIdleMode(IdleMode.kBrake);
     }
 
-    public void movejoints(int whichone, double howfar) {
+    public void movejointsspark(int whichone, double howfar) {
         switch(whichone) {
             case 1:
-                firstSpark.set(howfar);
+                firstJointSpark.set(howfar);
+                break;
+        }
+    }
+
+    public void movejointsv(int whichone, double howfar) {
+        switch (whichone) {
+            case 1:
+                firstJointVictor.set(howfar);
                 break;
         }
     }
