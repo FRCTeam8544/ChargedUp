@@ -14,6 +14,9 @@ public class ArmControls extends CommandBase{
         addRequirements(armSubsystem);
       }
 
+    private int porque = 0;
+
+
     @Override
     public void initialize() {
         armSubsystem.setBreakMode();
@@ -25,12 +28,36 @@ public class ArmControls extends CommandBase{
         double firstJointSpeeddown = RobotContainer.controller.getLeftTriggerAxis();
         double actualfirstjoint = (firstJointSpeedup - firstJointSpeeddown) / 2;
 
-        if (actualfirstjoint != 0 && Constants.armthings.issparkFirst) {
-            armSubsystem.movejointsspark(Constants.armthings.firstnum, actualfirstjoint);
+        if (RobotContainer.controller.getAButtonPressed()) {
+            if (porque == 4 ||porque == 1) {
+              porque = 1;
+              actualfirstjoint = controlslb(firstJointSpeedup);
+            }
+            else if (porque == 2 || porque == 3) {
+              porque = 3;
+            }
+          }
+          else if (RobotContainer.controller.getAButtonReleased()) {
+            if(porque == 1) {
+              porque = 2;
+            }  
+            if (porque == 3) {
+              porque = 4;
+            }
+          }
+        
+
+        armSubsystem.movemotor(actualfirstjoint);
+        
+    }
+
+    double controlslb(double rt) {
+
+        if (RobotContainer.controller.getLeftBumper()) {
+            rt = (rt * -1)/2;
         }
-        else if (actualfirstjoint != 0) {
-            armSubsystem.movejointsv(Constants.armthings.firstnum, actualfirstjoint);
-        }
+
+        return rt;
     }
 
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -16,36 +17,89 @@ public class ArmSubsystem extends SubsystemBase {
 
     RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
+    //private SparkMaxLimitSwitch firstlimitforward;
+    //private SparkMaxLimitSwitch firstlimitreverse;
+
     Spark firstJointSpark = new Spark(0);
 
-    Victor firstJointVictor = new Victor(0);
+    //Victor firstJointVictor = new Victor(0);
 
     public void DrivetrainSubsystem(){
         firstJoint.restoreFactoryDefaults();
         
         firstJointEncoder.setPosition(0);
 
-        firstJoint.setInverted(false);
+        firstJoint.setInverted(true);
+
+        //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+        //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
+
+        //firstlimitforward.enableLimitSwitch(true);
+        //firstlimitreverse.enableLimitSwitch(true);
+
     }
 
     public void setBreakMode() {
         firstJoint.setIdleMode(IdleMode.kBrake);
     }
 
-    public void movejointsspark(int whichone, double howfar) {
-        switch(whichone) {
-            case 1:
-                firstJointSpark.set(howfar);
-                break;
-        }
+    public void movemotor(double value) {
+        firstJointSpark.set(value);
     }
 
-    public void movejointsv(int whichone, double howfar) {
-        switch (whichone) {
-            case 1:
-                firstJointVictor.set(howfar);
-                break;
-        }
-    }
 
+    /*public void movejointssparktrue(int whichone, double howfar, boolean isspark) {
+        if (firstlimitforward.isPressed() == false || firstlimitreverse.isPressed() == false){
+            if (isspark){
+                switch(whichone) {
+                    case 1:
+                        firstJointSpark.set(howfar);
+                        break;
+                }
+            }
+            else{
+                switch (whichone) {
+                    case 1:
+                        firstJointVictor.set(howfar);
+                        break;
+                }
+            }
+        }
+        else if (firstlimitforward.isPressed()){
+            if(firstlimitforward.isPressed() && howfar < 0) {
+                if (isspark){
+                    switch(whichone) {
+                        case 1:
+                            firstJointSpark.set(howfar);
+                            break;
+                    }
+                }
+                else{
+                    switch (whichone) {
+                        case 1:
+                            firstJointVictor.set(howfar);
+                            break;
+                    }
+                }
+            }
+        }
+        else if (firstlimitreverse.isPressed()){
+            if(firstlimitreverse.isPressed() && howfar > 0) {
+                if (isspark){
+                    switch(whichone) {
+                        case 1:
+                            firstJointSpark.set(howfar);
+                            break;
+                    }
+                }
+                else{
+                    switch (whichone) {
+                        case 1:
+                            firstJointVictor.set(howfar);
+                            break;
+                    }
+                }
+            }
+        }
+    }*/
 }
