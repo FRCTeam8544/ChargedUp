@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -7,14 +8,14 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmControls extends CommandBase{
 
-    private final ArmSubsystem armSubsystem;
+  ArmSubsystem armSubsystem;
+
+  int x = 0;
 
     public ArmControls(ArmSubsystem armSubsystem){
         this.armSubsystem = armSubsystem;
         addRequirements(armSubsystem);
       }
-
-    private int porque = 0;
 
 
     @Override
@@ -24,40 +25,31 @@ public class ArmControls extends CommandBase{
     
     @Override
     public void execute() {
-        double firstJointSpeedup = RobotContainer.controller.getRightTriggerAxis();
-        double firstJointSpeeddown = RobotContainer.controller.getLeftTriggerAxis();
-        double actualfirstjoint = (firstJointSpeedup - firstJointSpeeddown) / 2;
+      double speed = Constants.armthings.armstopspeed;
 
-        if (RobotContainer.controller.getAButtonPressed()) {
-            if (porque == 4 ||porque == 1) {
-              porque = 1;
-              actualfirstjoint = controlslb(firstJointSpeedup);
-            }
-            else if (porque == 2 || porque == 3) {
-              porque = 3;
-            }
-          }
-          else if (RobotContainer.controller.getAButtonReleased()) {
-            if(porque == 1) {
-              porque = 2;
-            }  
-            if (porque == 3) {
-              porque = 4;
-            }
-          }
-        
+      if (RobotContainer.controller.getAButtonPressed()){x = 1;}
+      else if(RobotContainer.controller.getXButtonPressed()){x = 2;}
+      else if (RobotContainer.controller.getBackButtonPressed()){x = 0;}
 
-        armSubsystem.movemotor(actualfirstjoint);
+      //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
+
+      //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
+
+      if (x == 1){speed = Constants.armthings.armspeed;}
+      else if (x == 2){speed = Constants.armthings.armspeed * -1;}
+      else if (x == 0) {speed = Constants.armthings.armstopspeed;}
+      SmartDashboard.putNumber("aksdjhfaksjbhf", speed);
+
+      armSubsystem.movemotor(speed);
         
     }
 
-    double controlslb(double rt) {
+    double controlslb(double speed) {
 
-        if (RobotContainer.controller.getLeftBumper()) {
-            rt = (rt * -1)/2;
-        }
+      if (RobotContainer.controller.getLeftBumperPressed()){speed = speed * -1;}
 
-        return rt;
+      return 0;
+
     }
 
 }

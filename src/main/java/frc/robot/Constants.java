@@ -29,6 +29,11 @@ public final class Constants {
     public static final int firstnum = 1;
 
     public static final boolean issparkFirst = true;
+
+    public static boolean morecontrol = false;
+
+    public static final double armspeed = 0.15;
+    public static final double armstopspeed = 0.01;
   }
 
   public static final double BASESPEED = 0.22; //speed at which robot should be stable when it is fully on the ramp

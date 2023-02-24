@@ -17,14 +17,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
-    //private SparkMaxLimitSwitch firstlimitforward;
-    //private SparkMaxLimitSwitch firstlimitreverse;
+    private SparkMaxLimitSwitch firstlimitforward;
+    private SparkMaxLimitSwitch firstlimitreverse;
 
-    Spark firstJointSpark = new Spark(0);
+    //Spark firstJointSpark = new Spark(0);
 
     //Victor firstJointVictor = new Victor(0);
 
-    public void DrivetrainSubsystem(){
+    public ArmSubsystem(){
         firstJoint.restoreFactoryDefaults();
         
         firstJointEncoder.setPosition(0);
@@ -44,7 +44,10 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void movemotor(double value) {
-        firstJointSpark.set(value);
+        //firstJointSpark.set(value);
+
+        
+        firstJoint.set(value);
     }
 
 
