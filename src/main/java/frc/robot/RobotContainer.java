@@ -7,9 +7,11 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.commands.ArmControls;
+import frc.robot.commands.ArmExtenderCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -46,6 +48,10 @@ public class RobotContainer {
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
 
   public final ArmControls armControls = new ArmControls(armSubsystem);
+
+  private final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
+
+  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed

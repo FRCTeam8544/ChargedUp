@@ -17,8 +17,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
-    private SparkMaxLimitSwitch firstlimitforward;
-    private SparkMaxLimitSwitch firstlimitreverse;
+    //private SparkMaxLimitSwitch firstlimitforward;
+    //private SparkMaxLimitSwitch firstlimitreverse;
 
     //Spark firstJointSpark = new Spark(0);
 
