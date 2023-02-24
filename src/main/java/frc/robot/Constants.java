@@ -23,6 +23,20 @@ public final class Constants {
 
   }
 
+  public static final class armthings{
+    public static final int jointoneCANID = 7;
+    public static final int extenderCANID = 8;
+
+    public static final int firstnum = 1;
+
+    public static final boolean issparkFirst = true;
+
+    public static boolean morecontrol = false;
+
+    public static final double armspeed = 0.15;
+    public static final double armstopspeed = 0.01;
+  }
+
   public static final double BASESPEED = 0.22; //speed at which robot should be stable when it is fully on the ramp
   public static final double MAXANGLE = 17; // max ramp angle is 17 degrees
   public static final double RAMPSPEEDADJUSTMENT = .01; //speed adjustment when auto mode is on
