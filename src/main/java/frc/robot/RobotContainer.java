@@ -13,6 +13,7 @@ import frc.robot.commands.ArmExtenderCommand;
 import frc.robot.commands.DriveWithJoystickCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -21,6 +22,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,6 +55,12 @@ public class RobotContainer {
   private final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
 
   private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+
+  // Automation Classes
+    // Toggle to pick automation mode
+  private SendableChooser<Command> toggle = new SendableChooser<>();
+    // Our first test automation routine for this bot
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -60,6 +69,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Add the autonomous selection toggle:
+    toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
+    SmartDashboard.putData("Select Autonomous", toggle);
+
     // Configure the trigger bindings
     configureBindings();
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
@@ -88,6 +101,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An example command will be run in autonomous
-    return null;
+    return toggle.getSelected();
   }
 }
