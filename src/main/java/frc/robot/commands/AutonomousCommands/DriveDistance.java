@@ -38,7 +38,7 @@ public class DriveDistance extends CommandBase {
     a_timer.reset();
 
     a_driveTrain.resetEncoder(a_driveTrain.leftEncoder);
-    a_driveTrain.resetEncoder(a_driveTrain.leftEncoder);
+    a_driveTrain.resetEncoder(a_driveTrain.rightEncoder);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
