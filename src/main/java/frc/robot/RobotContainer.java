@@ -6,14 +6,15 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
-
-
+import frc.robot.commands.ArmControls;
+import frc.robot.commands.ArmExtenderCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.subsystems.ArmExtenderSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -38,6 +39,7 @@ public class RobotContainer {
   public static Joystick rightJoystick = new Joystick(0);// add a way to change it through smart dashboard
   public static XboxController controller = new XboxController(2);
   public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
+  public static boolean autobalance = false;
     /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
     /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
     /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
@@ -46,6 +48,13 @@ public class RobotContainer {
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
 
+  public final ArmSubsystem armSubsystem = new ArmSubsystem();
+
+  public final ArmControls armControls = new ArmControls(armSubsystem);
+
+  private final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
+
+  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
 
   // Automation Classes
     // Toggle to pick automation mode
@@ -67,6 +76,7 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
+    armSubsystem.setDefaultCommand(armControls);
   }
 
   /**

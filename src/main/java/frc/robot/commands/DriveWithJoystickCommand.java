@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 //import java.rmi.server.RemoteObjectInvocationHandler;
@@ -13,55 +14,38 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 
 
 public class DriveWithJoystickCommand extends CommandBase {
+  public static final double NavXRollinit = RobotContainer.ahrs.getRoll();
+  public static final double navXPitchinit = RobotContainer.ahrs.getPitch();
+  public static final double navXYawinit = RobotContainer.ahrs.getYaw();
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
   int m_val ;
   public int uwu = 0;
-  int coastnum = 1;
+  int coastnum = 0;
+  int balancenum = 0;
+  int balancetri = 4;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
     addRequirements(drivetrainSubsystem);
   }
-  /*public CommandBase testbutton() {
-    drivetrainSubsystem.testingThings();
-    return this;
-  }
-  public CommandBase testbuttontwo(){
-    drivetrainSubsystem.testtwo();
-    return this;
-  }
-   public CommandBase setBreakMode(){
-    drivetrainSubsystem.setBreakMode();
-    return this;
-     }*/
 
      @Override
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
   }
-  //value to determine what formula used
-  /*public CommandBase setFormulaValue (int val) {
-    m_val = val;
-    System.out.println(m_val);
-    return this ;
-  }*/
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
+    SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
     //linuwux > windowos
     //my opinions >>>>>>>>>> everything else
 
-    //RobotContainer.button11.whenPressed(testbuttontwo());
-    //RobotContainer.button11.whenReleased(testbutton());
-    //button11.onTrue(testbutton());
-
     //changes between break and coast
-
     if (RobotContainer.controller.getYButtonPressed() == true) {
       coastnum ++;
       if (coastnum % 2 == 0) {
@@ -73,48 +57,72 @@ public class DriveWithJoystickCommand extends CommandBase {
         SmartDashboard.putString("coast or break?", "break");
       }
     }
-    //sets sqrt
-    if (RobotContainer.controller.getBButtonPressed() == true) {
-      m_val = 8;
-      SmartDashboard.putString("mode", "using sqrt");
-    }
-    //changes input output ratio to be exponential
-    else if (RobotContainer.controller.getAButtonPressed() == true) {
-      m_val = 10;
-      SmartDashboard.putString("mode", "using expo");
-    }
-    //changes input output ratio to be cooler exponential(y = 2^x - 1 0r y = -2^-x - 1)
-    else if (RobotContainer.controller.getLeftTriggerAxis() > 0) {
-      m_val = 12;
-      SmartDashboard.putString("mode", "using cool expo");
-    }
-    //resets so input = output
-    else if (RobotContainer.controller.getLeftBumperPressed() == true) {
-      m_val = 0;
-      SmartDashboard.putString("mode", "not in use");
-    }
     // starts balance
-    else if (RobotContainer.controller.getRightBumper() == true) {
-      SmartDashboard.putString("mode", "balancing");
-      m_val = 16;
+    /*else if (RobotContainer.controller.getBButtonPressed() == true) {
+      if (RobotContainer.autobalance ) {RobotContainer.autobalance = false;  SmartDashboard.putString("mode", "auto balance off");} else {RobotContainer.autobalance = true; SmartDashboard.putString("mode", "balancing");} 
+    }*/
+    //balancetri:1 means pressed on 2 means released on 3 means pressed off 4 means released off
+    else if (RobotContainer.controller.getBButtonPressed() == true) {
+      if (balancetri == 4 ||balancetri == 1) {
+        balancetri = 1;
+        RobotContainer.autobalance = true;
+      }
+      else if (balancetri == 2 || balancetri == 3) {
+        RobotContainer.autobalance = false;
+        balancetri = 3;
+      }
     }
-    //logrithms (best option)
-    else if (RobotContainer.controller.getXButtonPressed() == true) {
-      SmartDashboard.putString("mode", "logrithm");
-      m_val = 69;
+    else if (RobotContainer.controller.getBButtonReleased() == true) {
+      if(balancetri == 1) {
+        balancetri = 2;
+      }  
+      if (balancetri == 3) {
+        balancetri = 4;
+      }
     }
+    else if (RobotContainer.leftJoystick.getTriggerPressed() == true) {// x button
+      wantbalance(false);
+    }
+    /*else if (RobotContainer.controller.getAButtonReleased() == true) {
+      balancenum = 0;
+    }*/
+    else if (RobotContainer.rightJoystick.getTriggerPressed() == true) {
+      wantbalance(true);
+    }
+    /*else if (RobotContainer.controller.getBButtonReleased()) {
+      balancenum = 0;
+    }*/
 
-    //sqrt function
-    if (m_val == 8){
-        lForwardSpeed = formulas(lForwardSpeed);
-        rForwardSpeed = formulas(rForwardSpeed);
-      SmartDashboard.putNumber("Left speed", lForwardSpeed);
-      SmartDashboard.putNumber("right speed", rForwardSpeed);
-    }
-    else if (m_val == 16){
+
+    if (RobotContainer.autobalance){
       lForwardSpeed = balancepwease();
       rForwardSpeed = lForwardSpeed;
       SmartDashboard.putNumber("left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
+    else {
+      lForwardSpeed = wammy(lForwardSpeed);
+      rForwardSpeed = wammy(rForwardSpeed);
+      SmartDashboard.putNumber("left speed", lForwardSpeed);
+      SmartDashboard.putNumber("right speed", rForwardSpeed);
+    }
+
+    /*
+     * to implement just do:
+     * if(Robotcontainer.controller.getAButtonPressed == true) {
+     *    m_val = 8;
+     *    SmartDashboard.putstring("mode", "sqrt");
+     * }
+     * the controller works weirdly so pressing the button will return multiple true but using the button pressed 
+     * to set a value to do a method later on works well and gets around that issue
+     * 
+     * the stuff next are all just testing curves we ended up deciding on logrithms as of 2023/02/18
+     */
+    /*
+    else if (m_val == 8){
+        lForwardSpeed = formulas(lForwardSpeed);
+        rForwardSpeed = formulas(rForwardSpeed);
+      SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     //normal exponential (x^3) function
@@ -138,6 +146,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       SmartDashboard.putNumber("Left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
+    */
 
     SmartDashboard.putNumber("actual speed left", lForwardSpeed);
     SmartDashboard.putNumber("actual speed right", rForwardSpeed);
@@ -182,39 +191,45 @@ public class DriveWithJoystickCommand extends CommandBase {
     return value;
   }
 
+  private void wantbalance(boolean up) {
+    if (Constants.CURRENTRAMPSPEED < 0.5 && Constants.CURRENTRAMPSPEED > -0.5){
+      if (balancenum == 5 && up == true) {
+        Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED + Constants.RAMPSPEEDADJUSTMENT;
+        SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
+      }
+      else if (balancenum == 5 && up == false){
+        Constants.CURRENTRAMPSPEED = Constants.CURRENTRAMPSPEED - Constants.RAMPSPEEDADJUSTMENT;
+        SmartDashboard.putNumber("ramp balance speed", Constants.CURRENTRAMPSPEED);
+      }
+      else if (balancenum < 5) {
+        balancenum ++;
+      }
+      else {
+        balancenum = 0;
+      }
+    }
+  }
+
   private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
+    double navXYaw = RobotContainer.ahrs.getYaw();
     double value = 0;
-    double rolex = navXRoll / 180;
+    navXRoll = navXRoll - NavXRollinit;
+    navXPitch = navXPitch - navXPitchinit;
+    navXYaw = navXYaw - navXYawinit;
     /**
      * 17.5 max angle when fully on
-     * 0.25 keeps balanced
+     * 0.25 keeps balanced 
+     * ^ old robot data ^
      */
-
-    if (navXRoll != 0) {
-       value = (.29 / 17.5 ) * navXRoll * -1 ;
-    }
-    
-    /*if (navXRoll > 10){
-      value = -0.25;
-      //value = 2*Math.pow((rolex+.5), 2) - .5; 
-    }
-    else if (navXRoll < -10) {
-      value = 0.25;
-      //value = (-2*Math.pow((rolex-.5), 2)+.5);
-    }*/
-      
-    
-
-    if (navXPitch < -10 || navXRoll > 10) {
-      System.out.println("how did we get here");
-    }
-    SmartDashboard.putNumber("ahrs", RobotContainer.ahrs.getPitch());
-    SmartDashboard.putNumber("ahrs roll", RobotContainer.ahrs.getRoll());
+    value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll ;
+    SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
+    SmartDashboard.putNumber("ahrs pitch", navXPitch);
+    SmartDashboard.putNumber("ahrs roll", navXRoll);
+    SmartDashboard.putNumber("ahrs yaw", navXYaw);
     return value;
   }
-  
 }
 
 
