@@ -8,12 +8,18 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.commands.ArmControls;
 import frc.robot.commands.ArmExtenderCommand;
+import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.commands.HoldCommand;
+import frc.robot.commands.ReleaseCommand;
+import frc.robot.commands.TurretCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
+import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -41,17 +47,25 @@ public class RobotContainer {
     /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
     /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
  
-  public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
-
-  private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+  public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();//who knows
+  public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+  public final BalanceCommand balanceCommand = new BalanceCommand(drivetrainSubsystem);
 
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
-
   public final ArmControls armControls = new ArmControls(armSubsystem);
 
-  private final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
+  public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
+  public final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
 
-  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+  public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
+
+  public final TurretSubsystem turretSubsystem = new TurretSubsystem();
+  public final TurretCommand turretCommand = new TurretCommand(turretSubsystem);
+
+  CommandXboxController controllerCommand = new CommandXboxController(2);
+  Trigger aButton = controllerCommand.a();
+  Trigger xButton = controllerCommand.x();
+
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -64,6 +78,8 @@ public class RobotContainer {
     configureBindings();
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
     armSubsystem.setDefaultCommand(armControls);
+
+
   }
 
   /**
@@ -77,6 +93,9 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //what is the point of this
+
+    aButton.onTrue(new HoldCommand(armPneumaticsSubsystem));
+    xButton.onTrue(new ReleaseCommand(armPneumaticsSubsystem));
     
   }
   /**

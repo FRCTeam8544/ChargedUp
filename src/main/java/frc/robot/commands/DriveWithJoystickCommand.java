@@ -95,7 +95,7 @@ public class DriveWithJoystickCommand extends CommandBase {
 
 
     if (RobotContainer.autobalance){
-      lForwardSpeed = balancepwease();
+      lForwardSpeed = BalanceCommand.balancepwease();
       rForwardSpeed = lForwardSpeed;
       SmartDashboard.putNumber("left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
@@ -209,7 +209,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       }
     }
   }
-
+  /*
   private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
@@ -217,19 +217,20 @@ public class DriveWithJoystickCommand extends CommandBase {
     double value = 0;
     navXRoll = navXRoll - NavXRollinit;
     navXPitch = navXPitch - navXPitchinit;
-    navXYaw = navXYaw - navXYawinit;
+    navXYaw = navXYaw - navXYawinit;*/
     /**
      * 17.5 max angle when fully on
      * 0.25 keeps balanced 
      * ^ old robot data ^
      */
+    /*
     value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll ;
     SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
     SmartDashboard.putNumber("ahrs pitch", navXPitch);
     SmartDashboard.putNumber("ahrs roll", navXRoll);
     SmartDashboard.putNumber("ahrs yaw", navXYaw);
     return value;
-  }
+  }*/
 }
 
 

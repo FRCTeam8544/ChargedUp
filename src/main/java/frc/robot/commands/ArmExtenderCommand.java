@@ -30,15 +30,15 @@ public class ArmExtenderCommand extends CommandBase {
 
       if (RobotContainer.controller.getLeftBumperPressed()){x = 1;}
       else if(RobotContainer.controller.getRightBumperPressed()){x = 2;}
-      else if (RobotContainer.controller.getBackButtonPressed()){x = 0;}
+      else if (RobotContainer.controller.getLeftTriggerAxis() > 0){x = 0;}
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
 
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
-      if (x == 1){speed = Constants.armthings.armspeed;}
-      else if (x == 2){speed = Constants.armthings.armspeed * -1;}
-      else if (x == 0) {speed = Constants.armthings.armstopspeed;}
+      if (x == 1){speed = Constants.armthings.armexespeed;}
+      else if (x == 2){speed = Constants.armthings.armexespeed * -1;}
+      else if (x == 0) {speed = 0;}
       SmartDashboard.putNumber("aksdjhfaksjbhf", speed);
 
       armExtenderSubsystem.movemotor(speed);

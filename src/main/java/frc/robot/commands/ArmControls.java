@@ -27,9 +27,9 @@ public class ArmControls extends CommandBase{
     public void execute() {
       double speed = Constants.armthings.armstopspeed;
 
-      if (RobotContainer.controller.getAButtonPressed()){x = 1;}
-      else if(RobotContainer.controller.getXButtonPressed()){x = 2;}
-      else if (RobotContainer.controller.getBackButtonPressed()){x = 0;}
+      if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){x = 1;}
+      else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){x = 2;}
+      else {x = 0;}
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
 
