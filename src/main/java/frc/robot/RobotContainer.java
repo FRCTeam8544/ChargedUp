@@ -15,11 +15,13 @@ import frc.robot.commands.DriveWithJoystickCommand;
 import frc.robot.commands.HoldCommand;
 import frc.robot.commands.ReleaseCommand;
 import frc.robot.commands.TurretCommand;
+import frc.robot.commands.WristCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -53,6 +55,9 @@ public class RobotContainer {
 
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
   public final ArmControls armControls = new ArmControls(armSubsystem);
+  
+  public final WristSubsystem wristSubsystem = new WristSubsystem();
+  public final WristCommand wristCommand = new WristCommand(wristSubsystem);
 
   public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
   public final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);

@@ -33,6 +33,7 @@ public final class Constants {
   public static final class armthings{
     public static final int jointoneCANID = 7;
     public static final int extenderCANID = 8;
+    public static final int wristCANID = 9;
 
     public static boolean yes = false;
 
@@ -45,6 +46,7 @@ public final class Constants {
     public static final double armspeed = 0.15;
     public static final double armstopspeed = 0.01;
     public static final double armexespeed = 0.2;
+    public static final double wrist = 0.2;
 
     public static final PneumaticsModuleType PNEMATICTYPE = PneumaticsModuleType.REVPH;
     public static final int armout = 1;
