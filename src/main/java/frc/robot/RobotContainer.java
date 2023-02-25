@@ -42,6 +42,13 @@ public class RobotContainer {
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem(); // probably initializes class
 
   private final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+
+
+  // Automation Classes
+    // Toggle to pick automation mode
+  private SendableChooser<Command> toggle = new SendableChooser<>();
+    // Our first test automation routine for this bot
+    private final AutonomousRoutine a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -50,6 +57,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Add the autonomous selection toggle:
+    toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
+    SmartDashboard.putData("Select Autonomous", toggle);
+
     // Configure the trigger bindings
     configureBindings();
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
@@ -77,6 +88,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An example command will be run in autonomous
-    return null;
+    return toggle.getSelected();
   }
 }
