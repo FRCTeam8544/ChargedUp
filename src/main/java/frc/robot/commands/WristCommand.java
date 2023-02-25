@@ -8,6 +8,9 @@ import frc.robot.subsystems.WristSubsystem;
 public class WristCommand extends CommandBase{
  
     WristSubsystem wristSubsystem;
+    double who = 0;
+    int watches = 0;
+    //the
     double watchmen = 0;
     public WristCommand(WristSubsystem wristSubsystem){
         this.wristSubsystem = wristSubsystem;
@@ -22,14 +25,37 @@ public class WristCommand extends CommandBase{
     @Override
     public void execute() {
 
-        double who = 0;
+        
 
         if (RobotContainer.controller.getBButtonPressed() == true) {
             who = Constants.armthings.wrist + watchmen;
         }
+        else if (RobotContainer.controller.getXButtonPressed() == true) {
+            who = -1 * (Constants.armthings.wrist + watchmen);
+        }
+        else if (RobotContainer.controller.getYButtonPressed() == true) {
+            watchmen = who(true);
+        }
+        else if (RobotContainer.controller.getAButtonPressed() == true) {
+            watchmen = who(false);
+        }
 
         wristSubsystem.wristWatch(who);
 
+    }
+
+
+    private double who (boolean up) {
+        if (watches == 5) {
+            if (up == true){who = who + 0.05;}else{who = who - 0.05;}
+            watches = 0;
+        }        
+        else if (watches < 5) {
+            watches ++;
+        }
+        else {watches = 0;}
+
+        return who;
     }
 
 }
