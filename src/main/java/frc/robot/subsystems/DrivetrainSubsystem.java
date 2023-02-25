@@ -27,8 +27,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
     //same as previus except for encoders
     //only one per side because its tank drive
-    RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
-    RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
+    public RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
+    public RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
     //uwu or owo
     //groups left and right side for tank drive
     MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
@@ -39,10 +39,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //honk honk its the sound of the police
     public DrivetrainSubsystem(){
-        frontLeftMotor.restoreFactoryDefaults(); // factory knows best
-        frontRightMotor.restoreFactoryDefaults();
-        backLeftMotor.restoreFactoryDefaults();
-        backRightMotor.restoreFactoryDefaults();
+        //frontLeftMotor.restoreFactoryDefaults(); // factory knows best
+        //frontRightMotor.restoreFactoryDefaults();
+        //backLeftMotor.restoreFactoryDefaults();
+        //backRightMotor.restoreFactoryDefaults();
         
         // restoring to defaults incase drivers messed something up (because they suck)
         leftEncoder.setPosition(0);
@@ -112,5 +112,33 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());
     SmartDashboard.putString("Message", "Hi");
     // This method will be called once per scheduler run
+  }
+
+  public void resetEncoder(RelativeEncoder encoderName) {
+    encoderName.setPosition(0);
+  }
+
+  public double currentRM(RelativeEncoder encoderName){
+    return encoderName.getPosition();
+  }
+
+  public double encoderPositionToDistanceConversion(RelativeEncoder encoderName){
+    double encoderPosition = encoderName.getPosition();
+    double wheelDiameter = Constants.DriveTrainConstantants.driveTrainWheelDiameter;
+    double wheelCircumference = Math.PI * wheelDiameter;
+    double gearRatio = Constants.DriveTrainConstantants.driveTrainGearRatio;
+    double wheelRevPerInch = 1 / wheelCircumference;
+
+    return encoderPosition / (wheelRevPerInch*gearRatio);
+  }
+
+  public double distanceToEncoderPositionConversion(double inputedInches){
+    double distance = inputedInches;
+    double wheelDiameter = Constants.DriveTrainConstantants.driveTrainWheelDiameter;
+    double wheelCircumference = Math.PI * wheelDiameter;
+    double gearRatio =Constants.DriveTrainConstantants.driveTrainGearRatio;
+    double wheelRevPerInch = 1 / wheelCircumference;
+
+    return distance * wheelRevPerInch * gearRatio;
   }
 }

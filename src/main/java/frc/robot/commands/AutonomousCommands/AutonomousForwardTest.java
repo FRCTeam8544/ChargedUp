@@ -9,21 +9,19 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.Feeder;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.commands.AutonomousCommands.DriveDistance;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousForwardTest extends ParallelCommandGroup {
-  DriveTrain ar_driveTrain;
+  DrivetrainSubsystem ar_driveTrain;
 
-  public AutonomousForwardTest(DriveTrain drive) {
+  public AutonomousForwardTest(DrivetrainSubsystem drive) {
     ar_driveTrain = drive; 
     addCommands(new SequentialCommandGroup(
-      new DriveDistance(inchesToTravel: 35, speedPercentage: 0.75, ar_driveTrain),
+      new DriveDistance(24, 0.2, ar_driveTrain),
       new SetIdle(IdleMode.kCoast, ar_driveTrain)
     ));
   }

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.SPI;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
+import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,6 +21,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -48,7 +51,7 @@ public class RobotContainer {
     // Toggle to pick automation mode
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
-    private final AutonomousRoutine a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed

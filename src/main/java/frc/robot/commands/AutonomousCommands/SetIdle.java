@@ -7,13 +7,13 @@ package frc.robot.commands.AutonomousCommands;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class SetIdle extends CommandBase {
   /** Creates a new SetIdle. */
   IdleMode modeset;
-  DriveTrain a_drivetrain;
-  public SetIdle(IdleMode mode, DriveTrain driveTrain) {
+  DrivetrainSubsystem a_drivetrain;
+  public SetIdle(IdleMode mode, DrivetrainSubsystem driveTrain) {
     modeset = mode;
     a_drivetrain = driveTrain;
 
@@ -24,7 +24,12 @@ public class SetIdle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    a_drivetrain.setIdleMode(modeset);
+    if (modeset == IdleMode.kCoast) {
+      a_drivetrain.setCoastMode();
+    }
+    if (modeset == IdleMode.kBrake) {
+      a_drivetrain.setBreakMode();;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

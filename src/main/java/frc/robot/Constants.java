@@ -21,6 +21,9 @@ public final class Constants {
     public static final int backLeftCANID = 3;
     public static final int backRightCANID = 4;
 
+    public static final int driveTrainWheelDiameter = 6;
+    public static final double driveTrainGearRatio = 10.71;
+
   }
 
   public static final class JoystickConstants {
