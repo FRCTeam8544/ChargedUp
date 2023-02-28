@@ -21,7 +21,7 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
   public AutonomousForwardTest(DrivetrainSubsystem drive) {
     ar_driveTrain = drive; 
     addCommands(new SequentialCommandGroup(
-      new DriveDistance(24, 0.5, ar_driveTrain),
+      new DriveDistance(36, 0.2, ar_driveTrain),
       new SetIdle(IdleMode.kCoast, ar_driveTrain)
     ));
   }

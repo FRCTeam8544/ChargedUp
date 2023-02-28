@@ -54,7 +54,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         //right controller group > left controller group
         righControllerGroup.setInverted(false);//play with these until it works
-        leftControllerGroup.setInverted(true);
+        leftControllerGroup.setInverted(false);
     }
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {

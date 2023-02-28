@@ -25,7 +25,7 @@ public class DriveDistance extends CommandBase {
     a_driveTrain = drive;
     inputedInches = inchesToTravel;
     inputedSpeed = speedPercentage;
-    inchesMoved = a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.leftEncoder);
+    inchesMoved = a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.rightEncoder);
     
     addRequirements(a_driveTrain);
 
@@ -44,15 +44,15 @@ public class DriveDistance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    inchesMoved = a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.leftEncoder);
+    inchesMoved = a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.rightEncoder);
     //if (Math.abs(inchesMoved) <= 0.85 * inputedInches) {
+    SmartDashboard.putNumber("autonomous speed", inputedSpeed);
     a_driveTrain.tankDrive(inputedSpeed, inputedSpeed);
     //} else {
     //  a_driveTrain.tankDrive(0.25 * inputedSpeed, 0.25 * inputedSpeed);
     //}
 
-    SmartDashboard.putNumber("Distance Traveled", a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.leftEncoder));
-
+    SmartDashboard.putNumber("Distance Traveled", a_driveTrain.encoderPositionToDistanceConversion(a_driveTrain.rightEncoder));
 
   }
 
@@ -66,6 +66,7 @@ public class DriveDistance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //SmartDashboard.putNumber("currentRM", a_driveTrain.currentRM(a_driveTrain.leftEncoder));
     if (a_driveTrain.currentRM(a_driveTrain.leftEncoder) > 0){
       return (a_driveTrain.currentRM(a_driveTrain.leftEncoder) >= a_driveTrain.distanceToEncoderPositionConversion(inputedInches));
     }
