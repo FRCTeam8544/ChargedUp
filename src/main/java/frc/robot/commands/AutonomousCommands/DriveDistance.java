@@ -4,7 +4,6 @@
 
 package frc.robot.commands.AutonomousCommands;
 
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

@@ -11,23 +11,28 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.commands.AutonomousCommands.DriveDistance;
-import frc.robot.commands.AutonomousCommands.DriveRotateDegrees;
+import frc.robot.commands.AutonomousCommands.WaitTime;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutonomousForwardTest extends ParallelCommandGroup {
+
+public class AutonomousMiddleCommand extends ParallelCommandGroup {
   DrivetrainSubsystem ar_driveTrain;
 
-  public AutonomousForwardTest(DrivetrainSubsystem drive) {
+  public AutonomousMiddleCommand(DrivetrainSubsystem drive) {
     ar_driveTrain = drive; 
 
     addCommands(
       new SequentialCommandGroup(
-      new DriveDistance(24, 0.5, ar_driveTrain),
-      new DriveRotateDegrees(90, .5, ar_driveTrain),
+      
+      new DriveDistance(80, 5, ar_driveTrain),
+
+      new WaitTime(5),
+
+      new DriveDistance(6,1,ar_driveTrain),
+      
       new SetIdle(IdleMode.kCoast, ar_driveTrain) )
     );
-
   }
 }
