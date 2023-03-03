@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.commands.AutonomousCommands.DriveDistance;
-import frc.robot.commands.AutonomousCommands.RotateDegrees;
+import frc.robot.commands.AutonomousCommands.DriveRotateDegrees;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,7 +24,7 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       new DriveDistance(24, 0.5, ar_driveTrain),
-      new RotateDegrees(90, .5, ar_driveTrain),
+      new DriveRotateDegrees(90, .5, ar_driveTrain),
       new SetIdle(IdleMode.kCoast, ar_driveTrain) )
     );
   }

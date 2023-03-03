@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class RotateDegrees extends CommandBase {
+public class DriveRotateDegrees extends CommandBase {
   /** Creates a new DriveDistance. */
   DrivetrainSubsystem a_driveTrain;
   double inputedDegrees;
@@ -20,7 +20,7 @@ public class RotateDegrees extends CommandBase {
   double inchesRotated;
   Timer a_timer;
 
-  public RotateDegrees(double degreesToTravel, double speedPercentage, DrivetrainSubsystem drive) {
+  public DriveRotateDegrees(double degreesToTravel, double speedPercentage, DrivetrainSubsystem drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     a_driveTrain = drive;
     inputedDegrees = degreesToTravel;
