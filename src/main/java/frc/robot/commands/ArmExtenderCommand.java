@@ -41,6 +41,7 @@ public class ArmExtenderCommand extends CommandBase {
       else if (x == 0) {speed = Constants.armthings.armstopspeed;}
       SmartDashboard.putNumber("aksdjhfaksjbhf", speed);
 
+      SmartDashboard.putNumber("arm encoder distance", armExtenderSubsystem.getSensorPosition());
       armExtenderSubsystem.movemotor(speed);
         
     }

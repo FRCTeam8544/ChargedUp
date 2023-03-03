@@ -29,6 +29,7 @@ public final class Constants {
   public static final class armthings{
     public static final int jointoneCANID = 7;
     public static final int extenderCANID = 8;
+    public static final int wristCANID = 9;
 
     public static final int firstnum = 1;
 
