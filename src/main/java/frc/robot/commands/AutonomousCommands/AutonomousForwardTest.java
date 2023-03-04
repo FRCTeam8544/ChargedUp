@@ -24,6 +24,7 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       new DriveDistance(24, 0.5, ar_driveTrain),
+      new WaitTime(5),
       new DriveRotateDegrees(90, .5, ar_driveTrain),
       new SetIdle(IdleMode.kCoast, ar_driveTrain) )
     );
