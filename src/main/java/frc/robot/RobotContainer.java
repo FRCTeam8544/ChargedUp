@@ -7,7 +7,6 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.commands.ArmControls;
-import frc.robot.commands.ArmExtenderCommand;
 import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
@@ -53,14 +52,13 @@ public class RobotContainer {
   public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
   public final BalanceCommand balanceCommand = new BalanceCommand(drivetrainSubsystem);
 
-  public final ArmSubsystem armSubsystem = new ArmSubsystem();
-  public final ArmControls armControls = new ArmControls(armSubsystem);
-  
   public final WristSubsystem wristSubsystem = new WristSubsystem();
-  public final WristCommand wristCommand = new WristCommand(wristSubsystem);
-
+  public final ArmSubsystem armSubsystem = new ArmSubsystem();
   public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
-  public final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem);
+  
+  //public final WristCommand wristCommand = new WristCommand(wristSubsystem);
+
 
   public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
 

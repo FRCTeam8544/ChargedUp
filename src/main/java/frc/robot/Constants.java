@@ -27,7 +27,7 @@ public final class Constants {
   }
 
   public static final class turret{
-    public static final int turretCANID = 9;
+    public static final int turretCANID = 10;
   }
 
   public static final class armthings{
@@ -45,8 +45,11 @@ public final class Constants {
 
     public static final double armspeed = 0.15;
     public static final double armstopspeed = 0.01;
-    public static final double armexespeed = 0.2;
-    public static final double wrist = 0.2;
+    public static final double armexespeed = 0.5;
+    
+    public static final double wrist = 0.2;//not in use (so sad)
+    public static final double wristspeed = 0.2;//change
+    public static final double wriststopspeed = 0.01;//change
 
     public static final PneumaticsModuleType PNEMATICTYPE = PneumaticsModuleType.REVPH;
     public static final int armout = 1;

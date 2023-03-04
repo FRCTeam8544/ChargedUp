@@ -7,7 +7,10 @@ import frc.robot.subsystems.WristSubsystem;
 
 public class WristCommand extends CommandBase{
  
-    WristSubsystem wristSubsystem;
+    //uh oh its gone
+    //the horror - francis bacon when reading heart of darkness
+
+    /*WristSubsystem wristSubsystem;
     double who = 0;
     int watches = 0;
     //the
@@ -27,16 +30,16 @@ public class WristCommand extends CommandBase{
 
         
 
-        if (RobotContainer.controller.getBButtonPressed() == true) {
+        if (RobotContainer.controller.getBButtonPressed()) {
             who = Constants.armthings.wrist + watchmen;
         }
-        else if (RobotContainer.controller.getXButtonPressed() == true) {
+        else if (RobotContainer.controller.getXButtonPressed()) {
             who = -1 * (Constants.armthings.wrist + watchmen);
         }
-        else if (RobotContainer.controller.getYButtonPressed() == true) {
+        else if (RobotContainer.controller.getYButtonPressed()) {
             watchmen = who(true);
         }
-        else if (RobotContainer.controller.getAButtonPressed() == true) {
+        else if (RobotContainer.controller.getAButtonPressed()) {
             watchmen = who(false);
         }
 
@@ -56,6 +59,6 @@ public class WristCommand extends CommandBase{
         else {watches = 0;}
 
         return who;
-    }
+    }*/
 
 }

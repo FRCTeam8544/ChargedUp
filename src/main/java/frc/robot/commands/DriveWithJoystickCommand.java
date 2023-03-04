@@ -46,7 +46,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     //my opinions >>>>>>>>>> everything else
 
     //changes between break and coast
-    if (RobotContainer.controller.getBButton() == true) {
+    if (RobotContainer.leftJoystick.getRawButtonPressed(12) == true) {
       coastnum ++;
       if (coastnum % 2 == 0) {
         drivetrainSubsystem.setCoastMode();
