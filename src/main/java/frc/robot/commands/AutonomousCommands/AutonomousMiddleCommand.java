@@ -26,11 +26,13 @@ public class AutonomousMiddleCommand extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(80, 5, ar_driveTrain),
+      new DriveDistance(210, .5, ar_driveTrain),
 
       new WaitTime(5),
 
-      new DriveDistance(6,1,ar_driveTrain),
+      new DriveRotateDegrees(180, .5, drive),
+
+      new DriveDistance(60,.5,ar_driveTrain),
       
       new SetIdle(IdleMode.kCoast, ar_driveTrain) )
     );
