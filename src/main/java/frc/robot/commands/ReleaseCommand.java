@@ -14,7 +14,7 @@ public class ReleaseCommand extends InstantCommand{
 
     @Override
     public void initialize() {
-        armPneumaticsSubsystem.moveback();
+        //armPneumaticsSubsystem.moveback();
     }
     
 }

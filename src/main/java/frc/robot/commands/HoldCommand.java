@@ -14,7 +14,7 @@ public class HoldCommand extends InstantCommand{
 
     @Override
     public void initialize() {
-        armPneumaticsSubsystem.moveoutdaway();
+        //armPneumaticsSubsystem.moveoutdaway();
     }
     
 }

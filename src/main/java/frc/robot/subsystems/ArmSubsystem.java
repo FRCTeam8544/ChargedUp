@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -12,7 +13,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
+    public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     //private SparkMaxLimitSwitch firstlimitforward;
     //private SparkMaxLimitSwitch firstlimitreverse;
@@ -45,6 +46,11 @@ public class ArmSubsystem extends SubsystemBase {
 
         
         firstJoint.set(value);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("first Joint encoder", firstJointEncoder.getPosition());
     }
 
 

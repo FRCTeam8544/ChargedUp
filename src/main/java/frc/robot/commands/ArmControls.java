@@ -3,8 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmExtenderSubsystem;
+import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -13,12 +15,14 @@ public class ArmControls extends CommandBase{
   ArmSubsystem armSubsystem;
   WristSubsystem wristSubsystem;
   ArmExtenderSubsystem armExtenderSubsystem;
+  ArmPneumaticsSubsystem armPneumaticsSubsystem;
 
   int x = 0;
   int y = 0;
   int w = 0;
+  int phd = 0;
 
-    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem){
+    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
         this.wristSubsystem = wristSubsystem;
         this.armExtenderSubsystem = armExtenderSubsystem;
@@ -40,13 +44,21 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}
       else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
       else{y = 0;}
+
       if (RobotContainer.controller.getLeftBumperPressed()) {w = 1;}
-      if (RobotContainer.controller.getRightBumperPressed()) {w = 2;}
+      else if (RobotContainer.controller.getRightBumperPressed()) {w = 2;}
+      else if (RobotContainer.controller.getLeftBumperReleased() && RobotContainer.controller.getRightBumperReleased()){
+        w = 0;
+      }
+      
       if (RobotContainer.controller.getAButtonPressed()){x = 1;}
       else if(RobotContainer.controller.getBButtonPressed()){x = 2;}
-      else if (RobotContainer.controller.getYButtonPressed()){
+      else if (RobotContainer.controller.getAButtonReleased() && RobotContainer.controller.getBButtonReleased()){
         x = 0;
-        w = 0;
+      }
+      if (RobotContainer.controller.getXButtonPressed()){
+        armPneumaticsSubsystem.apush();
+
       }
 
 

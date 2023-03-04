@@ -55,19 +55,19 @@ public class RobotContainer {
   public final WristSubsystem wristSubsystem = new WristSubsystem();
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
   public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
-  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem);
+  public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
+
+  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
   
   //public final WristCommand wristCommand = new WristCommand(wristSubsystem);
 
 
-  public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
-
   public final TurretSubsystem turretSubsystem = new TurretSubsystem();
-  public final TurretCommand turretCommand = new TurretCommand(turretSubsystem);
+  //public final TurretCommand turretCommand = new TurretCommand(turretSubsystem);
 
-  CommandXboxController controllerCommand = new CommandXboxController(2);
-  Trigger aButton = controllerCommand.a();
-  Trigger xButton = controllerCommand.x();
+  //CommandXboxController controllerCommand = new CommandXboxController(2);
+ // Trigger aButton = controllerCommand.a();
+  //Trigger xButton = controllerCommand.x();
 
   //initializes class
 
@@ -97,8 +97,8 @@ public class RobotContainer {
   private void configureBindings() {
     //what is the point of this
 
-    aButton.onTrue(new HoldCommand(armPneumaticsSubsystem));
-    xButton.onTrue(new ReleaseCommand(armPneumaticsSubsystem));
+    //aButton.onTrue(new HoldCommand(armPneumaticsSubsystem));
+    //xButton.onTrue(new ReleaseCommand(armPneumaticsSubsystem));
     
   }
   /**

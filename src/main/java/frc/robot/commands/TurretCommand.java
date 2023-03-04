@@ -5,7 +5,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.TurretSubsystem;
 
 public class TurretCommand extends CommandBase{
-
+    /* 
     private TurretSubsystem turretSubsystem;
 
     public TurretCommand(TurretSubsystem turretSubsystem){
@@ -29,5 +29,5 @@ public class TurretCommand extends CommandBase{
 
     }
 
-    
+    */ 
 }
