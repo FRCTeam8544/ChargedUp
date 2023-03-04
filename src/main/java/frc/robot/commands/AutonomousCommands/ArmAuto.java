@@ -14,8 +14,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmAuto extends CommandBase {
   /** Creates a new DriveDistance. */
-  double inputedInches;
-  double inputedSpeed;
+  double firstJointEncoder;
   boolean returnValue;
   double inchesMoved;
   Timer a_timer;
@@ -23,25 +22,31 @@ public class ArmAuto extends CommandBase {
 
   public ArmAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
-    
-    addRequirements(a_ArmSubsystem);
+    ArmSubsystem 
+    addRequirements=(a_ArmSubsystem);
     a_timer = new Timer();
 
   }
 
-  // Called when the command is initially scheduled.
+  public ArmAuto(int i) {
+}
+
+// Called when the command is initially scheduled.
   @Override
   public void initialize() {
     a_timer.reset();
-    a_ArmSubsystem.setBreakMode();
+    a_ArmSubsystem.resetEncoder(a_ArmSubsystem.firstJointEncoder);
     
+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double speed = Constants.armthings.armstopspeed;
-
+    
+    a_ArmSubsystem.movemotor(speed);
 
 
   }

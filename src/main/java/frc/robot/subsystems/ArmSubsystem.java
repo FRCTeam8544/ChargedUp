@@ -15,7 +15,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
+    public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     //private SparkMaxLimitSwitch firstlimitforward;
     //private SparkMaxLimitSwitch firstlimitreverse;
@@ -48,6 +48,9 @@ public class ArmSubsystem extends SubsystemBase {
 
         
         firstJoint.set(value);
+    }
+
+    public void resetEncoder(RelativeEncoder firstJointEncoder2) {
     }
 
 

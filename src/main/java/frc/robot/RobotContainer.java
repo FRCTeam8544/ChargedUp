@@ -14,6 +14,7 @@ import frc.robot.commands.DriveWithJoystickCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
+import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -64,7 +65,7 @@ public class RobotContainer {
     private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem);
-
+    private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -76,6 +77,9 @@ public class RobotContainer {
     // Add the autonomous selection toggle:
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
     toggle.addOption("Middle Command", a_MiddleCommand);
+    toggle.addOption("Red1", a_AutonomusRed1Command);
+   // toggle.addOption("red3",a_AutonomusRed3Command);
+   
     //toggle.addOption("Middle command", a_AutonomousMiddleCommand);
     SmartDashboard.putData("Select Autonomous", toggle);
 
