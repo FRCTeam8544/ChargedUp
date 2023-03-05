@@ -53,6 +53,10 @@ public class ArmSubsystem extends SubsystemBase {
     public void resetEncoder(RelativeEncoder firstJointEncoder2) {
     }
 
+    public double encoderPercentConversion(RelativeEncoder firstJointEncoder2) {
+        return 0;
+    }
+
 
     /*public void movejointssparktrue(int whichone, double howfar, boolean isspark) {
         if (firstlimitforward.isPressed() == false || firstlimitreverse.isPressed() == false){

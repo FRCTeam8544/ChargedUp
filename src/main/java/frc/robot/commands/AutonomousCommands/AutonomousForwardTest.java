@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.commands.AutonomousCommands.DriveDistance;
 import frc.robot.commands.AutonomousCommands.DriveRotateDegrees;
@@ -18,16 +19,25 @@ import frc.robot.commands.AutonomousCommands.DriveRotateDegrees;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonomousForwardTest extends ParallelCommandGroup {
   DrivetrainSubsystem ar_driveTrain;
-
+  ArmSubsystem ar_ArmSubsystem;
   public AutonomousForwardTest(DrivetrainSubsystem drive) {
-    ar_driveTrain = drive; 
+     
     addCommands(
       new SequentialCommandGroup(
-      new DriveDistance(24, 0.5, ar_driveTrain),
+      
+      new DriveDistance(24, 0.4, drive),
+
+      new DriveDistance(0, 0, drive),
+      
       new WaitTime(5),
-      new DriveRotateDegrees(90, .5, ar_driveTrain),
-      new SetIdle(IdleMode.kCoast, ar_driveTrain) ),
-      new DriveAndBalance(ar_driveTrain)
+
+      new DriveRotateDegrees(90, .4, drive),
+      
+      //new DriveAndBalance(ar_driveTrain),
+      
+      //new MoveArm(5, .2, ar_ArmSubsystem),
+
+      new SetIdle(IdleMode.kCoast, drive) )
     );
   }
 }

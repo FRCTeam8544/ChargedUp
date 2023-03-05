@@ -22,19 +22,21 @@ public class AutonomousMiddleCommand extends ParallelCommandGroup {
 
   public AutonomousMiddleCommand(DrivetrainSubsystem drive) {
     ar_driveTrain = drive; 
-
+        
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(210, .5, ar_driveTrain),
+      new DriveDistance(210, .2, drive),
 
       new WaitTime(5),
 
+      new DriveDistance(0, 0, drive),
+
       new DriveRotateDegrees(180, .5, drive),
 
-      new DriveDistance(60,.5,ar_driveTrain),
+      new DriveDistance(60,.2,drive),
       
-      new SetIdle(IdleMode.kCoast, ar_driveTrain) )
+      new SetIdle(IdleMode.kCoast, drive) )
     );
   }
 }

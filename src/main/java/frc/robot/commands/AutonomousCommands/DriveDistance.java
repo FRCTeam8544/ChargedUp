@@ -8,6 +8,7 @@ package frc.robot.commands.AutonomousCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveDistance extends CommandBase {
@@ -38,6 +39,8 @@ public class DriveDistance extends CommandBase {
 
     a_driveTrain.resetEncoder(a_driveTrain.leftEncoder);
     a_driveTrain.resetEncoder(a_driveTrain.rightEncoder);
+    a_driveTrain.leftControllerGroup.setInverted(!Constants.DriveTrainConstantants.leftDriveEncoderInverted);
+    a_driveTrain.righControllerGroup.setInverted(!Constants.DriveTrainConstantants.rightDriveEncoderInverted);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -59,6 +62,8 @@ public class DriveDistance extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     a_driveTrain.tankDrive(0, 0);
+    a_driveTrain.leftControllerGroup.setInverted(Constants.DriveTrainConstantants.leftDriveEncoderInverted);
+    a_driveTrain.righControllerGroup.setInverted(Constants.DriveTrainConstantants.rightDriveEncoderInverted);
     //a_driveTrain.setIdleMode(IdleMode.kCoast);
   }
 
@@ -73,6 +78,7 @@ public class DriveDistance extends CommandBase {
       return ((-1) * (a_driveTrain.currentRM(a_driveTrain.leftEncoder)) >= a_driveTrain.distanceToEncoderPositionConversion(inputedInches));
     }
     else {
+    
       return false;
     }
   }

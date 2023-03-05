@@ -14,17 +14,19 @@ public class AutonomusRed3Command extends ParallelCommandGroup {
     public AutonomusRed3Command(DrivetrainSubsystem drivetrainSubsystem) {
 	}
 	public void AutonomousRed1Command(DrivetrainSubsystem drive){
-    
+    ar_driveTrain = drive; 
+
+
     addCommands(
       new SequentialCommandGroup(
       
       new DriveDistance(210, 50, ar_driveTrain),
 
-      new DriveRotateDegrees(20, .5, drive),
+      new DriveDistance(0, 0, ar_driveTrain),
       
       //new ArmAuto(5)
 
-      new DriveRotateDegrees(180, .2, ar_driveTrain),
+      //new DriveRotateDegrees(180, .2, ar_driveTrain),
       
       new SetIdle(IdleMode.kCoast, ar_driveTrain) )
     );
