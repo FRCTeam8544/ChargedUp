@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -9,6 +10,7 @@ import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.utils.math.Point;
 
 public class ArmControls extends CommandBase{
 
@@ -41,16 +43,32 @@ public class ArmControls extends CommandBase{
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;
 
+
+      XboxController controller = RobotContainer.controller;
+      // left controller left and right
+      SmartDashboard.putNumber("XBoxControllerAxis0", controller.getRawAxis(0));
+      // left controller up and down 
+      SmartDashboard.putNumber("XBoxControllerAxis1", controller.getRawAxis(1));
+      // right controller left and right
+      SmartDashboard.putNumber("XBoxControllerAxis2", controller.getRawAxis(2));
+      // right contoller up and down
+      SmartDashboard.putNumber("XBoxControllerAxis3", controller.getRawAxis(3));
+  
+      Point RightControllerPoint = new Point(controller.getRawAxis(0), controller.getRawAxis(1));
+      Point LeftControllerPoint = new Point(controller.getRawAxis(2), controller.getRawAxis(3));
+      
+
+      
       if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}
       else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
       else{y = 0;}
-
-      if (RobotContainer.controller.getLeftBumperPressed()) {w = 1;}
-      else if (RobotContainer.controller.getRightBumperPressed()) {w = 2;}
-      else if (RobotContainer.controller.getLeftBumperReleased() && RobotContainer.controller.getRightBumperReleased()){
-        w = 0;
-      }
-      
+    
+      //if (RobotContainer.controller.getLeftBumperPressed()) {w = 1;}
+      //else if (RobotContainer.controller.getRightBumperPressed()) {w = 2;}
+      //else if (RobotContainer.controller.getLeftBumperReleased() && RobotContainer.controller.getRightBumperReleased()){
+      //  w = 0;
+      //}
+    
       if (RobotContainer.controller.getAButtonPressed()){x = 1;}
       else if(RobotContainer.controller.getBButtonPressed()){x = 2;}
       else if (RobotContainer.controller.getAButtonReleased() && RobotContainer.controller.getBButtonReleased()){
@@ -89,10 +107,10 @@ public class ArmControls extends CommandBase{
 
       SmartDashboard.putNumber("aksdjhfaksjbhf", speed);
 
-
+      
       if (w == 1) {speedw = Constants.armthings.wristspeed;}
       else if (w == 2) {speedw = Constants.armthings.wristspeed;}
-
+      speedw = 0;
       armSubsystem.movemotor(speed);
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
