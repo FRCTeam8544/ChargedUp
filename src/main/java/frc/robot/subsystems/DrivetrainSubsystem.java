@@ -21,18 +21,18 @@ import frc.robot.Constants;
 public class DrivetrainSubsystem extends SubsystemBase {
 
     //just defining the classes for each sparkmax
-    CANSparkMax frontLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontLeftCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax frontRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontRightCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.backLeftCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax frontLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontLeftCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax frontRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontRightCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.backLeftCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
     //same as previus except for encoders
     //only one per side because its tank drive
     public RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
     public RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
     //uwu or owo
     //groups left and right side for tank drive
-    MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
-    MotorControllerGroup righControllerGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
+    public MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
+    public MotorControllerGroup righControllerGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
 
     //it just works man I dont know how I got here
     DifferentialDrive differentialDrive = new DifferentialDrive(leftControllerGroup, righControllerGroup);
@@ -53,8 +53,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRightMotor.follow(frontRightMotor);
 
         //right controller group > left controller group
-        righControllerGroup.setInverted(false);//play with these until it works
-        leftControllerGroup.setInverted(true);
+        righControllerGroup.setInverted(Constants.DriveTrainConstantants.rightDriveEncoderInverted);//play with these until it works
+        leftControllerGroup.setInverted(Constants.DriveTrainConstantants.leftDriveEncoderInverted ); //this one is true
     }
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {

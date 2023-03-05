@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.subsystems.DrivetrainSubsystem;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -65,12 +65,15 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    //DrivetrainSubsystem.leftControllerGroup.setInverted(true);
+    //DrivetrainSubsystem.righControllerGroup.setInverted(true);
 
   }
 
@@ -95,6 +98,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // dont worry about this if its deleted robot doesnt work trust me bro
+   
+   // DrivetrainSubsystem.leftControllerGroup.setInverted(false);
+    //DrivetrainSubsystem.righControllerGroup.setInverted(false);
+
+
     if (t == randNum) {
       SmartDashboard.putString("Thus spoke Kashibe Rohan", messages.getNewMessage());
       randNum = random.nextInt(1000);

@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
     
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-    RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
+    public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     //private SparkMaxLimitSwitch firstlimitforward;
     //private SparkMaxLimitSwitch firstlimitreverse;
@@ -46,8 +47,15 @@ public class ArmSubsystem extends SubsystemBase {
     public void movemotor(double value) {
         //firstJointSpark.set(value);
 
-        
+        SmartDashboard.putNumber("ArmFirstJointPosition", firstJointEncoder.getPosition());
         firstJoint.set(value);
+    }
+
+    public void resetEncoder(RelativeEncoder firstJointEncoder2) {
+    }
+
+    public double encoderPercentConversion(RelativeEncoder firstJointEncoder2) {
+        return 0;
     }
 
 
