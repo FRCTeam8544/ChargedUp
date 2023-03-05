@@ -31,6 +31,10 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         armExtender.set(ControlMode.PercentOutput, value);
     }
 
+    public double getSensorPosition() {
+        return armExtender.getSelectedSensorPosition();
+    }
+
 
 
 

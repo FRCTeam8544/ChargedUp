@@ -21,7 +21,8 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
   DrivetrainSubsystem ar_driveTrain;
   ArmSubsystem ar_ArmSubsystem;
   public AutonomousForwardTest(DrivetrainSubsystem drive) {
-     
+
+    ar_driveTrain = drive; 
     addCommands(
       new SequentialCommandGroup(
       
@@ -39,5 +40,6 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
 
       new SetIdle(IdleMode.kCoast, drive) )
     );
+
   }
 }

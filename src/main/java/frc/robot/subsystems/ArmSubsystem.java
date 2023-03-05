@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -46,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void movemotor(double value) {
         //firstJointSpark.set(value);
 
-        
+        SmartDashboard.putNumber("ArmFirstJointPosition", firstJointEncoder.getPosition());
         firstJoint.set(value);
     }
 
