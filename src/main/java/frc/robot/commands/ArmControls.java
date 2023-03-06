@@ -44,6 +44,19 @@ public class ArmControls extends CommandBase{
       double speede = 0;
       boolean stopnow = false;
 
+      XboxController controller = RobotContainer.controller;
+      // left controller left and right
+      SmartDashboard.putNumber("XBoxControllerAxis0", controller.getRawAxis(0));
+      // left controller up and down 
+      SmartDashboard.putNumber("XBoxControllerAxis1", controller.getRawAxis(1));
+      // right controller left and right
+      SmartDashboard.putNumber("XBoxControllerAxis2", controller.getRawAxis(2));
+      // right contoller up and down
+      SmartDashboard.putNumber("XBoxControllerAxis3", controller.getRawAxis(3));
+  
+      Point RightControllerPoint = new Point(controller.getRawAxis(0), controller.getRawAxis(1));
+      Point LeftControllerPoint = new Point(controller.getRawAxis(2), controller.getRawAxis(3));
+
       if (RobotContainer.controller.getPOV() == -1) {
         y = 0;
         x = 0;
