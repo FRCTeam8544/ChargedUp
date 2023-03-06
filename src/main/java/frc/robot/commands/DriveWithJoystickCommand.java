@@ -46,7 +46,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     //my opinions >>>>>>>>>> everything else
 
     //changes between break and coast
-    if (RobotContainer.controller.getYButtonPressed() == true) {
+    if (RobotContainer.leftJoystick.getRawButtonPressed(12) == true) {
       coastnum ++;
       if (coastnum % 2 == 0) {
         drivetrainSubsystem.setCoastMode();
@@ -62,7 +62,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       if (RobotContainer.autobalance ) {RobotContainer.autobalance = false;  SmartDashboard.putString("mode", "auto balance off");} else {RobotContainer.autobalance = true; SmartDashboard.putString("mode", "balancing");} 
     }*/
     //balancetri:1 means pressed on 2 means released on 3 means pressed off 4 means released off
-    else if (RobotContainer.controller.getBButtonPressed() == true) {
+    else if (RobotContainer.leftJoystick.getRawButtonPressed(11) == true) {
       if (balancetri == 4 ||balancetri == 1) {
         balancetri = 1;
         RobotContainer.autobalance = true;
@@ -72,7 +72,7 @@ public class DriveWithJoystickCommand extends CommandBase {
         balancetri = 3;
       }
     }
-    else if (RobotContainer.controller.getBButtonReleased() == true) {
+    else if (RobotContainer.controller.getRawButtonReleased(11) == true) {
       if(balancetri == 1) {
         balancetri = 2;
       }  
@@ -95,7 +95,7 @@ public class DriveWithJoystickCommand extends CommandBase {
 
 
     if (RobotContainer.autobalance){
-      lForwardSpeed = balancepwease();
+      lForwardSpeed = BalanceCommand.balancepwease();
       rForwardSpeed = lForwardSpeed;
       SmartDashboard.putNumber("left speed", lForwardSpeed);
       SmartDashboard.putNumber("right speed", rForwardSpeed);
@@ -209,7 +209,7 @@ public class DriveWithJoystickCommand extends CommandBase {
       }
     }
   }
-
+  /*
   private double balancepwease() {
     double navXPitch = RobotContainer.ahrs.getPitch();
     double navXRoll = RobotContainer.ahrs.getRoll();
@@ -217,19 +217,20 @@ public class DriveWithJoystickCommand extends CommandBase {
     double value = 0;
     navXRoll = navXRoll - NavXRollinit;
     navXPitch = navXPitch - navXPitchinit;
-    navXYaw = navXYaw - navXYawinit;
+    navXYaw = navXYaw - navXYawinit;*/
     /**
      * 17.5 max angle when fully on
      * 0.25 keeps balanced 
      * ^ old robot data ^
      */
+    /*
     value = ((Constants.BASESPEED + Constants.CURRENTRAMPSPEED) / Constants.MAXANGLE ) * navXRoll ;
     SmartDashboard.putNumber("constant ramp speed", Constants.CURRENTRAMPSPEED);
     SmartDashboard.putNumber("ahrs pitch", navXPitch);
     SmartDashboard.putNumber("ahrs roll", navXRoll);
     SmartDashboard.putNumber("ahrs yaw", navXYaw);
     return value;
-  }
+  }*/
 }
 
 

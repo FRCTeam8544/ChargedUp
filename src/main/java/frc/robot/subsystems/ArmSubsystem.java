@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
+<<<<<<< HEAD
+=======
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
+>>>>>>> main
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
@@ -26,7 +28,7 @@ public class ArmSubsystem extends SubsystemBase {
     //Victor firstJointVictor = new Victor(0);
 
     public ArmSubsystem(){
-        firstJoint.restoreFactoryDefaults();
+        //firstJoint.restoreFactoryDefaults();
         
         firstJointEncoder.setPosition(0);
 
@@ -51,7 +53,12 @@ public class ArmSubsystem extends SubsystemBase {
         firstJoint.set(value);
     }
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("first Joint encoder", firstJointEncoder.getPosition());
+    }
     public void resetEncoder(RelativeEncoder firstJointEncoder2) {
+        firstJointEncoder2.setPosition(0);
     }
 
     public double encoderPercentConversion(RelativeEncoder firstJointEncoder2) {
