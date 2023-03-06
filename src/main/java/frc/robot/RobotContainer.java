@@ -18,6 +18,9 @@ import frc.robot.commands.WristCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
+import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
+import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -28,6 +31,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -69,6 +74,16 @@ public class RobotContainer {
  // Trigger aButton = controllerCommand.a();
   //Trigger xButton = controllerCommand.x();
 
+  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+
+  // Automation Classes
+    // Toggle to pick automation mode
+  private SendableChooser<Command> toggle = new SendableChooser<>();
+    // Our first test automation routine for this bot
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
+    //first real command
+    private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem);
+    private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -77,6 +92,15 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Add the autonomous selection toggle:
+    toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
+    toggle.addOption("Middle Command", a_MiddleCommand);
+    toggle.addOption("Red1", a_AutonomusRed1Command);
+   // toggle.addOption("red3",a_AutonomusRed3Command);
+   
+    //toggle.addOption("Middle command", a_AutonomousMiddleCommand);
+    SmartDashboard.putData("Select Autonomous", toggle);
+
     // Configure the trigger bindings
     configureBindings();
     drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
@@ -110,6 +134,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     
     // An example command will be run in autonomous
-    return null;
+    return toggle.getSelected();
   }
 }

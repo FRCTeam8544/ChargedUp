@@ -24,6 +24,12 @@ public final class Constants {
     public static final int backLeftCANID = 1; //old robot is 3 | new is 1
     public static final int backRightCANID = 3;//old robot is 4 | new is 3
 
+    public static final int driveTrainWheelDiameter = 6;
+    public static final double driveTrainGearRatio = 10.71;
+
+    public static final boolean leftDriveEncoderInverted = true;
+    public static final boolean rightDriveEncoderInverted = false;
+
   }
 
   public static final class turret{

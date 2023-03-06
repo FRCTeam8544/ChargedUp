@@ -21,28 +21,28 @@ import frc.robot.Constants;
 public class DrivetrainSubsystem extends SubsystemBase {
 
     //just defining the classes for each sparkmax
-    CANSparkMax frontLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontLeftCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax frontRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontRightCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.backLeftCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
-    CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax frontLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontLeftCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax frontRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.frontRightCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax backLeftMotor = new CANSparkMax(Constants.DriveTrainConstantants.backLeftCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
+    static CANSparkMax backRightMotor = new CANSparkMax(Constants.DriveTrainConstantants.backRightCANID,CANSparkMaxLowLevel.MotorType.kBrushless);
     //same as previus except for encoders
     //only one per side because its tank drive
-    RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
-    RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
+    public RelativeEncoder leftEncoder = frontLeftMotor.getEncoder();
+    public RelativeEncoder rightEncoder = frontRightMotor.getEncoder();
     //uwu or owo
     //groups left and right side for tank drive
-    MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
-    MotorControllerGroup righControllerGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
+    public MotorControllerGroup leftControllerGroup = new MotorControllerGroup(frontLeftMotor, backLeftMotor);
+    public MotorControllerGroup righControllerGroup = new MotorControllerGroup(frontRightMotor, backRightMotor);
 
     //it just works man I dont know how I got here
     DifferentialDrive differentialDrive = new DifferentialDrive(leftControllerGroup, righControllerGroup);
 
     //honk honk its the sound of the police
     public DrivetrainSubsystem(){
-        frontLeftMotor.restoreFactoryDefaults(); // factory knows best
-        frontRightMotor.restoreFactoryDefaults();
-        backLeftMotor.restoreFactoryDefaults();
-        backRightMotor.restoreFactoryDefaults();
+        //frontLeftMotor.restoreFactoryDefaults(); // factory knows best
+        //frontRightMotor.restoreFactoryDefaults();
+        //backLeftMotor.restoreFactoryDefaults();
+        //backRightMotor.restoreFactoryDefaults();
         
         // restoring to defaults incase drivers messed something up (because they suck)
         leftEncoder.setPosition(0);
@@ -53,16 +53,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRightMotor.follow(frontRightMotor);
 
         //right controller group > left controller group
-        righControllerGroup.setInverted(false);//play with these until it works
-        leftControllerGroup.setInverted(true);
+        righControllerGroup.setInverted(Constants.DriveTrainConstantants.rightDriveEncoderInverted);//play with these until it works
+        leftControllerGroup.setInverted(Constants.DriveTrainConstantants.leftDriveEncoderInverted ); //this one is true
     }
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {
       differentialDrive.tankDrive(left, right);
     }
-    /*public void arcadeDrive(double forward, double rotation) {
-      differentialDrive.arcadeDrive(forward, rotation);
+
+    public void arcadeDrive(double speed, double rotation){
+      differentialDrive.arcadeDrive(speed, rotation);
     }
+    
+    /*
     
     public static void mode(double l, double r) {
       if ( == true) {
@@ -112,5 +115,33 @@ public class DrivetrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());
     SmartDashboard.putString("Message", "Hi");
     // This method will be called once per scheduler run
+  }
+
+  public void resetEncoder(RelativeEncoder encoderName) {
+    encoderName.setPosition(0);
+  }
+
+  public double currentRM(RelativeEncoder encoderName){
+    return encoderName.getPosition();
+  }
+
+  public double encoderPositionToDistanceConversion(RelativeEncoder encoderName){
+    double encoderPosition = encoderName.getPosition();
+    double wheelDiameter = Constants.DriveTrainConstantants.driveTrainWheelDiameter;
+    double wheelCircumference = Math.PI * wheelDiameter;
+    double gearRatio = Constants.DriveTrainConstantants.driveTrainGearRatio;
+    double wheelRevPerInch = 1 / wheelCircumference;
+
+    return encoderPosition / (wheelRevPerInch*gearRatio);
+  }
+
+  public double distanceToEncoderPositionConversion(double inputedInches){
+    double distance = inputedInches;
+    double wheelDiameter = Constants.DriveTrainConstantants.driveTrainWheelDiameter;
+    double wheelCircumference = Math.PI * wheelDiameter;
+    double gearRatio =Constants.DriveTrainConstantants.driveTrainGearRatio;
+    double wheelRevPerInch = 1 / wheelCircumference;
+
+    return distance * wheelRevPerInch * gearRatio;
   }
 }

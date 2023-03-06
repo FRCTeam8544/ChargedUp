@@ -44,4 +44,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         System.out.println("extender speed:");
         System.out.println(value);
     }
+    public double getSensorPosition() {
+        return armExtender.getSelectedSensorPosition();
+    }
 }
