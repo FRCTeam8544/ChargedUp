@@ -91,8 +91,10 @@ public class ArmControls extends CommandBase{
 
 
       if (RobotContainer.controller.getXButtonPressed()){
-        armPneumaticsSubsystem.apush();
-
+        armPneumaticsSubsystem.in();
+      }
+      if (RobotContainer.controller.getBButtonPressed()){
+        armPneumaticsSubsystem.out();
       }
 
 

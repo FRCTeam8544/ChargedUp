@@ -27,6 +27,14 @@ public class ArmPneumaticsSubsystem extends SubsystemBase {
         armpush.toggle();
     }
 
+    public void out() {
+        armpush.set(Value.kReverse);
+    }
+
+    public void in() {
+        armpush.set(Value.kForward);
+    }
+
     @Override
     public void periodic() {
         //phub = thehub.getPressure();//gave voltage for some reason
