@@ -11,10 +11,7 @@ import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
-import frc.robot.commands.HoldCommand;
-import frc.robot.commands.ReleaseCommand;
 import frc.robot.commands.TurretCommand;
-import frc.robot.commands.WristCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -74,7 +71,7 @@ public class RobotContainer {
  // Trigger aButton = controllerCommand.a();
   //Trigger xButton = controllerCommand.x();
 
-  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+  //private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
 
   // Automation Classes
     // Toggle to pick automation mode
