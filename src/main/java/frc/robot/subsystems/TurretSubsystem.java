@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class TurretSubsystem extends SubsystemBase{
-    
+    /* 
     CANSparkMax turretMotor = new CANSparkMax(Constants.turret.turretCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     RelativeEncoder turretEncoder = turretMotor.getEncoder();
 
@@ -22,4 +22,5 @@ public class TurretSubsystem extends SubsystemBase{
         turretMotor.set(value);
     }
 
+    */
 }

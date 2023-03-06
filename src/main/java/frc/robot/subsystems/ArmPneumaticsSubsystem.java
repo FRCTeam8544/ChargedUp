@@ -12,25 +12,25 @@ import frc.robot.Constants;
 public class ArmPneumaticsSubsystem extends SubsystemBase {
 
     DoubleSolenoid armpush;
-    Compressor thehub = new Compressor(16, PneumaticsModuleType.REVPH);
-    public double pressurehub = thehub.getPressure();
-
+    Compressor thehub = new Compressor(16, PneumaticsModuleType.REVPH);//probably not needed
+    public double phub;
 
     public ArmPneumaticsSubsystem() {
         armpush = new DoubleSolenoid(16, PneumaticsModuleType.REVPH, 8, 9);
-        //off(); no idea what this does so its commented out
+        //off();
+        thehub.enableAnalog(90, 115);//delete if issues
         armpush.set(Value.kForward);
-        thehub.enableAnalog(80, 115);
     }
 
-    
+
     public void apush() {
         armpush.toggle();
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("pnumatic pressure", pressurehub);
+        //phub = thehub.getPressure();//gave voltage for some reason
+        //SmartDashboard.putNumber("pnumatic pressure", phub);
     }
 
     public void off() {
