@@ -61,16 +61,22 @@ public class ArmControls extends CommandBase{
         y = 0;
         x = 0;
       }
-      else if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}//exe
-      else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
+      //else if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}//exe
+      //else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
 
       else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {x = 1;}//was both now noth (im a poet)
-      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {x = 2;}
+      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {x = 2;}//tis thy high and the low
 
       else{//does this do anything? no it doesnt
         y = 0;
         x = 0;
       }
+
+      if (RobotContainer.controller.getRawButtonReleased(1) && RobotContainer.controller.getRawButtonReleased(2)){
+        speede = 0;
+      }
+      else if (RobotContainer.controller.getRawButton(1)){speede = Constants.armthings.armexespeed;}
+      else if (RobotContainer.controller.getRawButton(2)){speede = Constants.armthings.armexespeed * -1;}
 
       /*if (RobotContainer.controller.getLeftBumperPressed()) {x = 1;}
       else if (RobotContainer.controller.getRightBumperPressed()) {x = 2;}
@@ -103,12 +109,13 @@ public class ArmControls extends CommandBase{
       }*/
 
 
-      if (RobotContainer.controller.getXButtonPressed()){
+      /*if (RobotContainer.controller.getXButtonPressed()){
         armPneumaticsSubsystem.in();
       }
       if (RobotContainer.controller.getBButtonPressed()){
         armPneumaticsSubsystem.out();
-      }
+      }*/
+      if (RobotContainer.controller.getAButtonPressed()) {armPneumaticsSubsystem.apush();}
 
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
