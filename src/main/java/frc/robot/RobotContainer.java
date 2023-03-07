@@ -17,10 +17,12 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
 import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
+import frc.robot.commands.AutonomousCommands.Autobots;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.utils.Gamepad;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -43,7 +45,8 @@ public class RobotContainer {
     /**left is used for arcade both are used for tank*/
   public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
   public static Joystick rightJoystick = new Joystick(0);// add a way to change it through smart dashboard
-  public static XboxController controller = new XboxController(2);
+  //public static XboxController controller = new XboxController(2);
+  public static Gamepad controller = new Gamepad(2);
   public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
   public static boolean autobalance = false;
     /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
@@ -77,10 +80,15 @@ public class RobotContainer {
     // Toggle to pick automation mode
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
+    
     private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem);
     private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
+
+    //my test thing
+    //private final Autobots a_rollout = new Autobots(drivetrainSubsystem);
+
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -93,6 +101,7 @@ public class RobotContainer {
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
     toggle.addOption("Middle Command", a_MiddleCommand);
     toggle.addOption("Red1", a_AutonomusRed1Command);
+    //toggle.addOption("Autobots roll out", a_rollout);
    // toggle.addOption("red3",a_AutonomusRed3Command);
    
     //toggle.addOption("Middle command", a_AutonomousMiddleCommand);

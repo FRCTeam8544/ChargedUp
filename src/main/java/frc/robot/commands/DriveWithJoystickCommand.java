@@ -41,7 +41,7 @@ public class DriveWithJoystickCommand extends CommandBase {
   public void execute() {
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
-    SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
+    //SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
     //linuwux > windowos
     //my opinions >>>>>>>>>> everything else
 
@@ -97,14 +97,14 @@ public class DriveWithJoystickCommand extends CommandBase {
     if (RobotContainer.autobalance){
       lForwardSpeed = BalanceCommand.balancepwease();
       rForwardSpeed = lForwardSpeed;
-      SmartDashboard.putNumber("left speed", lForwardSpeed);
-      SmartDashboard.putNumber("right speed", rForwardSpeed);
+      //SmartDashboard.putNumber("left speed", lForwardSpeed);
+      //SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     else {
       lForwardSpeed = wammy(lForwardSpeed);
       rForwardSpeed = wammy(rForwardSpeed);
-      SmartDashboard.putNumber("left speed", lForwardSpeed);
-      SmartDashboard.putNumber("right speed", rForwardSpeed);
+      //SmartDashboard.putNumber("left speed", lForwardSpeed);
+      //SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
 
     /*
