@@ -46,6 +46,11 @@ public class ArmControls extends CommandBase{
       double speede = 0;
       boolean stopnow = false;
 
+      /* axis for xbox controller
+       * 
+       * 
+       */
+      /*
       XboxController controller = RobotContainer.controller;
       // left controller left and right
       SmartDashboard.putNumber("XBoxControllerAxis0", controller.getRawAxis(0));
@@ -58,8 +63,8 @@ public class ArmControls extends CommandBase{
   
       Point leftControllerPoint = new Point(controller.getRawAxis(0), controller.getRawAxis(1));
       Point RightControllerPoint = new Point(controller.getRawAxis(2), controller.getRawAxis(3));
-
-      speede = RightControllerPoint.y / 2;
+*/
+      //speede = RightControllerPoint.y / 2;
 
       if (RobotContainer.controller.getPOV() == -1) {
         y = 0;
@@ -76,9 +81,10 @@ public class ArmControls extends CommandBase{
         x = 0;
       }
 
-      
-      if (RobotContainer.controller.getRaw()){speede = Constants.armthings.armexespeed;}
-      else if (RobotContainer.controller.getAButtonPressed()){speede = Constants.armthings.armexespeed * -1;}
+      if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
+      else if (RobotContainer.controller.getButtonStateA()) {speede = Constants.armthings.armexespeed;}
+      else if (RobotContainer.controller.getButtonStateY()) {speede = Constants.armthings.armexespeed * -1;}
+
 
       /*if (RobotContainer.controller.getLeftBumperPressed()) {x = 1;}
       else if (RobotContainer.controller.getRightBumperPressed()) {x = 2;}
@@ -99,9 +105,9 @@ public class ArmControls extends CommandBase{
       }//one fish two fish red fish blue fish
       */
 
-      if  (RobotContainer.controller.getRightTriggerAxis() > 0.2){w = 1;}
-      if (RobotContainer.controller.getLeftTriggerAxis() > 0.2) {w = 2;}
-      if (RobotContainer.controller.getLeftTriggerAxis() < 0.2 && RobotContainer.controller.getRightTriggerAxis() < 0.2){
+      if  (RobotContainer.controller.getRawAxis(4) > 0.2){w = 1;}
+      if (RobotContainer.controller.getRawAxis(3) > 0.2) {w = 2;}
+      if (RobotContainer.controller.getRawAxis(3) < 0.2 && RobotContainer.controller.getRawAxis(4) < 0.2){
         w = 0;
       }
 
@@ -117,7 +123,7 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getBButtonPressed()){
         armPneumaticsSubsystem.out();
       }*/
-      if (RobotContainer.controller.getAButtonPressed()) {armPneumaticsSubsystem.apush();}
+      if (RobotContainer.controller.getButtonStateA()) {armPneumaticsSubsystem.apush();}
 
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
@@ -151,8 +157,9 @@ public class ArmControls extends CommandBase{
       if (w == 1) {speedw = Constants.armthings.wristspeed;}
       else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
 
-      if (RobotContainer.controller.getXButtonPressed()) {
-        stopnow = true;
+      if (RobotContainer.controller.getButtonStateX()) {
+        if(stopnow) {stopnow = false;}
+        else{ stopnow = true;}
       }
       if (stopnow == true){
         x = 0;
@@ -162,7 +169,7 @@ public class ArmControls extends CommandBase{
         speede = 0;
         speedw = 0;
       }
-      if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
+      //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
 
       armSubsystem.movemotor(speed);
       wristSubsystem.wristWatch(speedw);

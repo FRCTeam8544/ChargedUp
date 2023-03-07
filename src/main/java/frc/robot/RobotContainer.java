@@ -21,6 +21,7 @@ import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.utils.Gamepad;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
@@ -43,7 +44,8 @@ public class RobotContainer {
     /**left is used for arcade both are used for tank*/
   public static Joystick leftJoystick = new Joystick(1); // ports were just guessed who knows if its right
   public static Joystick rightJoystick = new Joystick(0);// add a way to change it through smart dashboard
-  public static XboxController controller = new XboxController(2);
+  //public static XboxController controller = new XboxController(2);
+  public static Gamepad controller = new Gamepad(2);
   public static AHRS ahrs = new AHRS(SPI.Port.kMXP);
   public static boolean autobalance = false;
     /* Communicate w/navX-MXP via the MXP SPI Bus.                                     */
