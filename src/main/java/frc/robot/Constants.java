@@ -27,7 +27,7 @@ public final class Constants {
     public static final int driveTrainWheelDiameter = 6;
     public static final double driveTrainGearRatio = 10.71;
 
-    public static final boolean leftDriveEncoderInverted = true;
+    public static final boolean leftDriveEncoderInverted = false;
     public static final boolean rightDriveEncoderInverted = false;
 
   }
@@ -49,7 +49,7 @@ public final class Constants {
 
     public static boolean morecontrol = false;
 
-    public static final double armspeed = 0.15;
+    public static final double armspeed = 0.25;
     public static final double armstopspeed = 0.01;//0.02 with wrist 0.01 without
     public static final double armexespeed = 0.5;
     

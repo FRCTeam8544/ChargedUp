@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -9,6 +10,7 @@ import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.utils.math.Point;
 
 public class ArmControls extends CommandBase{
 
@@ -54,8 +56,10 @@ public class ArmControls extends CommandBase{
       // right contoller up and down
       SmartDashboard.putNumber("XBoxControllerAxis3", controller.getRawAxis(3));
   
-      Point RightControllerPoint = new Point(controller.getRawAxis(0), controller.getRawAxis(1));
-      Point LeftControllerPoint = new Point(controller.getRawAxis(2), controller.getRawAxis(3));
+      Point leftControllerPoint = new Point(controller.getRawAxis(0), controller.getRawAxis(1));
+      Point RightControllerPoint = new Point(controller.getRawAxis(2), controller.getRawAxis(3));
+
+      speede = RightControllerPoint.y / 2;
 
       if (RobotContainer.controller.getPOV() == -1) {
         y = 0;
@@ -72,11 +76,9 @@ public class ArmControls extends CommandBase{
         x = 0;
       }
 
-      if (RobotContainer.controller.getRawButtonReleased(1) && RobotContainer.controller.getRawButtonReleased(2)){
-        speede = 0;
-      }
-      else if (RobotContainer.controller.getRawButton(1)){speede = Constants.armthings.armexespeed;}
-      else if (RobotContainer.controller.getRawButton(2)){speede = Constants.armthings.armexespeed * -1;}
+      
+      if (RobotContainer.controller.getRaw()){speede = Constants.armthings.armexespeed;}
+      else if (RobotContainer.controller.getAButtonPressed()){speede = Constants.armthings.armexespeed * -1;}
 
       /*if (RobotContainer.controller.getLeftBumperPressed()) {x = 1;}
       else if (RobotContainer.controller.getRightBumperPressed()) {x = 2;}
@@ -149,7 +151,7 @@ public class ArmControls extends CommandBase{
       if (w == 1) {speedw = Constants.armthings.wristspeed;}
       else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
 
-      if (RobotContainer.controller.getYButtonPressed()) {
+      if (RobotContainer.controller.getXButtonPressed()) {
         stopnow = true;
       }
       if (stopnow == true){
