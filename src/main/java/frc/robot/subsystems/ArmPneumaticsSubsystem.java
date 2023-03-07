@@ -16,7 +16,7 @@ public class ArmPneumaticsSubsystem extends SubsystemBase {
     public double phub;
 
     public ArmPneumaticsSubsystem() {
-        armpush = new DoubleSolenoid(16, PneumaticsModuleType.REVPH, 8, 9);
+        armpush = new DoubleSolenoid(16, PneumaticsModuleType.REVPH, Constants.armthings.armout, Constants.armthings.armin);
         //off();
         thehub.enableAnalog(90, 115);//delete if issues
         armpush.set(Value.kForward);

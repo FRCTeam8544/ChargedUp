@@ -23,13 +23,14 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
+  boolean stopnow = false;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
         this.wristSubsystem = wristSubsystem;
         this.armExtenderSubsystem = armExtenderSubsystem;
         this.armPneumaticsSubsystem = armPneumaticsSubsystem;
-        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem);
+        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
       }
 
 
@@ -44,7 +45,6 @@ public class ArmControls extends CommandBase{
       double speed = Constants.armthings.armstopspeed;
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;
-      boolean stopnow = false;
 
       /* axis for xbox controller
        * 
@@ -81,9 +81,9 @@ public class ArmControls extends CommandBase{
         x = 0;
       }
 
-      if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
-      else if (RobotContainer.controller.getButtonStateA()) {speede = Constants.armthings.armexespeed;}
-      else if (RobotContainer.controller.getButtonStateY()) {speede = Constants.armthings.armexespeed * -1;}
+      //if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
+      if (RobotContainer.controller.getButtonStateB()) {speede = Constants.armthings.armexespeed;}
+      if (RobotContainer.controller.getButtonStateY()) {speede = Constants.armthings.armexespeed * -1;}
 
 
       /*if (RobotContainer.controller.getLeftBumperPressed()) {x = 1;}
@@ -105,11 +105,11 @@ public class ArmControls extends CommandBase{
       }//one fish two fish red fish blue fish
       */
 
-      if  (RobotContainer.controller.getRawAxis(4) > 0.2){w = 1;}
-      if (RobotContainer.controller.getRawAxis(3) > 0.2) {w = 2;}
-      if (RobotContainer.controller.getRawAxis(3) < 0.2 && RobotContainer.controller.getRawAxis(4) < 0.2){
-        w = 0;
-      }
+      if (RobotContainer.controller.getRawAxis(3) > 0.1 || RobotContainer.controller.getRawAxis(3) < -0.1){speede = RobotContainer.controller.getRawAxis(3) / 2;}
+      //if  (RobotContainer.controller.getRawAxis(2) > 0.2){w = 1;}
+      //if (RobotContainer.controller.getRawAxis(3) > 0.2) {w = 2;}
+  
+      //speedw = RobotContainer.controller.get
 
       /*if (RobotContainer.controller.getAButtonReleased() && RobotContainer.controller.getBButtonReleased()){
         speedw = 0;
@@ -123,7 +123,7 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getBButtonPressed()){
         armPneumaticsSubsystem.out();
       }*/
-      if (RobotContainer.controller.getButtonStateA()) {armPneumaticsSubsystem.apush();}
+      if (RobotContainer.controller.getRawButtonPressed(2)) {armPneumaticsSubsystem.apush();}//chech button num A
 
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
@@ -135,7 +135,7 @@ public class ArmControls extends CommandBase{
         //speedw = Constants.armthings.wristspeed;
       }
       else if (x == 2){
-        speed = Constants.armthings.armspeed * -1;
+        speed = Constants.armthings.armspeeddown * -1;
         //speedw = Constants.armthings.wristspeed * -1;
       }
       else if (x == 0) {
@@ -143,21 +143,23 @@ public class ArmControls extends CommandBase{
         //speedw = Constants.armthings.wriststopspeed;
       }
 
-      if (y == 1) {
+      /*if (y == 1) {
         speede = Constants.armthings.armexespeed;
       }
       else if (y == 2) {
         speede = Constants.armthings.armexespeed * -1;
       }
-      else {speede = 0;}
-
-      SmartDashboard.putNumber("aksdjhfaksjbhf", speed);
+      else {speede = 0;}*/
 
 
-      if (w == 1) {speedw = Constants.armthings.wristspeed;}
-      else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
+      //if (w == 1) {speedw = Constants.armthings.wristspeed;}
+      //else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
 
-      if (RobotContainer.controller.getButtonStateX()) {
+      if (RobotContainer.controller.getRawButton(7)) {speedw = Constants.armthings.wristspeed;}
+      else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.wristspeed * -1;}
+      
+
+      if (RobotContainer.controller.getButtonStateX()) {//check num should coralate with X button
         if(stopnow) {stopnow = false;}
         else{ stopnow = true;}
       }
@@ -174,6 +176,7 @@ public class ArmControls extends CommandBase{
       armSubsystem.movemotor(speed);
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
+
         
     }
 

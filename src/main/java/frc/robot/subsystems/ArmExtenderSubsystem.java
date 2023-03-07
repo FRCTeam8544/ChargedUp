@@ -46,8 +46,8 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         //System.out.println("reverse:");
         //System.out.println(extenderLimitSwitchr);
 
-        System.out.println("extender speed:");
-        System.out.println(value);
+       // System.out.println("extender speed:");
+        //System.out.println(value);
     }
     public double getSensorPosition() {
         return armExtender.getSelectedSensorPosition();
