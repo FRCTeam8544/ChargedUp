@@ -7,6 +7,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import frc.robot.commands.ArmControls;
+import frc.robot.commands.ArmExtenderCommand;
 import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
 import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
+import frc.robot.commands.AutonomousCommands.AutonomusRed3Command;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -74,7 +76,7 @@ public class RobotContainer {
  // Trigger aButton = controllerCommand.a();
   //Trigger xButton = controllerCommand.x();
 
-  private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
+   private final  ArmExtenderCommand m_ArmExtenderCommand = new ArmExtenderCommand(armExtenderSubsystem);
 
   // Automation Classes
     // Toggle to pick automation mode
@@ -84,6 +86,7 @@ public class RobotContainer {
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem);
     private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
+    private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
   //initializes class
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -96,6 +99,7 @@ public class RobotContainer {
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
     toggle.addOption("Middle Command", a_MiddleCommand);
     toggle.addOption("Red1", a_AutonomusRed1Command);
+    toggle.addOption("Red3", a_AutonomusRed3Command);
    // toggle.addOption("red3",a_AutonomusRed3Command);
    
     //toggle.addOption("Middle command", a_AutonomousMiddleCommand);

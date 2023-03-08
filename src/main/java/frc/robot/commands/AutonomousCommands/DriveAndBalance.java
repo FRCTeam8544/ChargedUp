@@ -17,8 +17,8 @@ public class DriveAndBalance extends CommandBase{
 
     @Override
     public void execute() {
-        if (navXRoll > 10) {ar_drivetrain.tankDrive(balancepwease(), balancepwease());}
-        else{ar_drivetrain.tankDrive(0.5, 0.5);}
+        if (navXRoll > -10) {ar_drivetrain.tankDrive(balancepwease(), balancepwease());}
+        else{ar_drivetrain.tankDrive(-0.5, -0.5);}
     }
     
 

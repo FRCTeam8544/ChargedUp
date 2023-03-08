@@ -37,7 +37,7 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
       
       //new DriveAndBalance(ar_driveTrain),
       
-      //new MoveArm(5, .2, ar_ArmSubsystem),
+      new MoveArm(5, .2, ar_ArmSubsystem),
 
       new SetIdle(IdleMode.kCoast, drive) )
     );

@@ -28,7 +28,7 @@ public final class Constants {
     public static final double driveTrainGearRatio = 10.71;
 
     public static final boolean leftDriveEncoderInverted = true;
-    public static final boolean rightDriveEncoderInverted = false;
+    public static final boolean rightDriveEncoderInverted = true;
 
   }
 

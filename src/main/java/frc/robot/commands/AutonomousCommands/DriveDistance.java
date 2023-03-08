@@ -71,6 +71,7 @@ public class DriveDistance extends CommandBase {
   @Override
   public boolean isFinished() {
     //SmartDashboard.putNumber("currentRM", a_driveTrain.currentRM(a_driveTrain.leftEncoder));
+    
     if (a_driveTrain.currentRM(a_driveTrain.leftEncoder) > 0){
       return (a_driveTrain.currentRM(a_driveTrain.leftEncoder) >= a_driveTrain.distanceToEncoderPositionConversion(inputedInches));
     }

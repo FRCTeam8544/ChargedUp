@@ -22,7 +22,7 @@ public class AutonomusRed1Command extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(224, .5, drive),
+      new DriveDistance(224, -.5, drive),
 
       
 
