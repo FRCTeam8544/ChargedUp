@@ -17,7 +17,7 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
 import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
-import frc.robot.commands.AutonomousCommands.Autobots;
+//import frc.robot.commands.AutonomousCommands.Autobots;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.RobotBase;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.AutonomousCommands.AutonomusRed3Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -85,6 +86,7 @@ public class RobotContainer {
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem);
     private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
+    private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
 
     //my test thing
     //private final Autobots a_rollout = new Autobots(drivetrainSubsystem);
@@ -101,6 +103,7 @@ public class RobotContainer {
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
     toggle.addOption("Middle Command", a_MiddleCommand);
     toggle.addOption("Red1", a_AutonomusRed1Command);
+    toggle.addOption("Red3", a_AutonomusRed3Command);
     //toggle.addOption("Autobots roll out", a_rollout);
    // toggle.addOption("red3",a_AutonomusRed3Command);
    

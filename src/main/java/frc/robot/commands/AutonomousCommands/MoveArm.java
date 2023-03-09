@@ -16,7 +16,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class MoveArm extends CommandBase {
-  /** Creates a new DriveDistance. */
+  /** Creates a new MoveArm. */
   RelativeEncoder firstJointEncoder;
   boolean returnValue;
   Timer a_timer;
@@ -31,13 +31,13 @@ public class MoveArm extends CommandBase {
 
 
 
-  public MoveArm(double AmountToMove,double speedPercentage,double ArmSubsystem ) {
+  public MoveArm(double AmountToMove,double speedPercentage, double ArmSubsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(a_ArmSubsystem);
 
     inputedAmount = AmountToMove;
     inputSpeed = speedPercentage;
-    turnsLeft = (inputedAmount/30);
+    turnsLeft = (inputedAmount/41);
 
     a_timer = new Timer();
 
@@ -77,17 +77,16 @@ public class MoveArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    /* 
+    
     if (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) > 0){
-      return (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) >= a_ArmSubsystem.(inputedAmount));
+      return (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) >= (inputedAmount));
     }
 
     else if (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) < 0) {
-      return ((-1) * (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder)) >= a_ArmSubsystem.distanceToEncoderPositionConversion(inputedAmount));
+      return ((-1) * (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder)) >= (inputedAmount));
     }
     else {
       return false;
-    } */
-    return false;
+    } 
   }
 }
