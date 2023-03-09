@@ -27,7 +27,7 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(24, 0.4, drive),
+      new DriveDistance(24, 0.4, drive), // test which one goes backward
 
       new DriveDistance(0, 0, drive),
       
