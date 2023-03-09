@@ -159,7 +159,8 @@ public class ArmControls extends CommandBase{
       else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.wristspeed * -1;}
       
 
-      if (RobotContainer.controller.getButtonStateX()) {//check num should coralate with X button
+      //removed since some people dont like to follow instructions
+      /*if (RobotContainer.controller.getButtonStateX()) {//check num should coralate with X button
         if(stopnow) {stopnow = false;}
         else{ stopnow = true;}
       }
@@ -170,7 +171,7 @@ public class ArmControls extends CommandBase{
         speed = 0;
         speede = 0;
         speedw = 0;
-      }
+      }*/
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
 
       armSubsystem.movemotor(speed);

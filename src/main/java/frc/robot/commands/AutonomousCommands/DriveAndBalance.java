@@ -48,8 +48,6 @@ public class DriveAndBalance extends CommandBase{
         if (navXPitch < -10 || navXRoll > 10) {
           System.out.println("how did we get here");
         }
-        SmartDashboard.putNumber("ahrs", RobotContainer.ahrs.getPitch());
-        SmartDashboard.putNumber("ahrs roll", RobotContainer.ahrs.getRoll());
         return value;
       }
 }
