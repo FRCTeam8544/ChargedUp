@@ -150,6 +150,7 @@ public class DriveWithJoystickCommand extends CommandBase {
 
     SmartDashboard.putNumber("actual speed left", lForwardSpeed);
     SmartDashboard.putNumber("actual speed right", rForwardSpeed);
+    SmartDashboard.putNumber("navroll", RobotContainer.ahrs.getRoll());
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
   }

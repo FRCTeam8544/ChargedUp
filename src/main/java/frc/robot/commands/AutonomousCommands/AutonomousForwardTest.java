@@ -27,16 +27,15 @@ public class AutonomousForwardTest extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(24, 0.4, drive), // test which one goes backward
+      //new DriveDistance(24, -.4, drive), // test which one goes backward
 
-      new DriveDistance(0, 0, drive),
+      //new DriveDistance(0, 0, drive),
       
-      new WaitTime(5),
+      //new WaitTime(5),
 
-      new DriveRotateDegrees(90, .4, drive),
-      
-      //new DriveAndBalance(ar_driveTrain),
-      
+     // new DriveRotateDegrees(90, .4, drive),
+     
+      new DriveAndBalance(ar_driveTrain),
       //new MoveArm(5, .2, ar_ArmSubsystem),
 
       new SetIdle(IdleMode.kCoast, drive) )
