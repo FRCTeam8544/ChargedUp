@@ -36,7 +36,7 @@ public class AutonomousMiddleCommand extends ParallelCommandGroup {
 
       new DriveDistance(60,.2,drive),
       
-      new DriveAndBalance(drive),
+      //new DriveAndBalance(drive),
 
       new SetIdle(IdleMode.kCoast, drive) )
     );

@@ -20,9 +20,9 @@ public class AutonomusRed3Command extends ParallelCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      new DriveDistance(210, -.5, ar_driveTrain),
+      new DriveDistance(210, -.5, drive),
 
-      new DriveDistance(0, 0, ar_driveTrain),
+      new DriveDistance(0, 0, drive),
       
       //new ArmAuto(5)
 

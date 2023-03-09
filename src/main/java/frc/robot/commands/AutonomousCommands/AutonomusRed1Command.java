@@ -24,7 +24,7 @@ public class AutonomusRed1Command extends ParallelCommandGroup {
       
       new DriveDistance(224, -.5, drive),
 
-      
+      new DriveDistance(0, 0, drive),
 
       //new ArmAuto(5),
 
