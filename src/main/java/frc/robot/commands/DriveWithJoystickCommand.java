@@ -72,7 +72,7 @@ public class DriveWithJoystickCommand extends CommandBase {
         balancetri = 3;
       }
     }
-    else if (RobotContainer.controller.getRawButtonReleased(11) == true) {
+    else if (RobotContainer.leftJoystick.getRawButtonReleased(11) == true) {
       if(balancetri == 1) {
         balancetri = 2;
       }  

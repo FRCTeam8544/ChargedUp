@@ -46,13 +46,13 @@ public class ArmSubsystem extends SubsystemBase {
     public void movemotor(double value) {
         //firstJointSpark.set(value);
 
-        SmartDashboard.putNumber("ArmFirstJointPosition", firstJointEncoder.getPosition());
         firstJoint.set(value);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("first Joint encoder", firstJointEncoder.getPosition());
+
+        
     }
     public void resetEncoder(RelativeEncoder firstJointEncoder2) {
         firstJointEncoder2.setPosition(0);

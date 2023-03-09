@@ -16,10 +16,10 @@ import frc.robot.Constants;
 public class ArmExtenderSubsystem extends SubsystemBase {
     
     VictorSPX armExtender = new VictorSPX(Constants.armthings.extenderCANID);
-    Encoder armexEncoder = new Encoder(0, 1);
+    //Encoder exeEncoder = new Encoder(0, 1);
 
-    //DigitalInput extenderLimitSwitchf = new DigitalInput(0);//forward digital input
-    //DigitalInput extenderLimitSwitchr = new DigitalInput(1);//reverse digital input
+    DigitalInput extenderLimitSwitchf = new DigitalInput(0);//forward digital input
+    DigitalInput extenderLimitSwitchr = new DigitalInput(1);//reverse digital input
 
 
     public ArmExtenderSubsystem() {
@@ -41,8 +41,18 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         //System.out.println("forward:");
         //System.out.println(extenderLimitSwitchf);
 
+        if (extenderLimitSwitchf.get() && value > 0){
+            armExtender.set(ControlMode.PercentOutput, value);
+        }
+        else if (extenderLimitSwitchr.get() && value < 0){
+            armExtender.set(ControlMode.PercentOutput, value);
+        }
+
+        SmartDashboard.putBoolean("Limit hit?", extenderLimitSwitchf.get());
+
+        //SmartDashboard.putNumber("exe encoder", exeEncoder.getRaw());
+
         armExtender.set(ControlMode.PercentOutput, value);
-        
         //System.out.println("reverse:");
         //System.out.println(extenderLimitSwitchr);
 

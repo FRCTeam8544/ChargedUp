@@ -61,9 +61,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
       differentialDrive.tankDrive(left, right);
     }
 
-    public void arcadeDrive(double speed, double rotation){
+    /*public void arcadeDrive(double speed, double rotation){
       differentialDrive.arcadeDrive(speed, rotation);
-    }
+    }*/
     
     /*
     
@@ -112,7 +112,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     @Override
   public void periodic() {
-    SmartDashboard.putNumber("Drivetrain Left Speed", leftEncoder.getVelocity());
+    
     SmartDashboard.putString("Message", "Hi");
     // This method will be called once per scheduler run
   }
