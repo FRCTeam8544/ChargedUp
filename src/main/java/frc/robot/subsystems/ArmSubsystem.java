@@ -62,6 +62,10 @@ public class ArmSubsystem extends SubsystemBase {
         return 0;
     }
 
+    public double god() {
+        return firstJoint.get();
+    }
+
 
     /*public void movejointssparktrue(int whichone, double howfar, boolean isspark) {
         if (firstlimitforward.isPressed() == false || firstlimitreverse.isPressed() == false){

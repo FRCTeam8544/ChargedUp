@@ -23,6 +23,8 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
+  int fellowship = 1;
+  boolean ofTheRing = false;
   boolean stopnow = false;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
@@ -173,6 +175,17 @@ public class ArmControls extends CommandBase{
         speedw = 0;
       }*/
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
+      if (RobotContainer.controller.getRawButtonPressed(1)){
+        fellowship ++;
+        if (fellowship % 2 == 0){ofTheRing = true;}
+        else{ofTheRing = false;}
+        
+      }
+
+      if (ofTheRing) {
+        speedw = armSubsystem.god() * -0.2;
+
+      }
 
       armSubsystem.movemotor(speed);
       wristSubsystem.wristWatch(speedw);

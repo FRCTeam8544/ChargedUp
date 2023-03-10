@@ -14,6 +14,7 @@ public class DriveAndBalance extends CommandBase{
     private static final double navXYawinit = RobotContainer.ahrs.getYaw();
     
       boolean balance = false;
+      boolean tofar = false;
     
     public DriveAndBalance(DrivetrainSubsystem ar_drivetrain) {
         this.ar_drivetrain = ar_drivetrain;
@@ -29,7 +30,7 @@ public class DriveAndBalance extends CommandBase{
     @Override
     public void execute() {
       double navXRoll = RobotContainer.ahrs.getRoll();
-        if (navXRoll > 15 || navXRoll < -15 || balance) {
+        if (navXRoll > 15 || navXRoll < -15 || balance || tofar()) {
           double balanceSpeed = balancepwease();
           ar_drivetrain.tankDrive(balanceSpeed, balanceSpeed);
           balance = true;
@@ -37,6 +38,15 @@ public class DriveAndBalance extends CommandBase{
         else{ar_drivetrain.tankDrive(0.3, 0.3);}
     }
     
+
+    boolean tofar(){
+      if (tofar){return tofar;}
+      
+      if (ar_drivetrain.encoderPositionToDistanceConversion(ar_drivetrain.leftEncoder) < 72){tofar = false;}
+      else{tofar = true;}
+
+      return tofar;
+    }
     @Override
     public boolean isFinished(){
 

@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,7 +17,7 @@ import frc.robot.Constants;
 public class ArmExtenderSubsystem extends SubsystemBase {
     
     VictorSPX armExtender = new VictorSPX(Constants.armthings.extenderCANID);
-    //Encoder exeEncoder = new Encoder(0, 1);
+    //Encoder exeEncoder = new Encoder(0, 1, false, EncodingType.k2X);
 
     DigitalInput extenderLimitSwitchf = new DigitalInput(0);//forward digital input
     DigitalInput extenderLimitSwitchr = new DigitalInput(1);//reverse digital input
@@ -24,7 +25,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
     public ArmExtenderSubsystem() {
 
-       // armExtender.configFactoryDefault();
+        //armExtender.configFactoryDefault();
 
         armExtender.setInverted(false);
 
@@ -50,7 +51,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("Limit hit?", extenderLimitSwitchf.get());
 
-        //SmartDashboard.putNumber("exe encoder", exeEncoder.getRaw());
+        //SmartDashboard.putNumber("exe encoder", exeEncoder.get());
 
         armExtender.set(ControlMode.PercentOutput, value);
         //System.out.println("reverse:");
