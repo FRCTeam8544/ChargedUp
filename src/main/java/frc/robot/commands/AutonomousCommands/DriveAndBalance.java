@@ -15,9 +15,11 @@ public class DriveAndBalance extends CommandBase{
     
       boolean balance = false;
       boolean tofar = false;
+      private boolean goingForward;
     
-    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain) {
+    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain, boolean goingForward) {
         this.ar_drivetrain = ar_drivetrain;
+        this.goingForward = goingForward;
         addRequirements(ar_drivetrain);
     }
 
@@ -35,7 +37,8 @@ public class DriveAndBalance extends CommandBase{
           ar_drivetrain.tankDrive(balanceSpeed, balanceSpeed);
           balance = true;
         }
-        else{ar_drivetrain.tankDrive(0.3, 0.3);}
+        else if (goingForward){ar_drivetrain.tankDrive(0.3, 0.3);}
+        else{ar_drivetrain.tankDrive(-0.3, -0.3);}
     }
     
 

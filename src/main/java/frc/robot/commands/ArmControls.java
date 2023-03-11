@@ -183,7 +183,7 @@ public class ArmControls extends CommandBase{
       }
 
       if (ofTheRing) {
-        speedw = armSubsystem.god() * -0.2;
+        speedw = armSubsystem.god() * -0.3;
 
       }
 

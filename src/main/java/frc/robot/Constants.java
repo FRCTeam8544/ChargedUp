@@ -49,13 +49,13 @@ public final class Constants {
 
     public static boolean morecontrol = false;
 
-    public static final double armspeed = 0.2;
+    public static final double armspeed = 0.3;
     public static final double armspeeddown = 0.15;
     public static final double armstopspeed = 0.01;//0.02 with wrist 0.01 without
     public static final double armexespeed = 0.5;
     
     public static final double wrist = 0.2;//not in use (so sad)
-    public static final double wristspeed = 0.1;//change
+    public static final double wristspeed = 0.15;//change
     public static final double wriststopspeed = 0.01;//change
 
     public static final PneumaticsModuleType PNEMATICTYPE = PneumaticsModuleType.REVPH;
@@ -65,8 +65,8 @@ public final class Constants {
 
   public static final double BASESPEED = 0.22; //speed at which robot should be stable when it is fully on the ramp
   public static final double MAXANGLE = 17; // max ramp angle is 17 degrees
-  public static final double RAMPSPEEDADJUSTMENT = .01; //speed adjustment when auto mode is on
-  public static double CURRENTRAMPSPEED = 0.04; // starting adjustment speed
+  public static final double RAMPSPEEDADJUSTMENT = .015; //speed adjustment when auto mode is on
+  public static double CURRENTRAMPSPEED = 0.05; // starting adjustment speed
 
   public static final class JoystickConstants {
     public static final int butEnableBreakmode = 8;

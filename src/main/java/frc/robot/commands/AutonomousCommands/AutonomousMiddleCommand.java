@@ -9,7 +9,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ArmPneumaticsSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.AutonomousCommands.DriveDistance;
 import frc.robot.commands.AutonomousCommands.WaitTime;
 
@@ -19,24 +22,23 @@ import frc.robot.commands.AutonomousCommands.WaitTime;
 
 public class AutonomousMiddleCommand extends ParallelCommandGroup {
   DrivetrainSubsystem ar_driveTrain;
+  ArmSubsystem ar_ArmSubsystem;
+  ArmPneumaticsSubsystem ar_ArmPneumaticsSubsystem;
 
-  public AutonomousMiddleCommand(DrivetrainSubsystem drive) {
+  public AutonomousMiddleCommand(DrivetrainSubsystem drive, ArmSubsystem moveArm, WristSubsystem moveWrist, ArmPneumaticsSubsystem ph) {
     ar_driveTrain = drive; 
+    ar_ArmSubsystem = moveArm;
+    ar_ArmPneumaticsSubsystem = ph;
         
     addCommands(
       new SequentialCommandGroup(
+
+      //new ArmScore(moveArm, moveWrist, ph),
+      //new MoveArm(0, 0, moveArm, moveWrist, ph)
       
       new DriveDistance(210, -.2, drive),
 
-      new WaitTime(5),
-
-      new DriveDistance(0, 0, drive),
-
-      //new DriveRotateDegrees(180, .5, drive),
-
-      new DriveDistance(60,.2,drive),
-      
-      //new DriveAndBalance(drive),
+      new DriveAndBalance(drive, true),
 
       new SetIdle(IdleMode.kCoast, drive) )
     );

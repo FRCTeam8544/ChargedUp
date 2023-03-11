@@ -29,7 +29,7 @@ public class ArmSubsystem extends SubsystemBase {
         
         firstJointEncoder.setPosition(0);
 
-        firstJoint.setInverted(true);
+        firstJoint.setInverted(false);
 
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
@@ -51,7 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        //run fightGod.exe;
         
     }
     public void resetEncoder(RelativeEncoder firstJointEncoder2) {
@@ -60,6 +60,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     public double encoderPercentConversion(RelativeEncoder firstJointEncoder2) {
         return 0;
+    }
+    public double encoderValue(RelativeEncoder firstJointEncoder2) {
+        return firstJointEncoder2.getPosition();
     }
 
     public double god() {
