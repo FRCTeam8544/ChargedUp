@@ -82,7 +82,7 @@ public class RobotContainer {
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
     
-    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem);
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
     private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);

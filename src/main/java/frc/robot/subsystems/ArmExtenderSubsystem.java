@@ -51,6 +51,13 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("Limit hit?", extenderLimitSwitchf.get());
 
+        //
+        
+        
+        
+        
+        
+        
         //SmartDashboard.putNumber("exe encoder", exeEncoder.get());
 
         armExtender.set(ControlMode.PercentOutput, value);

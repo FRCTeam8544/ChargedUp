@@ -26,6 +26,7 @@ public class ArmControls extends CommandBase{
   int fellowship = 1;
   boolean ofTheRing = false;
   boolean stopnow = false;
+  boolean openClaw = false;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
@@ -125,15 +126,19 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getBButtonPressed()){
         armPneumaticsSubsystem.out();
       }*/
-      if (RobotContainer.controller.getRawButtonPressed(2)) {armPneumaticsSubsystem.apush();}//chech button num A
-
+      if (RobotContainer.controller.getRawButtonPressed(2)) {
+        armPneumaticsSubsystem.apush();
+        if (openClaw) {openClaw = false;}
+        else{openClaw = true;}
+        SmartDashboard.putBoolean("claw", openClaw);
+      }//chech button num A
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
 
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
       if (x == 1){
-        speed = Constants.armthings.armspeed;
+        speed = Constants.armthings.armspeed * 0.5;
         //speedw = Constants.armthings.wristspeed;
       }
       else if (x == 2){
@@ -183,7 +188,8 @@ public class ArmControls extends CommandBase{
       }
 
       if (ofTheRing) {
-        speedw = armSubsystem.god() * -0.3;
+        if (speed > 0){speedw = armSubsystem.god() * 0.4;}
+        else {speedw = armSubsystem.god() *0.3;}
 
       }
 

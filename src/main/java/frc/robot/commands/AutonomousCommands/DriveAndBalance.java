@@ -32,13 +32,14 @@ public class DriveAndBalance extends CommandBase{
     @Override
     public void execute() {
       double navXRoll = RobotContainer.ahrs.getRoll();
-        if (navXRoll > 15 || navXRoll < -15 || balance || tofar()) {
+        if (navXRoll > 15 || navXRoll < -15 || balance) {
           double balanceSpeed = balancepwease();
           ar_drivetrain.tankDrive(balanceSpeed, balanceSpeed);
           balance = true;
         }
-        else if (goingForward){ar_drivetrain.tankDrive(0.3, 0.3);}
-        else{ar_drivetrain.tankDrive(-0.3, -0.3);}
+        else if (tofar()){balance = true;}
+        else if (goingForward){ar_drivetrain.tankDrive(0.5, 0.5);}
+        else{ar_drivetrain.tankDrive(-0.5, -0.5);}
     }
     
 

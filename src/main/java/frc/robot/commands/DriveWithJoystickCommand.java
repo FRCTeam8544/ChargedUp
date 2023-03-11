@@ -97,12 +97,14 @@ public class DriveWithJoystickCommand extends CommandBase {
     if (RobotContainer.autobalance){
       lForwardSpeed = BalanceCommand.balancepwease();
       rForwardSpeed = lForwardSpeed;
+      SmartDashboard.putBoolean("auto balance", true);
       //SmartDashboard.putNumber("left speed", lForwardSpeed);
       //SmartDashboard.putNumber("right speed", rForwardSpeed);
     }
     else {
       lForwardSpeed = wammy(lForwardSpeed);
       rForwardSpeed = wammy(rForwardSpeed);
+      SmartDashboard.putBoolean("auto balance", false);
       //SmartDashboard.putNumber("left speed", lForwardSpeed);
       //SmartDashboard.putNumber("right speed", rForwardSpeed);
     }

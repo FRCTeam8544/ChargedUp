@@ -22,7 +22,7 @@ public class MoveArm extends CommandBase {
   RelativeEncoder firstJointEncoder;
   boolean returnValue;
   Timer a_timer;
-  ArmSubsystem a_ArmSubsystem;
+  //ArmSubsystem a_ArmSubsystem;
   double turnsLeft;
   double inputedAmount;
   double speed = Constants.armthings.armstopspeed;
@@ -41,7 +41,7 @@ public class MoveArm extends CommandBase {
     this.a_armSubsystem = a_armSubsystem;
     this.a_wristSubsystem = a_wristSubsystem;
     this.a_pneumatics = a_pneumatics;
-    addRequirements(a_ArmSubsystem, a_wristSubsystem, a_pneumatics);
+    addRequirements(a_armSubsystem, a_wristSubsystem, a_pneumatics);
 
     inputedAmount = AmountToMove;
     inputSpeed = speedPercentage;
@@ -70,9 +70,10 @@ public class MoveArm extends CommandBase {
     SmartDashboard.putNumber("Arm height Encoder",encoderPosition);
     SmartDashboard.putNumber("Arm height amtToMove", AmountToMove);
     if (AmountToMove > 0){
-      a_ArmSubsystem.movemotor((Constants.armthings.armspeed));
+      a_armSubsystem.movemotor((Constants.armthings.armspeed));
       a_wristSubsystem.wristWatch(a_armSubsystem.god() * -0.2);
     }
+    
 
   }
  
@@ -81,7 +82,7 @@ public class MoveArm extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    a_ArmSubsystem.movemotor(0);
+    a_armSubsystem.movemotor(0);
     //a_driveTrain.setIdleMode(IdleMode.kCoast);
   }
 
@@ -89,14 +90,14 @@ public class MoveArm extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    if (a_ArmSubsystem.encoderValue(a_ArmSubsystem.firstJointEncoder) > 0){
+    if (a_armSubsystem.encoderValue(a_armSubsystem.firstJointEncoder) > 0){
       a_pneumatics.apush();
-      return (a_ArmSubsystem.encoderValue(a_ArmSubsystem.firstJointEncoder) >= (inputedAmount));
+      return (a_armSubsystem.encoderValue(a_armSubsystem.firstJointEncoder) >= (inputedAmount));
     }
 
-    else if (a_ArmSubsystem.encoderValue(a_ArmSubsystem.firstJointEncoder) < 0) {
+    else if (a_armSubsystem.encoderValue(a_armSubsystem.firstJointEncoder) < 0) {
       a_pneumatics.apush();
-      return ((-1) * (a_ArmSubsystem.encoderValue(a_ArmSubsystem.firstJointEncoder)) >= (inputedAmount));
+      return ((-1) * (a_armSubsystem.encoderValue(a_armSubsystem.firstJointEncoder)) >= (inputedAmount));
     }
     else {
       return false;
