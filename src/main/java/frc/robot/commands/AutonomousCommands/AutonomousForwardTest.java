@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -42,7 +43,9 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
 
      // new DriveRotateDegrees(90, .4, drive),
 
-     //new MoveArm(20, 0.2, ar_ArmSubsystem, ar_wristSubsystem, a_pneumatics),
+    new MoveArm(20, ar_ArmSubsystem, ar_wristSubsystem, a_pneumatics),
+
+    new WaitCommand(3),
      
       new DriveAndBalance(ar_driveTrain, true),
       //new MoveArm(5, .2, ar_ArmSubsystem),

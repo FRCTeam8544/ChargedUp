@@ -54,6 +54,9 @@ public class ArmSubsystem extends SubsystemBase {
         //run fightGod.exe;
         
     }
+    public double getEncoder(){
+       return firstJointEncoder.getPosition();
+    }
     public void resetEncoder(RelativeEncoder firstJointEncoder2) {
         firstJointEncoder2.setPosition(0);
     }
