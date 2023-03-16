@@ -15,17 +15,21 @@ public class DriveAndBalance extends CommandBase{
     
       boolean balance = false;
       boolean tofar = false;
-      private boolean goingForward;
+      private boolean goingBack;
+      private boolean autoBalance;
+      private int howFar;
     
-    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain, boolean goingForward) {
+    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain, boolean goingBack, boolean autoBalance, int howFar) {
         this.ar_drivetrain = ar_drivetrain;
-        this.goingForward = goingForward;
+        this.goingBack = goingBack;
+        this.autoBalance = autoBalance;
+        this.howFar = howFar;
         addRequirements(ar_drivetrain);
     }
 
     @Override
     public void initialize(){
-      
+      ar_drivetrain.leftEncoder.setPosition(0);
       
     }
 
@@ -38,7 +42,7 @@ public class DriveAndBalance extends CommandBase{
           balance = true;
         }
         else if (tofar()){balance = true;}
-        else if (goingForward){ar_drivetrain.tankDrive(0.5, 0.5);}
+        else if (goingBack){ar_drivetrain.tankDrive(0.5, 0.5);}
         else{ar_drivetrain.tankDrive(-0.5, -0.5);}
     }
     
@@ -46,7 +50,7 @@ public class DriveAndBalance extends CommandBase{
     boolean tofar(){
       if (tofar){return tofar;}
       
-      if (ar_drivetrain.encoderPositionToDistanceConversion(ar_drivetrain.leftEncoder) < 108){tofar = false;}
+      if (ar_drivetrain.encoderPositionToDistanceConversion(ar_drivetrain.leftEncoder) < howFar){tofar = false;}
       else{tofar = true;}
 
       return tofar;

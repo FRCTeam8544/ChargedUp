@@ -34,19 +34,17 @@ public class MoveArm extends CommandBase {
   double input;
   double AmountMoved;
   private ArmSubsystem a_armSubsystem;
-  private WristSubsystem a_wristSubsystem;
-  private ArmPneumaticsSubsystem a_pneumatics;
+  private WristSubsystem a_WristSubsystem;
 
 
 
-  public MoveArm(double input, ArmSubsystem a_armSubsystem, WristSubsystem a_wristSubsystem, ArmPneumaticsSubsystem a_pneumatics) {
+  public MoveArm(double input, ArmSubsystem a_armSubsystem, WristSubsystem a_WristSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.a_armSubsystem = a_armSubsystem;
-    this.a_wristSubsystem = a_wristSubsystem;
-    this.a_pneumatics = a_pneumatics;
+    this.a_WristSubsystem = a_WristSubsystem;
     this.input = input;
     
-    addRequirements(a_armSubsystem, a_wristSubsystem, a_pneumatics);
+    addRequirements(a_armSubsystem, a_WristSubsystem);
 
     
     //a_timer = new Timer();
@@ -56,7 +54,6 @@ public class MoveArm extends CommandBase {
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    a_pneumatics.out();
     //a_ArmSubsystem.resetEncoder(a_ArmSubsystem.firstJointEncoder);
   }
 
@@ -71,7 +68,7 @@ public class MoveArm extends CommandBase {
     SmartDashboard.putNumber("Arm height amtToMove", AmountToMove);
     if (input > 0){
       a_armSubsystem.movemotor((Constants.armthings.armspeed *-1));
-      a_wristSubsystem.wristWatch(a_armSubsystem.god() * 0.3);
+      a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
     }
     else{
       //add extender after a time limit since encoder is scuffed
@@ -86,7 +83,6 @@ public class MoveArm extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    a_pneumatics.apush();
     a_armSubsystem.movemotor(0);
     //a_driveTrain.setIdleMode(IdleMode.kCoast);
   }
@@ -97,7 +93,7 @@ public class MoveArm extends CommandBase {
     
     if (a_armSubsystem.getEncoder() > 0){
       
-      return (a_armSubsystem.getEncoder() >= (input));
+      return (a_armSubsystem.getEncoder() >= (input));//add calc by making this an addition to the if statement and then calc() then return true
     }
 
     else if (a_armSubsystem.getEncoder() < 0) {

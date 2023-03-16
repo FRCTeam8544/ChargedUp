@@ -27,6 +27,8 @@ public class ArmControls extends CommandBase{
   boolean ofTheRing = false;
   boolean stopnow = false;
   boolean openClaw = false;
+  boolean pid = false;
+  double setPoint;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
@@ -193,7 +195,15 @@ public class ArmControls extends CommandBase{
 
       }
 
-      armSubsystem.movemotor(speed);
+      if (RobotContainer.controller.getRawButtonPressed(6)){
+        pid = true;
+        setPoint = armSubsystem.getEncoder();
+      }
+      if (RobotContainer.controller.getRawButtonPressed(5)){
+        pid = false;
+      }
+
+      if (pid == false){ armSubsystem.movemotor(speed);} else{armSubsystem.calc(setPoint);}
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
 

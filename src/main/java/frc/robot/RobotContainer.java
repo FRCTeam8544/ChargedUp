@@ -17,6 +17,7 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AutonomousCommands.AutonomousMiddleCommand;
 import frc.robot.commands.AutonomousCommands.AutonomusRed1Command;
+import frc.robot.commands.AutonomousCommands.AutoNotCenterCommand;
 //import frc.robot.commands.AutonomousCommands.Autobots;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -82,11 +83,12 @@ public class RobotContainer {
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
     
-    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
+    private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //first real command
-    private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
-    private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
-    private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
+    //private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
+    //private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
+    //private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
 
     //my test thing
     //private final Autobots a_rollout = new Autobots(drivetrainSubsystem);
@@ -101,9 +103,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Add the autonomous selection toggle:
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
-    toggle.addOption("Middle Command", a_MiddleCommand);
-    toggle.addOption("Red1", a_AutonomusRed1Command);
-    toggle.addOption("Red3", a_AutonomusRed3Command);
+    toggle.setDefaultOption("NOT CENTER", a_AutoNotCenterCommand);
+    //toggle.addOption("Middle Command", a_MiddleCommand);
+    //toggle.addOption("Red1", a_AutonomusRed1Command);
+    //toggle.addOption("Red3", a_AutonomusRed3Command);
     //toggle.addOption("Autobots roll out", a_rollout);
    // toggle.addOption("red3",a_AutonomusRed3Command);
    
