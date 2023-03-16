@@ -14,29 +14,47 @@ public class DriveAndBalance extends CommandBase{
     private static final double navXYawinit = RobotContainer.ahrs.getYaw();
     
       boolean balance = false;
+      boolean tofar = false;
+      private boolean goingBack;
+      private boolean autoBalance;
+      private int howFar;
     
-    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain) {
+    public DriveAndBalance(DrivetrainSubsystem ar_drivetrain, boolean goingBack, boolean autoBalance, int howFar) {
         this.ar_drivetrain = ar_drivetrain;
+        this.goingBack = goingBack;
+        this.autoBalance = autoBalance;
+        this.howFar = howFar;
         addRequirements(ar_drivetrain);
     }
 
     @Override
     public void initialize(){
-      
+      ar_drivetrain.leftEncoder.setPosition(0);
       
     }
 
     @Override
     public void execute() {
       double navXRoll = RobotContainer.ahrs.getRoll();
-        if (navXRoll > 15 || navXRoll < -15 || balance) {
+        if (navXRoll > 16 || navXRoll < -16 || balance) {
           double balanceSpeed = balancepwease();
           ar_drivetrain.tankDrive(balanceSpeed, balanceSpeed);
           balance = true;
         }
-        else{ar_drivetrain.tankDrive(0.3, 0.3);}
+        else if (tofar()){balance = true;}
+        else if (goingBack){ar_drivetrain.tankDrive(0.5, 0.5);}
+        else{ar_drivetrain.tankDrive(-0.5, -0.5);}
     }
     
+
+    boolean tofar(){
+      if (tofar){return tofar;}
+      
+      if (ar_drivetrain.encoderPositionToDistanceConversion(ar_drivetrain.leftEncoder) < howFar){tofar = false;}
+      else{tofar = true;}
+
+      return tofar;
+    }
     @Override
     public boolean isFinished(){
 

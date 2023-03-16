@@ -8,46 +8,53 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
+import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 public class MoveArm extends CommandBase {
   /** Creates a new MoveArm. */
   RelativeEncoder firstJointEncoder;
   boolean returnValue;
   Timer a_timer;
-  ArmSubsystem a_ArmSubsystem;
+  //ArmSubsystem a_ArmSubsystem;
   double turnsLeft;
   double inputedAmount;
   double speed = Constants.armthings.armstopspeed;
   double FinalArmPosition;
   double AmountToMove;
-  double inputSpeed;
+  double input;
   double AmountMoved;
+  private ArmSubsystem a_armSubsystem;
+  private WristSubsystem a_WristSubsystem;
 
 
 
-  public MoveArm(double AmountToMove,double speedPercentage, double ArmSubsystem ) {
+  public MoveArm(double input, ArmSubsystem a_armSubsystem, WristSubsystem a_WristSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(a_ArmSubsystem);
+    this.a_armSubsystem = a_armSubsystem;
+    this.a_WristSubsystem = a_WristSubsystem;
+    this.input = input;
+    
+    addRequirements(a_armSubsystem, a_WristSubsystem);
 
-    inputedAmount = AmountToMove;
-    inputSpeed = speedPercentage;
-    turnsLeft = (inputedAmount/41);
-
-    a_timer = new Timer();
+    
+    //a_timer = new Timer();
 
   }
 
 // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    a_timer.reset();
-    a_ArmSubsystem.resetEncoder(a_ArmSubsystem.firstJointEncoder);
+    //a_ArmSubsystem.resetEncoder(a_ArmSubsystem.firstJointEncoder);
   }
 
 
@@ -56,21 +63,27 @@ public class MoveArm extends CommandBase {
   
   @Override
   public void execute() {
-    double encoderPosition = firstJointEncoder.getPosition();
-    AmountMoved = (inputedAmount - encoderPosition);
-    AmountToMove =(encoderPosition - inputedAmount);
+    double encoderPosition = a_armSubsystem.getEncoder();
     SmartDashboard.putNumber("Arm height Encoder",encoderPosition);
-
-    a_ArmSubsystem.movemotor(5);
+    SmartDashboard.putNumber("Arm height amtToMove", AmountToMove);
+    if (input > 0){
+      a_armSubsystem.movemotor((Constants.armthings.armspeed *-1));
+      a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
+    }
+    else{
+      //add extender after a time limit since encoder is scuffed
+      //add led lights be
+    }
+    
 
   }
- 
 
+  
   
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    a_ArmSubsystem.movemotor(0);
+    a_armSubsystem.movemotor(0);
     //a_driveTrain.setIdleMode(IdleMode.kCoast);
   }
 
@@ -78,15 +91,17 @@ public class MoveArm extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    if (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) > 0){
-      return (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) >= (inputedAmount));
+    if (a_armSubsystem.getEncoder() > 0){
+      
+      return (a_armSubsystem.getEncoder() >= (input));//add calc by making this an addition to the if statement and then calc() then return true
     }
 
-    else if (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder) < 0) {
-      return ((-1) * (a_ArmSubsystem.encoderPercentConversion(a_ArmSubsystem.firstJointEncoder)) >= (inputedAmount));
+    else if (a_armSubsystem.getEncoder() < 0) {
+      return ((-1) * a_armSubsystem.getEncoder() >= (input));
     }
     else {
       return false;
     } 
   }
 }
+  

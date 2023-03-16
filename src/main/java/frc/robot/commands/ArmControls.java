@@ -23,7 +23,12 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
+  int fellowship = 1;
+  boolean ofTheRing = false;
   boolean stopnow = false;
+  boolean openClaw = false;
+  boolean pid = false;
+  double setPoint;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
@@ -123,15 +128,19 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getBButtonPressed()){
         armPneumaticsSubsystem.out();
       }*/
-      if (RobotContainer.controller.getRawButtonPressed(2)) {armPneumaticsSubsystem.apush();}//chech button num A
-
+      if (RobotContainer.controller.getRawButtonPressed(2)) {
+        armPneumaticsSubsystem.apush();
+        if (openClaw) {openClaw = false;}
+        else{openClaw = true;}
+        SmartDashboard.putBoolean("claw", openClaw);
+      }//chech button num A
 
       //if(RobotContainer.controller.getBackButtonPressed()){Constants.armthings.morecontrol = true;}
 
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
       if (x == 1){
-        speed = Constants.armthings.armspeed;
+        speed = Constants.armthings.armspeed * 0.5;
         //speedw = Constants.armthings.wristspeed;
       }
       else if (x == 2){
@@ -173,8 +182,28 @@ public class ArmControls extends CommandBase{
         speedw = 0;
       }*/
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
+      if (RobotContainer.controller.getRawButtonPressed(1)){
+        fellowship ++;
+        if (fellowship % 2 == 0){ofTheRing = true;}
+        else{ofTheRing = false;}
+        
+      }
 
-      armSubsystem.movemotor(speed);
+      if (ofTheRing) {
+        if (speed > 0){speedw = armSubsystem.god() * 0.4;}
+        else {speedw = armSubsystem.god() *0.3;}
+
+      }
+
+      if (RobotContainer.controller.getRawButtonPressed(6)){
+        pid = true;
+        setPoint = armSubsystem.getEncoder();
+      }
+      if (RobotContainer.controller.getRawButtonPressed(5)){
+        pid = false;
+      }
+
+      if (pid == false){ armSubsystem.movemotor(speed);} else{armSubsystem.calc(setPoint);}
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
 
