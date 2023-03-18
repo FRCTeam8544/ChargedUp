@@ -3,6 +3,7 @@ package frc.robot.commands.AutonomousCommands;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -35,21 +36,27 @@ public class AutoNotCenterCommand extends SequentialCommandGroup{
   
        // new DriveRotateDegrees(90, .4, drive),
   
-       new PneumaticCommand(false, a_pneumatics),
+       //new PneumaticCommand(false, a_pneumatics),
+
+       new PIDArm(ar_ArmSubsystem, -60),
   
-      new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem),
+      //new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem),
   
       //new WaitCommand(3),
   
-      new ExtenderCommand(17, a_extender),
+      //new ExtenderCommand(10, a_extender, true),
+
+      new WaitCommand(5),
   
-      new PneumaticCommand(true, a_pneumatics),
+      //new PneumaticCommand(true, a_pneumatics),
   
-      new ExtenderCommand(-17, a_extender),
+      //new ExtenderCommand(15, a_extender, false),
+
+      new WaitCommand(1),
   
-      new MoveArm(5, ar_ArmSubsystem, ar_wristSubsystem),
+      new MoveArm(-40, ar_ArmSubsystem, ar_wristSubsystem),
   
-        new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
+        //new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 
         //new MoveArm(5, .2, ar_ArmSubsystem),
   

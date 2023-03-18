@@ -26,6 +26,7 @@ import frc.robot.subsystems.WristSubsystem;
 import frc.robot.utils.Gamepad;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj.RobotBase;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -75,6 +76,7 @@ public class RobotContainer {
   //CommandXboxController controllerCommand = new CommandXboxController(2);
  // Trigger aButton = controllerCommand.a();
   //Trigger xButton = controllerCommand.x();
+
 
   //private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
 
@@ -133,6 +135,7 @@ public class RobotContainer {
   private void configureBindings() {
     //what is the point of this
 
+    
     //aButton.onTrue(new HoldCommand(armPneumaticsSubsystem));
     //xButton.onTrue(new ReleaseCommand(armPneumaticsSubsystem));
     

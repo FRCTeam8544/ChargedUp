@@ -1,11 +1,13 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.AutonomousCommands.PIDArm;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -27,14 +29,22 @@ public class ArmControls extends CommandBase{
   boolean ofTheRing = false;
   boolean stopnow = false;
   boolean openClaw = false;
-  boolean pid = false;
-  double setPoint;
+  //boolean pid = false;
+  PIDController pid;
+
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, setPoint;
 
     public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
         this.armSubsystem = armSubsystem;
         this.wristSubsystem = wristSubsystem;
         this.armExtenderSubsystem = armExtenderSubsystem;
         this.armPneumaticsSubsystem = armPneumaticsSubsystem;
+        //kP = 5e-5;
+        kP = 0.1; 
+        //kI = 1e-6;
+        kI = 0;
+        kD = 0; 
+        this.setPoint = setPoint;
         addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
       }
 
@@ -43,11 +53,13 @@ public class ArmControls extends CommandBase{
     public void initialize() {
         armSubsystem.setBreakMode();
         armExtenderSubsystem.setBreakMode();
+        pid = new PIDController(kP, kI, kD);
+        pid.enableContinuousInput(0, 110);
     }
     
     @Override
     public void execute() {
-      double speed = Constants.armthings.armstopspeed;
+      double speed = 0;
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;
 
@@ -148,7 +160,7 @@ public class ArmControls extends CommandBase{
         //speedw = Constants.armthings.wristspeed * -1;
       }
       else if (x == 0) {
-        speed = Constants.armthings.armstopspeed;
+        //speed = Constants.armthings.armstopspeed;
         //speedw = Constants.armthings.wriststopspeed;
       }
 
@@ -189,25 +201,25 @@ public class ArmControls extends CommandBase{
         
       }
 
-      if (ofTheRing) {
+      if (ofTheRing && speed != 0) {
         if (speed > 0){speedw = armSubsystem.god() * 0.4;}
-        else {speedw = armSubsystem.god() *0.3;}
+        else {speedw = armSubsystem.god() * 0.3;}
 
       }
 
-      if (RobotContainer.controller.getRawButtonPressed(6)){
-        pid = true;
+      if (speed == 0){
+        armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
+      }
+      else{
+        armSubsystem.movemotor(speed);
         setPoint = armSubsystem.getEncoder();
+        SmartDashboard.putNumber("set point", setPoint);
+        System.out.println("set point "+setPoint);
       }
-      if (RobotContainer.controller.getRawButtonPressed(5)){
-        pid = false;
-      }
-
-      if (pid == false){ armSubsystem.movemotor(speed);} else{armSubsystem.calc(setPoint);}
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
 
-        
+      
     }
 
     /*double controlslb(double speed) {

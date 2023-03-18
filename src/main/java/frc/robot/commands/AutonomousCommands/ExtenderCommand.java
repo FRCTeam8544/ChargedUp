@@ -12,23 +12,28 @@ public class ExtenderCommand extends CommandBase{
 
     Timer timer = new Timer();
 
+    boolean direction;
 
 
-    public ExtenderCommand(double distance, ArmExtenderSubsystem a_extender){
+
+    public ExtenderCommand(double distance, ArmExtenderSubsystem a_extender, boolean direction){
         this.a_extender = a_extender;
         this.distance = distance;
+        this.direction = direction;
         addRequirements(a_extender);
     }
     
     @Override
     public void initialize() {
         timer.start();
+
         
     }
 
     @Override
     public void execute() {
-        a_extender.movemotor(Constants.armthings.armexespeed);
+        if (direction){a_extender.movemotor(Constants.armthings.armexespeed);}
+        else{a_extender.movemotor(Constants.armthings.armexespeed * -1);}
 
     }
     @Override

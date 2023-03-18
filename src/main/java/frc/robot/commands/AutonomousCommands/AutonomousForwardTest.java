@@ -49,17 +49,23 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
 
      new PneumaticCommand(false, a_pneumatics),
 
-    new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem),
+    // new WaitCommand(.4),
+
+    new PIDArm(ar_ArmSubsystem, 30),
+
+    new WaitCommand(.5),
 
     //new WaitCommand(3),
 
-    new ExtenderCommand(17, a_extender),
+    new ExtenderCommand(17, a_extender, true),
+
+    new WaitCommand(.5),
 
     new PneumaticCommand(true, a_pneumatics),
 
-    new ExtenderCommand(-17, a_extender),
+    new ExtenderCommand(-17, a_extender, true),
 
-    new MoveArm(5, ar_ArmSubsystem, ar_wristSubsystem),
+    new PIDArm(ar_ArmSubsystem, 0),
 
       new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 

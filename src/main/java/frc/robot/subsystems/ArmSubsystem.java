@@ -19,7 +19,6 @@ public class ArmSubsystem extends SubsystemBase {
     public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     public SparkMaxPIDController armPid = firstJoint.getPIDController();
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
     //private SparkMaxLimitSwitch firstlimitforward;
     //private SparkMaxLimitSwitch firstlimitreverse;
@@ -34,23 +33,6 @@ public class ArmSubsystem extends SubsystemBase {
         firstJointEncoder.setPosition(0);
 
         firstJoint.setInverted(false);
-
-        kP = 5e-5; 
-        kI = 1e-6;
-        kD = 0; 
-        kIz = 0; 
-        kFF = 0.000156; 
-        kMaxOutput = 1; 
-        kMinOutput = -1;
-        maxRPM = 5700;
-
-        armPid.setP(kP);
-        armPid.setI(kI);
-        armPid.setD(kD);
-        armPid.setIZone(kIz);
-        armPid.setFF(kFF);
-        armPid.setOutputRange(kMinOutput, kMaxOutput);
-
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
 
