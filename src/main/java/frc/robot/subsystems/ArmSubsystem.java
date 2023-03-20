@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 public class ArmSubsystem extends SubsystemBase {
     
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax twooooooo = new CANSparkMax(Constants.armthings.twoooooooCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
@@ -33,6 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
         firstJointEncoder.setPosition(0);
 
         firstJoint.setInverted(false);
+
+        twooooooo.follow(firstJoint);
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
 

@@ -24,12 +24,19 @@ public final class Constants {
     public static final int backLeftCANID = 1; //old robot is 3 | new is 1
     public static final int backRightCANID = 3;//old robot is 4 | new is 3
 
+    public static boolean drive = false;
+
     public static final int driveTrainWheelDiameter = 6;
     public static final double driveTrainGearRatio = 10.71;
 
     public static final boolean leftDriveEncoderInverted = false;
     public static final boolean rightDriveEncoderInverted = false;
 
+  }
+
+  public static final class led{
+    public static final int ledport = 27;//change
+    public static final int length = 60;//change
   }
 
   public static final class turret{
@@ -40,6 +47,11 @@ public final class Constants {
     public static final int jointoneCANID = 7;
     public static final int extenderCANID = 8;
     public static final int wristCANID = 9;
+    public static final int TOKYOID = 10;//change depending on thing
+    public static final int DRIFTID = 11;//also change
+    public static final int twoooooooCANID = 12;//change
+
+    public static final double TOKYODRIFT = 0.5;
 
     public static boolean yes = false;
 

@@ -12,6 +12,7 @@ public class Messages {
     strings.add("Schnee is big smart.");
     strings.add("eat ham");
     strings.add("eat ham");
+    strings.add("Sir Nicholas Jonathan Holbrook is a genius");
     }
 
     public String getNewMessage() {

@@ -11,7 +11,6 @@ import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
-import frc.robot.commands.TurretCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -21,7 +20,9 @@ import frc.robot.commands.AutonomousCommands.AutoNotCenterCommand;
 //import frc.robot.commands.AutonomousCommands.Autobots;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.utils.Gamepad;
 import edu.wpi.first.wpilibj.Joystick;
@@ -56,6 +57,8 @@ public class RobotContainer {
     /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
     /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
  
+  public final LedSubsystem ledSubsystem = new LedSubsystem();
+
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();//who knows
   public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
   public final BalanceCommand balanceCommand = new BalanceCommand(drivetrainSubsystem);
@@ -64,8 +67,9 @@ public class RobotContainer {
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
   public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
   public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
+  public final WristGoBRRR wristGoBrrr = new WristGoBRRR();
 
-  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
+  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem, wristGoBrrr, ledSubsystem);
   
   //public final WristCommand wristCommand = new WristCommand(wristSubsystem);
 

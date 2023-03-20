@@ -11,6 +11,8 @@ import frc.robot.commands.AutonomousCommands.PIDArm;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.utils.math.Point;
 
@@ -20,6 +22,8 @@ public class ArmControls extends CommandBase{
   WristSubsystem wristSubsystem;
   ArmExtenderSubsystem armExtenderSubsystem;
   ArmPneumaticsSubsystem armPneumaticsSubsystem;
+  WristGoBRRR wristGoBrrr;
+  LedSubsystem ledSubsystem;
 
   int x = 0;
   int y = 0;
@@ -29,23 +33,27 @@ public class ArmControls extends CommandBase{
   boolean ofTheRing = false;
   boolean stopnow = false;
   boolean openClaw = false;
+  boolean needForSpeed = false;
+  boolean sickdrift = false;
   //boolean pid = false;
   PIDController pid;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, setPoint;
 
-    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem){
+    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem, WristGoBRRR wristGoBRRR, LedSubsystem ledSubsystem){
         this.armSubsystem = armSubsystem;
         this.wristSubsystem = wristSubsystem;
         this.armExtenderSubsystem = armExtenderSubsystem;
         this.armPneumaticsSubsystem = armPneumaticsSubsystem;
+        this.wristGoBrrr = wristGoBrrr;
+        this.ledSubsystem = ledSubsystem;
         //kP = 5e-5;
         kP = 0.1; 
         //kI = 1e-6;
         kI = 0;
         kD = 0; 
         this.setPoint = setPoint;
-        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
+        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem, wristGoBRRR, ledSubsystem);
       }
 
 
@@ -178,6 +186,9 @@ public class ArmControls extends CommandBase{
 
       if (RobotContainer.controller.getRawButton(7)) {speedw = Constants.armthings.wristspeed;}
       else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.wristspeed * -1;}
+
+      if (RobotContainer.controller.getRawButton(6)){wristGoBrrr.iveGotANeed();}
+      else if (RobotContainer.controller.getRawButton(5)){wristGoBrrr.forSpeed();}
       
 
       //removed since some people dont like to follow instructions
@@ -196,8 +207,14 @@ public class ArmControls extends CommandBase{
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
       if (RobotContainer.controller.getRawButtonPressed(1)){
         fellowship ++;
-        if (fellowship % 2 == 0){ofTheRing = true;}
-        else{ofTheRing = false;}
+        if (fellowship % 2 == 0){
+          ofTheRing = true;
+          Constants.DriveTrainConstantants.drive = true;
+        }
+        else{
+          ofTheRing = false;
+          Constants.DriveTrainConstantants.drive = false;
+        }
         
       }
 
@@ -209,15 +226,18 @@ public class ArmControls extends CommandBase{
 
       if (speed == 0){
         armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
+        ledSubsystem.bitesTheDust();
       }
       else{
         armSubsystem.movemotor(speed);
         setPoint = armSubsystem.getEncoder();
         SmartDashboard.putNumber("set point", setPoint);
         System.out.println("set point "+setPoint);
+        ledSubsystem.zaWauldo();
       }
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
+      
 
       
     }

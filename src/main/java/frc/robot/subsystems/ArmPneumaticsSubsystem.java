@@ -26,7 +26,7 @@ public class ArmPneumaticsSubsystem extends SubsystemBase {
     public void apush() {
         armpush.toggle();
     }
-
+    //there needs to be more jojo references
     public void out() {
         armpush.set(Value.kReverse);
     }
