@@ -28,4 +28,8 @@ public class WristSubsystem extends SubsystemBase{
     public void periodic() {
         
     }
+
+    public double getEncoder(){
+        return wristEncoder.getPosition();
+    }
 }

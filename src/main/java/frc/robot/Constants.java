@@ -24,8 +24,6 @@ public final class Constants {
     public static final int backLeftCANID = 1; //old robot is 3 | new is 1
     public static final int backRightCANID = 3;//old robot is 4 | new is 3
 
-    public static boolean drive = false;
-
     public static final int driveTrainWheelDiameter = 6;
     public static final double driveTrainGearRatio = 10.71;
 
@@ -34,9 +32,9 @@ public final class Constants {
 
   }
 
-  public static final class led{
-    public static final int ledport = 27;//change
-    public static final int length = 60;//change
+  public static final class led{//did you know people used to think tomatoes were poisonous because they were served on lead plates
+    public static final int ledport = 0;//change
+    public static final int length = 300;//change
   }
 
   public static final class turret{
@@ -46,12 +44,14 @@ public final class Constants {
   public static final class armthings{
     public static final int jointoneCANID = 7;
     public static final int extenderCANID = 8;
-    public static final int wristCANID = 9;
+    public static final int wristCANID = 12;
     public static final int TOKYOID = 10;//change depending on thing
     public static final int DRIFTID = 11;//also change
-    public static final int twoooooooCANID = 12;//change
+    public static final int twoooooooCANID = 9;//change
 
-    public static final double TOKYODRIFT = 0.5;
+    public static final double ARMGEARRATIO = 0.8;//calculate
+
+    public static final double TOKYODRIFT = 1;
 
     public static boolean yes = false;
 
@@ -61,8 +61,8 @@ public final class Constants {
 
     public static boolean morecontrol = false;
 
-    public static final double armspeed = 0.3;
-    public static final double armspeeddown = 0.15;
+    public static final double armspeed = 0.6;
+    public static final double armspeeddown = 0.3;
     public static final double armstopspeed = 0.01;//0.02 with wrist 0.01 without
     public static final double armexespeed = 0.5;
     

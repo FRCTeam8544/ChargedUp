@@ -39,40 +39,46 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
     addCommands(
       new SequentialCommandGroup(
       
-      //new DriveDistance(24, -.4, drive), // test which one goes backward
+        //new DriveDistance(24, -.4, drive), // test which one goes backward
 
-      //new DriveDistance(0, 0, drive),
+        //new DriveDistance(0, 0, drive),
       
-      //new WaitTime(5),
+        //new WaitTime(5),
 
-     // new DriveRotateDegrees(90, .4, drive),
+        // new DriveRotateDegrees(90, .4, drive),
 
-     new PneumaticCommand(false, a_pneumatics),
+        new PneumaticCommand(false, a_pneumatics),
 
-    // new WaitCommand(.4),
+        // new WaitCommand(.4),
 
-    new PIDArm(ar_ArmSubsystem, 30),
+        new ParallelCommandGroup(
+          new PIDArm(ar_ArmSubsystem, 30),
+          new SequentialCommandGroup(
+            new ExtenderCommand(3, a_extender, false, 0.2),
 
-    new WaitCommand(.5),
+            //new WaitCommand(3),
 
-    //new WaitCommand(3),
+            new ExtenderCommand(3, a_extender, true, 0.5),
 
-    new ExtenderCommand(17, a_extender, true),
+            new WaitCommand(.5),
 
-    new WaitCommand(.5),
+            new PneumaticCommand(true, a_pneumatics),
 
-    new PneumaticCommand(true, a_pneumatics),
+            new ExtenderCommand(3, a_extender, false, 0.5),
 
-    new ExtenderCommand(-17, a_extender, true),
+            new PIDArm(ar_ArmSubsystem, 0).withTimeout(5)
 
-    new PIDArm(ar_ArmSubsystem, 0),
+          )
+        ),
 
-      new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
+        new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 
-      new DriveAndBalance(ar_drivetrain, false, true, 60),
-      //new MoveArm(5, .2, ar_ArmSubsystem),
+        new DriveAndBalance(ar_drivetrain, false, true, 60),
+    
+        //new MoveArm(5, .2, ar_ArmSubsystem),
 
-      new SetIdle(IdleMode.kCoast, ar_drivetrain) )
+        new SetIdle(IdleMode.kCoast, ar_drivetrain) 
+      )
     );
 
   }

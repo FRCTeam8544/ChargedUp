@@ -9,6 +9,8 @@ public class ExtenderCommand extends CommandBase{
     ArmExtenderSubsystem a_extender;
     double distance;//seconds
     boolean finish = false;
+    double time;
+    double speed;
 
     Timer timer = new Timer();
 
@@ -16,10 +18,11 @@ public class ExtenderCommand extends CommandBase{
 
 
 
-    public ExtenderCommand(double distance, ArmExtenderSubsystem a_extender, boolean direction){
+    public ExtenderCommand(double time, ArmExtenderSubsystem a_extender, boolean direction, double speed){
         this.a_extender = a_extender;
-        this.distance = distance;
         this.direction = direction;
+        this.time = time;
+        this.speed = speed;
         addRequirements(a_extender);
     }
     
@@ -32,9 +35,8 @@ public class ExtenderCommand extends CommandBase{
 
     @Override
     public void execute() {
-        if (direction){a_extender.movemotor(Constants.armthings.armexespeed);}
-        else{a_extender.movemotor(Constants.armthings.armexespeed * -1);}
-
+        if (direction){a_extender.movemotor(Constants.armthings.armexespeed * speed);}
+        else{a_extender.movemotor(Constants.armthings.armexespeed * speed);}
     }
     @Override
     public void end(boolean interrupted){
@@ -43,7 +45,7 @@ public class ExtenderCommand extends CommandBase{
     @Override
     public boolean isFinished(){
 
-        if (timer.get() > calculate(distance)){//once time is greater than the necesary time it returns true
+        if (timer.get() > time){//once time is greater than the necesary time it returns true
             timer.stop();
             return true;
         }
@@ -51,9 +53,5 @@ public class ExtenderCommand extends CommandBase{
             return false;
         }
 
-    }
-    public double calculate(double distance){
-        double time = distance/Constants.armthings.armexespeed;
-        return time;
     }
 }

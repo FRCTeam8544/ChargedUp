@@ -4,8 +4,12 @@
 
 package frc.robot;
 
+import java.lang.reflect.Method;
+import java.util.function.Function;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants.led;
 import frc.robot.commands.ArmControls;
 import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
@@ -106,10 +110,15 @@ public class RobotContainer {
       //new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
+  
   public RobotContainer() {
     // Add the autonomous selection toggle:
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
-    toggle.setDefaultOption("NOT CENTER", a_AutoNotCenterCommand);
+    toggle.addOption("NOT CENTER", a_AutoNotCenterCommand);
+
+    // purple is one yellow is two red is three and blue is yellow
+    
     //toggle.addOption("Middle Command", a_MiddleCommand);
     //toggle.addOption("Red1", a_AutonomusRed1Command);
     //toggle.addOption("Red3", a_AutonomusRed3Command);
@@ -118,13 +127,13 @@ public class RobotContainer {
    
     //toggle.addOption("Middle command", a_AutonomousMiddleCommand);
     SmartDashboard.putData("Select Autonomous", toggle);
+    // purple is one yellow is two red is three and blue is yellow
 
-    // Configure the trigger bindings
     configureBindings();
-    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
+    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand);
     armSubsystem.setDefaultCommand(armControls);
 
-
+    
   }
 
   /**

@@ -5,7 +5,7 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
-public class ArmScore extends CommandBase{
+public class ArmScore extends CommandBase{//eyes of heaven
 
     private ArmSubsystem ar_armSubsystem;
     private WristSubsystem ar_wristSubsystem;

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.led;
 import frc.robot.commands.AutonomousCommands.PIDArm;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
@@ -35,12 +36,13 @@ public class ArmControls extends CommandBase{
   boolean openClaw = false;
   boolean needForSpeed = false;
   boolean sickdrift = false;
+  double wsetPoint = 0;
   //boolean pid = false;
   PIDController pid;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, setPoint;
 
-    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem, WristGoBRRR wristGoBRRR, LedSubsystem ledSubsystem){
+    public ArmControls(ArmSubsystem armSubsystem, WristSubsystem wristSubsystem, ArmExtenderSubsystem armExtenderSubsystem, ArmPneumaticsSubsystem armPneumaticsSubsystem, WristGoBRRR wristGoBrrr, LedSubsystem ledSubsystem){
         this.armSubsystem = armSubsystem;
         this.wristSubsystem = wristSubsystem;
         this.armExtenderSubsystem = armExtenderSubsystem;
@@ -53,7 +55,7 @@ public class ArmControls extends CommandBase{
         kI = 0;
         kD = 0; 
         this.setPoint = setPoint;
-        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem, wristGoBRRR, ledSubsystem);
+        addRequirements(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem, wristGoBrrr, ledSubsystem);
       }
 
 
@@ -70,6 +72,26 @@ public class ArmControls extends CommandBase{
       double speed = 0;
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;
+
+      // purple is one yellow is two red is three and blue is four
+      if (RobotContainer.controller.getRawButton(9)){ledSubsystem.slay = false;
+        if (RobotContainer.controller.getRawButtonPressed(1)){
+          ledSubsystem.madeInHeaven(4);
+        }
+        else if (RobotContainer.controller.getRawButtonPressed(3)){
+          ledSubsystem.madeInHeaven(3);
+        }
+        else if (RobotContainer.controller.getRawButtonPressed(2)){
+          ledSubsystem.madeInHeaven(1);
+        }
+        else if (RobotContainer.controller.getRawButtonPressed(4)){
+          ledSubsystem.madeInHeaven(2);
+        }
+        if (RobotContainer.controller.getRawButtonPressed(6)){
+          ledSubsystem.slay = true;
+        }
+      }
+      else{//might cause big issues
 
       /* axis for xbox controller
        * 
@@ -159,7 +181,7 @@ public class ArmControls extends CommandBase{
 
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
-      if (x == 1){
+      /*if (x == 1){
         speed = Constants.armthings.armspeed * 0.5;
         //speedw = Constants.armthings.wristspeed;
       }
@@ -170,7 +192,10 @@ public class ArmControls extends CommandBase{
       else if (x == 0) {
         //speed = Constants.armthings.armstopspeed;
         //speedw = Constants.armthings.wriststopspeed;
-      }
+      }*/
+
+      if (RobotContainer.controller.getRawAxis(2) > 0.05){speed = RobotContainer.controller.getRawAxis(2);}
+      else if (RobotContainer.controller.getRawAxis(2) < -0.05){speed = RobotContainer.controller.getRawAxis(2);}
 
       /*if (y == 1) {
         speede = Constants.armthings.armexespeed;
@@ -189,6 +214,7 @@ public class ArmControls extends CommandBase{
 
       if (RobotContainer.controller.getRawButton(6)){wristGoBrrr.iveGotANeed();}
       else if (RobotContainer.controller.getRawButton(5)){wristGoBrrr.forSpeed();}
+      else{wristGoBrrr.skrrttt();}
       
 
       //removed since some people dont like to follow instructions
@@ -209,37 +235,40 @@ public class ArmControls extends CommandBase{
         fellowship ++;
         if (fellowship % 2 == 0){
           ofTheRing = true;
-          Constants.DriveTrainConstantants.drive = true;
         }
         else{
           ofTheRing = false;
-          Constants.DriveTrainConstantants.drive = false;
         }
         
       }
 
-      if (ofTheRing && speed != 0) {
-        if (speed > 0){speedw = armSubsystem.god() * 0.4;}
-        else {speedw = armSubsystem.god() * 0.3;}
+      /*if (ofTheRing && speed != 0  && RobotContainer.controller.getRawAxis(2) < 0.02 && RobotContainer.controller.getRawAxis(2) > -0.02) {
+        if (speed > 0){speedw = armSubsystem.god() * 0.8;}
+        else {speedw = armSubsystem.god() * 0.6;}
 
-      }
+      }*/
+
+      //buttons might be mapped wrong
+      //if (RobotContainer.controller.getRawButtonPressed(9)){setPoint = 30;}//change depending on the angle for goals
+      //if (RobotContainer.controller.getRawButtonPressed(10)){setPoint = 60;}
 
       if (speed == 0){
         armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
-        ledSubsystem.bitesTheDust();
+        //ledSubsystem.bitesTheDust = true;
+        //ledSubsystem.zaWauldo = false;
       }
       else{
         armSubsystem.movemotor(speed);
         setPoint = armSubsystem.getEncoder();
+        //wsetPoint = setPoint * 1;//change
         SmartDashboard.putNumber("set point", setPoint);
         System.out.println("set point "+setPoint);
-        ledSubsystem.zaWauldo();
+        //ledSubsystem.zaWauldo = true;
+        //ledSubsystem.bitesTheDust = false;
       }
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
-      
-
-      
+    }
     }
 
     /*double controlslb(double speed) {

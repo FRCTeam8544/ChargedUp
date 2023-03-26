@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +18,8 @@ public class ArmSubsystem extends SubsystemBase {
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
     CANSparkMax twooooooo = new CANSparkMax(Constants.armthings.twoooooooCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
+    MotorControllerGroup armGroup = new MotorControllerGroup(firstJoint, twooooooo);//might cause issues delete if necessary
+
     public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     public SparkMaxPIDController armPid = firstJoint.getPIDController();
@@ -33,9 +36,10 @@ public class ArmSubsystem extends SubsystemBase {
         
         firstJointEncoder.setPosition(0);
 
-        firstJoint.setInverted(false);
+        firstJoint.setInverted(true);
+        twooooooo.setInverted(false);
 
-        twooooooo.follow(firstJoint);
+        //twooooooo.follow(firstJoint);
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
 
@@ -49,13 +53,16 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setBreakMode() {
-        firstJoint.setIdleMode(IdleMode.kBrake);
+        //firstJoint.setIdleMode(IdleMode.kBrake);
     }
 
     public void movemotor(double value) {
         //firstJointSpark.set(value);
 
-        firstJoint.set(value);
+
+        //firstJoint.set(value);
+        //twooooooo.set(value);
+        armGroup.set(value);//if group is causing issues just change armGroup to firstJoint
     }
 
     @Override

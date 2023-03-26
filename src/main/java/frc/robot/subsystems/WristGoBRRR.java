@@ -26,4 +26,8 @@ public class WristGoBRRR extends SubsystemBase{
         tokyo.set(ControlMode.PercentOutput, Constants.armthings.TOKYODRIFT * -1);
         drift.set(ControlMode.PercentOutput, Constants.armthings.TOKYODRIFT * -1);
     }
+    public void skrrttt(){
+        tokyo.set(ControlMode.PercentOutput, 0);
+        drift.set(ControlMode.PercentOutput, 0);
+    }
 }

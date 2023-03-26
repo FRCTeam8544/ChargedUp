@@ -45,7 +45,7 @@ public class PIDArm extends CommandBase{
     @Override
     public void initialize() {
         pid = new PIDController(kP, kI, kD);
-        pid.enableContinuousInput(-70, 70);
+        pid.enableContinuousInput(0, 90);
         //pid.
         //pid.setTolerance(1);
         
@@ -53,10 +53,9 @@ public class PIDArm extends CommandBase{
 
     @Override
     public void execute() {
-        double pidval = pid.calculate(armSubsystem.getEncoder(), setPoint) * 0.2;
+        double pidval = pid.calculate(Math.abs(armSubsystem.getEncoder()), setPoint) * 0.2;
         armSubsystem.movemotor(pidval);
         SmartDashboard.putNumber("PID val: Encoder Pos :", armSubsystem.getEncoder());
-        
     }
 
     @Override
