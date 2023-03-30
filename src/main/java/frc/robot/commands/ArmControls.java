@@ -68,10 +68,12 @@ public class ArmControls extends CommandBase{
         armExtenderSubsystem.setBreakMode();
         pid = new PIDController(kP, kI, kD);
         pid.enableContinuousInput(0, 110);
+        setPoint = armSubsystem.getEncoder();
     }
     
     @Override
     public void execute() {
+      Constants.armthings.useExtender = true;
       double speed = 0;
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;

@@ -15,6 +15,7 @@ import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.Constants;
 import frc.robot.commands.AutonomousCommands.DriveDistance;
 import frc.robot.commands.AutonomousCommands.DriveRotateDegrees;
 import frc.robot.commands.AutonomousCommands.PneumaticCommand;
@@ -35,9 +36,12 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
     this.ar_wristSubsystem = ar_wristSubsystem;
     this.a_pneumatics = a_pneumatics;
     this.a_extender = a_extender;
+    Constants.armthings.useExtender = false;
 
     addCommands(
       new SequentialCommandGroup(
+
+        new PneumaticCommand(false, a_pneumatics),
       
         //new DriveDistance(24, -.4, drive), // test which one goes backward
 
@@ -49,7 +53,24 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
 
        // new PneumaticCommand(false, a_pneumatics).withTimeout(1),
 
-       new PIDArm(ar_ArmSubsystem, 50),
+       //new PIDArm(ar_ArmSubsystem, 20),
+      
+      
+       /*new ParallelCommandGroup(
+        new MoveArm(20, ar_ArmSubsystem, ar_wristSubsystem),
+        new ExtenderCommand(5, a_extender, false, 0.1)
+
+        ),*/
+
+        //new ExtenderCommand(5, a_extender, false, 0.5),
+       
+
+        new MoveArm(50, ar_ArmSubsystem, ar_wristSubsystem),
+          //new PIDArm(ar_ArmSubsystem).setTimeout(),
+        new WaitCommand(1),
+        new PneumaticCommand(true, a_pneumatics),
+
+        new MoveArm(5, ar_ArmSubsystem, ar_wristSubsystem),
 
         // new WaitCommand(.4),
 
@@ -73,9 +94,9 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
           )
         ),*/
 
-        new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
+        //new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 
-        new DriveAndBalance(ar_drivetrain, false, true, 60),
+        //new DriveAndBalance(ar_drivetrain, false, true, 60),
     
         //new MoveArm(5, .2, ar_ArmSubsystem),
 

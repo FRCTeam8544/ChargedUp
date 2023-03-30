@@ -35,8 +35,9 @@ public class ExtenderCommand extends CommandBase{
 
     @Override
     public void execute() {
-        if (direction){a_extender.movemotor(Constants.armthings.armexespeed * speed);}
-        else{a_extender.movemotor(Constants.armthings.armexespeed * speed);}
+        if (direction){a_extender.movemotor(speed);}
+        else{a_extender.movemotor(speed * -1);}
+        isFinished();
     }
     @Override
     public void end(boolean interrupted){
@@ -45,6 +46,7 @@ public class ExtenderCommand extends CommandBase{
     @Override
     public boolean isFinished(){
 
+        System.out.println(time);
         if (timer.get() > time){//once time is greater than the necesary time it returns true
             timer.stop();
             return true;

@@ -96,6 +96,15 @@ public class ArmSubsystem extends SubsystemBase {
         return firstJoint.get();
     }
 
+    public void autocalc(double setPoint){
+        //armPid.setOutputRange(-.3, 0.3);
+        armPid.setReference(setPoint, CANSparkMax.ControlType.kSmartVelocity);
+    }
+
+    public void invert(){
+        firstJoint.setInverted(!firstJoint.getInverted());
+    }
+
 
     /*public void movejointssparktrue(int whichone, double howfar, boolean isspark) {
         if (firstlimitforward.isPressed() == false || firstlimitreverse.isPressed() == false){

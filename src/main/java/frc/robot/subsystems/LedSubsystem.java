@@ -39,7 +39,7 @@ public class LedSubsystem extends SubsystemBase{
         led.setLength(ledBuffer.getLength());
 
         for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 255, 0, 0);
+            ledBuffer.setRGB(i, 255, 100, 0);
          }
 
          madeInHeaven(69);

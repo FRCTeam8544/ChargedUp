@@ -19,7 +19,7 @@ public class PIDArm extends CommandBase{
         this.setPoint = setPoint;
         
         //kP = 5e-5;
-        kP = 0.005;
+        kP = 0.03;
         //kI = 1e-6;
         kI = 0;
         kD = 0; 
@@ -32,10 +32,10 @@ public class PIDArm extends CommandBase{
         kMaxOutput = 1; 
         kMinOutput = -1;
         maxRPM = 5700;*/
-    
+
         /*armPid.setP(kP);
         armPid.setI(kI);
-        armPid.setD(kD);*/
+        armPid.setD(kD);
        /* armPid.setIZone(kIz);
         armPid.setFF(kFF);
         armPid.setOutputRange(kMinOutput, kMaxOutput);*/
@@ -45,24 +45,31 @@ public class PIDArm extends CommandBase{
     @Override
     public void initialize() {
         pid = new PIDController(kP, kI, kD);
-        pid.enableContinuousInput(0, 90);
+        //pid.enableContinuousInput(-80, 0);
         //pid.
         //pid.setTolerance(1);
+
+        armSubsystem.invert();
         
     }
 
     @Override
     public void execute() {
-        double encoderVal = armSubsystem.getEncoder() * -1;
-        double pidval = pid.calculate(encoderVal, setPoint);
+        double encoderVal = armSubsystem.getEncoder();
+        System.out.println("encoderVal=" + encoderVal);
+        double pidval = pid.calculate(encoderVal, setPoint) * -1;
+        System.out.println("pidval=" + pidval);
         armSubsystem.movemotor(pidval);
         SmartDashboard.putNumber("PID val: Encoder Pos :", encoderVal);
-        System.out.println(pidval+"   "+encoderVal);
+        ///System.out.println(pidval+"   "+encoderVal);
+
+        //armSubsystem.autocalc(setPoint);
     }
 
     @Override
     public void end(boolean interupted){
         armSubsystem.movemotor(0);
+        //armSubsystem.invert();
     }
 
     @Override

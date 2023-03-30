@@ -28,7 +28,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         //armExtender.configFactoryDefault();
 
         armExtender.setInverted(false);
-        
+        //useExtender = false;
 
 
     }
@@ -39,17 +39,21 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
 
     public void movemotor(double value) {
-
-       //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
+        if (Constants.armthings.useExtender){
+            //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
         //System.out.println("forward:");
         //System.out.println(extenderLimitSwitchf);
 
-        if (digitF.get() && value > 0){
+        /*if (digitF.get() && value > 0){
             armExtender.set(ControlMode.PercentOutput, value);
         }
         else if (digitR.get() && value < 0){
             armExtender.set(ControlMode.PercentOutput, value);
-        }
+        }*/
+
+        armExtender.set(ControlMode.PercentOutput, value);
+
+        System.out.println("how did we get here");
 
         SmartDashboard.putBoolean("Limit hit?", digitF.get());
 
@@ -61,13 +65,12 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         
         
         //SmartDashboard.putNumber("exe encoder", exeEncoder.get());
-
-        armExtender.set(ControlMode.PercentOutput, value);
         //System.out.println("reverse:");
         //System.out.println(extenderLimitSwitchr);
 
        // System.out.println("extender speed:");
         //System.out.println(value);
+        }
     }
     public double getSensorPosition() {
         return armExtender.getSelectedSensorPosition();

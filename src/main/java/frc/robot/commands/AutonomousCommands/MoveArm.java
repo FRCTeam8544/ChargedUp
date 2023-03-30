@@ -67,12 +67,12 @@ public class MoveArm extends CommandBase {
     SmartDashboard.putNumber("Arm height Encoder",encoderPosition);
     SmartDashboard.putNumber("Arm height amtToMove", AmountToMove);
     if (input > 0){
-      a_armSubsystem.movemotor((Constants.armthings.armspeed *-0.5));
-      a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
+      a_armSubsystem.movemotor(-0.3);
+      //a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
     }
     else{
-      a_armSubsystem.movemotor((Constants.armthings.armspeed *0.5));
-      a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
+      a_armSubsystem.movemotor(0.3);
+      //a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
 
       //add extender after a time limit since encoder is scuffed
       //add led lights be
