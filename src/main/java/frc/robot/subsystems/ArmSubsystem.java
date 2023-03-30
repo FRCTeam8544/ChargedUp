@@ -37,7 +37,9 @@ public class ArmSubsystem extends SubsystemBase {
         firstJointEncoder.setPosition(0);
 
         firstJoint.setInverted(true);
-        twooooooo.setInverted(false);
+
+
+        twooooooo.follow(firstJoint, true);
 
         //twooooooo.follow(firstJoint);
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
@@ -62,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
 
         //firstJoint.set(value);
         //twooooooo.set(value);
-        armGroup.set(value);//if group is causing issues just change armGroup to firstJoint
+        firstJoint.set(value);//if group is causing issues just change armGroup to firstJoint
     }
 
     @Override

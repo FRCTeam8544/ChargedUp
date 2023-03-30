@@ -13,7 +13,7 @@ public class WristGoBRRR extends SubsystemBase{
     VictorSPX drift = new VictorSPX(Constants.armthings.DRIFTID);
     
     public WristGoBRRR(){//I wonder if you know how they live in tokyo
-        tokyo.setInverted(false);
+        tokyo.setInverted(true);
         drift.setInverted(true);
 
     }

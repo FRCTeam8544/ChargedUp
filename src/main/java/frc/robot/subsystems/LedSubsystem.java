@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Random;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,10 +15,16 @@ public class LedSubsystem extends SubsystemBase{
 
     AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(Constants.led.length);
 
+    Random rand = new Random();
+
     int m_rainbowFirstPixelHue;
-    public int eyesOfHeaven = 0;
+    public boolean eyesOfHeaven = false;
     public boolean other = false;
     public boolean slay = false;
+    int lovetrain = 0;
+    int r = 0; 
+    int g = 0; 
+    int b = 0;
 
     public String name = "que pasa";
     
@@ -69,26 +77,42 @@ public class LedSubsystem extends SubsystemBase{
 
     public void bitesTheDust(){name = "Bites the Dust";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 255, 102, 178);
+            ledBuffer.setRGB(i, 177, 14, 227);
          }
     }
 
     public void zaWauldo(){name = "ZAWARLDO";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 0, 252, 128);
+            ledBuffer.setRGB(i, 223, 227, 14);
          }
     }
 
     public void kingCrimson(){name = "King Crimson";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 255, 0, 0);
+            ledBuffer.setRGB(i, 168, 25, 35);
          }
     }
 
     public void stoneFree(){name = "StoneFree";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 0, 0, 255);
+            ledBuffer.setRGB(i, 25, 68, 168);
          }
+    }
+
+    public void lovetrain(){
+        if (lovetrain < ledBuffer.getLength()){
+            lovetrain++;
+            r = 255; 
+            g = 255;
+            b = 255;
+        }
+        else {
+            lovetrain -= 1;
+            r = rand.nextInt(255);
+            g = rand.nextInt(255);
+            b = rand.nextInt(255);
+        }
+        ledBuffer.setRGB(lovetrain, r, g, b);
     }
 
     public void GER(){name = "This is Requiem";
@@ -110,7 +134,8 @@ public class LedSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
-        if (slay){GER();}
+        if (slay && !eyesOfHeaven){GER();}
+        if (eyesOfHeaven){lovetrain();}
         led.setData(ledBuffer);
     }
 

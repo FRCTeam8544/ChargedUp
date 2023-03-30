@@ -30,13 +30,16 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
+  boolean goinup = false;
   int fellowship = 1;
   boolean ofTheRing = false;
   boolean stopnow = false;
   boolean openClaw = false;
   boolean needForSpeed = false;
   boolean sickdrift = false;
+  boolean isrun = false;
   double wsetPoint = 0;
+  double wajah = 0;//wajah
   //boolean pid = false;
   PIDController pid;
 
@@ -74,20 +77,27 @@ public class ArmControls extends CommandBase{
       double speede = 0;
 
       // purple is one yellow is two red is three and blue is four
-      if (RobotContainer.controller.getRawButton(9)){ledSubsystem.slay = false;
+      if (RobotContainer.controller.getRawButton(9)){
         if (RobotContainer.controller.getRawButtonPressed(1)){
           ledSubsystem.madeInHeaven(4);
+          ledSubsystem.slay = false;
         }
         else if (RobotContainer.controller.getRawButtonPressed(3)){
           ledSubsystem.madeInHeaven(3);
+          ledSubsystem.slay = false;
         }
         else if (RobotContainer.controller.getRawButtonPressed(2)){
           ledSubsystem.madeInHeaven(1);
+          ledSubsystem.slay = false;
         }
         else if (RobotContainer.controller.getRawButtonPressed(4)){
           ledSubsystem.madeInHeaven(2);
+          ledSubsystem.slay = false;
         }
-        if (RobotContainer.controller.getRawButtonPressed(6)){
+        /*if (RobotContainer.controller.getRawButtonPressed(7)){
+          ledSubsystem.eyesOfHeaven = true;
+        }*/
+        if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225){
           ledSubsystem.slay = true;
         }
       }
@@ -193,9 +203,21 @@ public class ArmControls extends CommandBase{
         //speed = Constants.armthings.armstopspeed;
         //speedw = Constants.armthings.wriststopspeed;
       }*/
+      if (RobotContainer.controller.getRawAxis(1) > 0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
+      else if (RobotContainer.controller.getRawAxis(1) < -0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
 
-      if (RobotContainer.controller.getRawAxis(2) > 0.05){speed = RobotContainer.controller.getRawAxis(2);}
-      else if (RobotContainer.controller.getRawAxis(2) < -0.05){speed = RobotContainer.controller.getRawAxis(2);}
+      //if (RobotContainer.controller.getPOV() == -1){wajah = 0;}
+      //if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {speed = poswammy(up())*0.3;goinup = true;}//was both now noth (im a poet)
+      //else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {speed = negwammy(up())*0.1;goinup = false;}//tis thy high and the low
+
+      /*if (RobotContainer.controller.getRawAxis(1) < 0.5 && RobotContainer.controller.getRawAxis(1) > -0.5 && RobotContainer.controller.getPOV() == -1){
+        if (wajah > 0.05 || wajah < -0.05){
+          if (goinup){speed = negwammy(stop());}
+          else {speed = poswammy(stop());}
+        }
+        else{speed = 0;}
+      }*/
+
 
       /*if (y == 1) {
         speede = Constants.armthings.armexespeed;
@@ -269,6 +291,35 @@ public class ArmControls extends CommandBase{
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
     }
+    }
+
+    private double up(){
+      if (wajah != 1){
+        wajah += 0.02;
+      }
+      return wajah;
+    }
+
+    private double stop(){
+      if (goinup){
+        wajah -= 0.05;
+      }
+      else{
+        wajah += 0.05;
+      }
+      return wajah;
+    }
+
+    private double poswammy(double value){
+      if (value == 1){return 1;}
+      value = Math.log(((1.264241118*Math.E*x)/2) + 1 );
+      return value;
+    }
+
+    private double negwammy(double value){
+      if (value == 1){return -1;}
+      value = Math.log(((1.264241118*Math.E*value)/2) + 1 ) * -1;
+      return value;
     }
 
     /*double controlslb(double speed) {

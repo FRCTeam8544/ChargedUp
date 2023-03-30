@@ -47,12 +47,14 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
 
         // new DriveRotateDegrees(90, .4, drive),
 
-        new PneumaticCommand(false, a_pneumatics),
+       // new PneumaticCommand(false, a_pneumatics).withTimeout(1),
+
+       new PIDArm(ar_ArmSubsystem, 50),
 
         // new WaitCommand(.4),
 
-        new ParallelCommandGroup(
-          new PIDArm(ar_ArmSubsystem, 30),
+       /* new ParallelCommandGroup(
+          new PIDArm(ar_ArmSubsystem, 50),
           new SequentialCommandGroup(
             new ExtenderCommand(3, a_extender, false, 0.2),
 
@@ -69,7 +71,7 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
             new PIDArm(ar_ArmSubsystem, 0).withTimeout(5)
 
           )
-        ),
+        ),*/
 
         new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 

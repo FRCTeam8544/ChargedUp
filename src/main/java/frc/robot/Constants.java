@@ -34,7 +34,7 @@ public final class Constants {
 
   public static final class led{//did you know people used to think tomatoes were poisonous because they were served on lead plates
     public static final int ledport = 0;//change
-    public static final int length = 300;//change
+    public static final int length = 84;//change
   }
 
   public static final class turret{
@@ -69,6 +69,8 @@ public final class Constants {
     public static final double wrist = 0.2;//not in use (so sad)
     public static final double wristspeed = 0.15;//change
     public static final double wriststopspeed = 0.01;//change
+
+    public static final double wristPulsePerSecond = 400;
 
     public static final PneumaticsModuleType PNEMATICTYPE = PneumaticsModuleType.REVPH;
     public static final int armout = 8;

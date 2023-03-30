@@ -19,7 +19,7 @@ public class PIDArm extends CommandBase{
         this.setPoint = setPoint;
         
         //kP = 5e-5;
-        kP = 0.1; 
+        kP = 0.005;
         //kI = 1e-6;
         kI = 0;
         kD = 0; 
@@ -53,9 +53,11 @@ public class PIDArm extends CommandBase{
 
     @Override
     public void execute() {
-        double pidval = pid.calculate(Math.abs(armSubsystem.getEncoder()), setPoint) * 0.2;
+        double encoderVal = armSubsystem.getEncoder() * -1;
+        double pidval = pid.calculate(encoderVal, setPoint);
         armSubsystem.movemotor(pidval);
-        SmartDashboard.putNumber("PID val: Encoder Pos :", armSubsystem.getEncoder());
+        SmartDashboard.putNumber("PID val: Encoder Pos :", encoderVal);
+        System.out.println(pidval+"   "+encoderVal);
     }
 
     @Override
