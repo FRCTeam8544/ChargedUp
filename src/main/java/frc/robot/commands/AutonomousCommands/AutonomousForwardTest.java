@@ -51,16 +51,21 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
         ),
         new WristCommand(-30, ar_wristSubsystem, true),
         new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
-        new ExtenderCommand(1.5, a_extender, false, 0.5),
-        //new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
-        new WristCommand(-110, ar_wristSubsystem, true),
-        new WaitCommand(1),
-        new PneumaticCommand(true, a_pneumatics),
-        new WheelCommand(wheelCommand, true).withTimeout(1),
-        /*new ParallelCommandGroup(
-        )*/
-        new WristCommand(-10, ar_wristSubsystem, false),
-        new ExtenderCommand(2, a_extender, true, 0.5),
+        new ParallelCommandGroup(
+          new ArmScore(ar_ArmSubsystem).withTimeout(5),
+          new SequentialCommandGroup(
+            new ExtenderCommand(1.5, a_extender, false, 0.5),
+            //new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
+            new WristCommand(-110, ar_wristSubsystem, true),
+            new WaitCommand(1),
+            new PneumaticCommand(true, a_pneumatics),
+            new WheelCommand(wheelCommand, true).withTimeout(1),
+            /*new ParallelCommandGroup(
+            )*/
+            new WristCommand(-10, ar_wristSubsystem, false),
+            new ExtenderCommand(2, a_extender, true, 0.5)
+            )
+        ),
         new ParallelCommandGroup(
           new MoveArm(1, ar_ArmSubsystem, ar_wristSubsystem, false),
           new ExtenderCommand(3, a_extender, true, 0.3)

@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -24,21 +25,23 @@ public class AutonomousMiddleCommand extends ParallelCommandGroup {
   DrivetrainSubsystem ar_driveTrain;
   ArmSubsystem ar_ArmSubsystem;
   ArmPneumaticsSubsystem ar_ArmPneumaticsSubsystem;
+  WristSubsystem wristSubsystem;
+  ArmExtenderSubsystem extenderSubsystem;
 
-  public AutonomousMiddleCommand(DrivetrainSubsystem drive, ArmSubsystem moveArm, WristSubsystem moveWrist, ArmPneumaticsSubsystem ph) {
+  public AutonomousMiddleCommand(DrivetrainSubsystem drive, ArmSubsystem moveArm, WristSubsystem wristSubsystem, ArmPneumaticsSubsystem ph, ArmExtenderSubsystem extenderSubsystem) {
     ar_driveTrain = drive; 
     ar_ArmSubsystem = moveArm;
     ar_ArmPneumaticsSubsystem = ph;
+    this.wristSubsystem = wristSubsystem;
+    this.extenderSubsystem = extenderSubsystem;
         
     addCommands(
       new SequentialCommandGroup(
-
-      //new ArmScore(moveArm, moveWrist, ph),
-      //new MoveArm(0, 0, moveArm, moveWrist, ph)
-      
-      new DriveDistance(210, -.2, drive),
-
-      //new DriveAndBalance(drive, true),
+        new ParallelCommandGroup(
+          new MoveArm(40, ar_ArmSubsystem, wristSubsystem, true),
+          new ExtenderCommand(2, extenderSubsystem, true, 0.3)
+        ),
+        new ArmScore(ar_ArmSubsystem).withTimeout(3),
 
       new SetIdle(IdleMode.kCoast, drive) )
     );

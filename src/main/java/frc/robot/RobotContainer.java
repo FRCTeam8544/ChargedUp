@@ -97,7 +97,7 @@ public class RobotContainer {
     private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
     private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //first real command
-    //private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
+    private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
     //private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
 
@@ -120,7 +120,7 @@ public class RobotContainer {
 
     // purple is one yellow is two red is three and blue is yellow
     
-    //toggle.addOption("Middle Command", a_MiddleCommand);
+    toggle.addOption("Middle Command", a_MiddleCommand);
     //toggle.addOption("Red1", a_AutonomusRed1Command);
     //toggle.addOption("Red3", a_AutonomusRed3Command);
     //toggle.addOption("Autobots roll out", a_rollout);

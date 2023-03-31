@@ -21,10 +21,15 @@ public class LedSubsystem extends SubsystemBase{
     public boolean eyesOfHeaven = false;
     public boolean other = false;
     public boolean slay = false;
+    boolean forward = true;
+    boolean current = forward;
     int lovetrain = 0;
     int r = 0; 
     int g = 0; 
     int b = 0;
+    int randcolorr = 255;
+    int randcolorg = 255;
+    int randcolorb = 255;
 
     public String name = "que pasa";
     
@@ -73,6 +78,7 @@ public class LedSubsystem extends SubsystemBase{
             default:
                 GER();
         }
+        eyesOfHeaven = false;
     }
 
     public void bitesTheDust(){name = "Bites the Dust";
@@ -100,19 +106,37 @@ public class LedSubsystem extends SubsystemBase{
     }
 
     public void lovetrain(){
-        if (lovetrain < ledBuffer.getLength()){
-            lovetrain++;
-            r = 255; 
-            g = 255;
-            b = 255;
-        }
-        else {
+        if (lovetrain >= 1 && !forward){
             lovetrain -= 1;
-            r = rand.nextInt(255);
-            g = rand.nextInt(255);
-            b = rand.nextInt(255);
+            r = randcolorr;
+            g = randcolorg;
+            b = randcolorb;
+        }
+        else{
+            forward = true;
+        }
+        if (lovetrain < ledBuffer.getLength() - 1 && forward){
+            lovetrain++;
+            r = randcolorr;
+            g = randcolorg;
+            b = randcolorb;
+        }
+        else{
+            forward = false;
+        }
+        if (current != forward){
+            randcolorr = rand.nextInt(255);
+            randcolorb = rand.nextInt(255 - randcolorr);
+            randcolorg = rand.nextInt(255 - randcolorr);
         }
         ledBuffer.setRGB(lovetrain, r, g, b);
+        if (forward){
+            ledBuffer.setRGB(lovetrain - 1, 0, 0, 0);
+        }
+        else if (forward == current){
+            ledBuffer.setRGB(lovetrain + 1, 0, 0, 0);
+        }
+        current = forward;
     }
 
     public void GER(){name = "This is Requiem";

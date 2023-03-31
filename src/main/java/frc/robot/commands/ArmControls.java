@@ -95,9 +95,9 @@ public class ArmControls extends CommandBase{
           ledSubsystem.madeInHeaven(2);
           ledSubsystem.slay = false;
         }
-        /*if (RobotContainer.controller.getRawButtonPressed(7)){
+        if (RobotContainer.controller.getRawButtonPressed(7)){
           ledSubsystem.eyesOfHeaven = true;
-        }*/
+        }
         if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225){
           ledSubsystem.slay = true;
         }
