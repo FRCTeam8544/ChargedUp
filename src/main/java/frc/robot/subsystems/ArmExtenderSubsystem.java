@@ -39,8 +39,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
 
     public void movemotor(double value) {
-        if (Constants.armthings.useExtender){
-            //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
+        //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
         //System.out.println("forward:");
         //System.out.println(extenderLimitSwitchf);
 
@@ -53,7 +52,7 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
         armExtender.set(ControlMode.PercentOutput, value);
 
-        System.out.println("how did we get here");
+       // System.out.println("how did we get here");
 
         SmartDashboard.putBoolean("Limit hit?", digitF.get());
 
@@ -70,7 +69,6 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
        // System.out.println("extender speed:");
         //System.out.println(value);
-        }
     }
     public double getSensorPosition() {
         return armExtender.getSelectedSensorPosition();

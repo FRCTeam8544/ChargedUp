@@ -17,9 +17,9 @@ public class PIDArm extends CommandBase{
     public PIDArm(ArmSubsystem armSubsystem, double setPoint) {
         this.armSubsystem = armSubsystem;
         this.setPoint = setPoint;
-        
+        System.out.print("PID ARM initiaized with " + setPoint);
         //kP = 5e-5;
-        kP = 0.03;
+        kP = 0.005;
         //kI = 1e-6;
         kI = 0;
         kD = 0; 
@@ -45,11 +45,11 @@ public class PIDArm extends CommandBase{
     @Override
     public void initialize() {
         pid = new PIDController(kP, kI, kD);
-        //pid.enableContinuousInput(-80, 0);
+        pid.enableContinuousInput(-80, 80);
         //pid.
         //pid.setTolerance(1);
 
-        armSubsystem.invert();
+        //armSubsystem.invert();
         
     }
 
@@ -57,9 +57,9 @@ public class PIDArm extends CommandBase{
     public void execute() {
         double encoderVal = armSubsystem.getEncoder();
         System.out.println("encoderVal=" + encoderVal);
-        double pidval = pid.calculate(encoderVal, setPoint) * -1;
+        double pidval = pid.calculate(encoderVal * -1, setPoint);
         System.out.println("pidval=" + pidval);
-        armSubsystem.movemotor(pidval);
+        armSubsystem.movemotor(pidval * -1);
         SmartDashboard.putNumber("PID val: Encoder Pos :", encoderVal);
         ///System.out.println(pidval+"   "+encoderVal);
 

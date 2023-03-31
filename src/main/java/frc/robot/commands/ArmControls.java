@@ -73,7 +73,6 @@ public class ArmControls extends CommandBase{
     
     @Override
     public void execute() {
-      Constants.armthings.useExtender = true;
       double speed = 0;
       double speedw = Constants.armthings.wriststopspeed;//make later
       double speede = 0;

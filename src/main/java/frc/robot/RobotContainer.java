@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutonomousCommands.AutonomusRed3Command;
+import frc.robot.commands.AutonomousCommands.WheelCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -93,7 +94,7 @@ public class RobotContainer {
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
     
-    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
     private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //first real command
     //private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
@@ -163,5 +164,6 @@ public class RobotContainer {
     
     // An example command will be run in autonomous
     return toggle.getSelected();
+    //return a_AutonomousForwardTest ;
   }
 }

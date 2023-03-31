@@ -33,16 +33,18 @@ public class MoveArm extends CommandBase {
   double AmountToMove;
   double input;
   double AmountMoved;
+  boolean direction;
   private ArmSubsystem a_armSubsystem;
   private WristSubsystem a_WristSubsystem;
 
 
 
-  public MoveArm(double input, ArmSubsystem a_armSubsystem, WristSubsystem a_WristSubsystem) {
+  public MoveArm(double input, ArmSubsystem a_armSubsystem, WristSubsystem a_WristSubsystem, boolean direction) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.a_armSubsystem = a_armSubsystem;
     this.a_WristSubsystem = a_WristSubsystem;
     this.input = input;
+    this.direction = direction;
     
     addRequirements(a_armSubsystem, a_WristSubsystem);
 
@@ -66,7 +68,7 @@ public class MoveArm extends CommandBase {
     double encoderPosition = a_armSubsystem.getEncoder();
     SmartDashboard.putNumber("Arm height Encoder",encoderPosition);
     SmartDashboard.putNumber("Arm height amtToMove", AmountToMove);
-    if (input > 0){
+    if (direction){
       a_armSubsystem.movemotor(-0.3);
       //a_WristSubsystem.wristWatch(a_armSubsystem.god() * Constants.armthings.armspeed);
     }
@@ -94,17 +96,12 @@ public class MoveArm extends CommandBase {
   @Override
   public boolean isFinished() {
     
-    if (a_armSubsystem.getEncoder() > 0){
-      
-      return (a_armSubsystem.getEncoder() >= (input));//add calc by making this an addition to the if statement and then calc() then return true
-    }
-
-    else if (a_armSubsystem.getEncoder() < 0) {
-      return ((-1) * a_armSubsystem.getEncoder() >= (input));
-    }
-    else {
+    if ((a_armSubsystem.getEncoder()*-1 < input + 1) && (a_armSubsystem.getEncoder()*-1 > input - 1)){
+      return true;
+  }
+  else{
       return false;
-    } 
+  }
   }
 }
   

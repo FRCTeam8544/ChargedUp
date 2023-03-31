@@ -55,8 +55,6 @@ public final class Constants {
 
     public static boolean yes = false;
 
-    public static boolean useExtender = false;
-
     public static final int firstnum = 1;
 
     public static final boolean issparkFirst = true;
