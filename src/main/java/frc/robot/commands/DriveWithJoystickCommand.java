@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -11,6 +13,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 //import java.rmi.server.RemoteObjectInvocationHandler;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
 
 
@@ -20,26 +23,40 @@ public class DriveWithJoystickCommand extends CommandBase {
   public static final double navXYawinit = RobotContainer.ahrs.getYaw();
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
+  private final SwerveSubsystem swerveSubsystem;
   int m_val ;
   public int uwu = 0;
   int coastnum = 0;
   int balancenum = 0;
   int balancetri = 4;
+  boolean swerve = false;
+  boolean tb = false;//twist boolean
+  double xPos, yPos, angle, swerveSpeed, twist, kP, kI, kD;
+  PIDController swervePID;
 
-  public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
+  public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveSubsystem swerveSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
-    addRequirements(drivetrainSubsystem);
+    this.swerveSubsystem = swerveSubsystem;
+     //kP = 5e-5;
+     kP = 0.1; 
+     //kI = 1e-6;
+     kI = 0;
+     kD = 0; 
+    addRequirements(drivetrainSubsystem, swerveSubsystem);
   }
 
      @Override
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
+    swervePID = new PIDController(kP, kI, kD);
   }
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
+    if (!swerve){
+    if (RobotContainer.rightJoystick.getRawButtonPressed(12)){swerve = true;}
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
     //SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
@@ -156,6 +173,34 @@ public class DriveWithJoystickCommand extends CommandBase {
     SmartDashboard.putNumber("navroll", RobotContainer.ahrs.getRoll());
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
+  }
+  else{
+    yPos = RobotContainer.rightJoystick.getY();
+    xPos = RobotContainer.rightJoystick.getX();
+    twist = RobotContainer.rightJoystick.getTwist();
+    angle = Math.atan(yPos/xPos);
+    swerveSpeed = wammy(Math.sqrt(yPos*yPos + xPos*xPos));
+
+    if (RobotContainer.controller.getRawButtonPressed(11)){tb = !tb;}
+
+    if (yPos > 0 && xPos < 0){//II
+      angle = 180 - angle;
+    }
+    else if (yPos < 0){
+      if (xPos < 0){//III
+        angle = angle + 180;
+      }
+      else if (xPos > 0){//VI
+        angle = angle - 360;
+      }
+    }
+
+    
+    
+    if (!tb){swerveSubsystem.lightning(swervePID.calculate(swerveSubsystem.swerveEncoder(), angle));}//twist bool
+    else{swerveSubsystem.lightning(twist);}
+    swerveSubsystem.mcQeen(swerveSpeed);
+  }
   }
   //y=x^2 function
   private double formulaEx (double value) {

@@ -24,6 +24,11 @@ public final class Constants {
     public static final int backLeftCANID = 1; //old robot is 3 | new is 1
     public static final int backRightCANID = 3;//old robot is 4 | new is 3
 
+    public static final int flSwerveCANID = 13;//front left
+    public static final int frSwerveCANID = 14;//front right
+    public static final int blSwerveCANID = 15;//back left
+    public static final int brSwerveCANID = 16;//back right
+
     public static final int driveTrainWheelDiameter = 6;
     public static final double driveTrainGearRatio = 10.71;
 
@@ -33,7 +38,7 @@ public final class Constants {
   }
 
   public static final class led{//did you know people used to think tomatoes were poisonous because they were served on lead plates
-    public static final int ledport = 0;//change
+    public static final int ledport = 1;//change
     public static final int length = 84;//change
   }
 
@@ -68,6 +73,7 @@ public final class Constants {
     
     public static final double wrist = 0.2;//not in use (so sad)
     public static final double wristspeed = 0.15;//change
+    public static final double NOTAUTOwristspeed = .30;
     public static final double wriststopspeed = 0.01;//change
 
     public static final double wristPulsePerSecond = 400;
@@ -77,10 +83,10 @@ public final class Constants {
     public static final int armin = 9;
   }
 
-  public static final double BASESPEED = 0.2; //speed at which robot should be stable when it is fully on the ramp
+  public static final double BASESPEED = 0.3; //speed at which robot should be stable when it is fully on the ramp
   public static final double MAXANGLE = 17; // max ramp angle is 17 degrees
-  public static final double RAMPSPEEDADJUSTMENT = .15; //speed adjustment when auto mode is on
-  public static double CURRENTRAMPSPEED = 0.15; // starting adjustment speed
+  public static final double RAMPSPEEDADJUSTMENT = .05; //speed adjustment when auto mode is on
+  public static double CURRENTRAMPSPEED = 0.05; // starting adjustment speed
 
   public static final class JoystickConstants {
     public static final int butEnableBreakmode = 8;

@@ -20,7 +20,7 @@ public class LedSubsystem extends SubsystemBase{
     int m_rainbowFirstPixelHue;
     public boolean eyesOfHeaven = false;
     public boolean other = false;
-    public boolean slay = false;
+    public boolean slay = true;
     boolean forward = true;
     boolean current = forward;
     int lovetrain = 0;

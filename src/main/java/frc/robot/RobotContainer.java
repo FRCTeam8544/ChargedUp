@@ -25,6 +25,7 @@ import frc.robot.commands.AutonomousCommands.AutoNotCenterCommand;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
@@ -64,8 +65,9 @@ public class RobotContainer {
  
   public final LedSubsystem ledSubsystem = new LedSubsystem();
 
+  public final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();//who knows
-  public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
+  public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem, swerveSubsystem);
   public final BalanceCommand balanceCommand = new BalanceCommand(drivetrainSubsystem);
 
   public final WristSubsystem wristSubsystem = new WristSubsystem();
@@ -95,7 +97,7 @@ public class RobotContainer {
     // Our first test automation routine for this bot
     
     private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
-    private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
+    private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
     //first real command
     private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);

@@ -30,6 +30,7 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
+  int adjust = 100;//when over 90 it does nothing
   boolean goinup = false;
   int fellowship = 1;
   boolean ofTheRing = false;
@@ -40,6 +41,7 @@ public class ArmControls extends CommandBase{
   boolean isrun = false;
   double wsetPoint = 0;
   double wajah = 0;//wajah
+  double multiplyer = 0.4;
   //boolean pid = false;
   PIDController pid;
 
@@ -125,18 +127,15 @@ public class ArmControls extends CommandBase{
       //speede = RightControllerPoint.y / 2;
 
       if (RobotContainer.controller.getPOV() == -1) {
-        y = 0;
-        x = 0;
+        
       }
       //else if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}//exe
       //else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
 
-      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {x = 1;}//was both now noth (im a poet)
-      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {x = 2;}//tis thy high and the low
+      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {adjust = 80;}//was both now noth (im a poet)
+      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {adjust = 0;}//tis thy high and the low
 
       else{//does this do anything? no it doesnt
-        y = 0;
-        x = 0;
       }
 
       //if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
@@ -192,18 +191,7 @@ public class ArmControls extends CommandBase{
 
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
-      /*if (x == 1){
-        speed = Constants.armthings.armspeed * 0.5;
-        //speedw = Constants.armthings.wristspeed;
-      }
-      else if (x == 2){
-        speed = Constants.armthings.armspeeddown * -1;
-        //speedw = Constants.armthings.wristspeed * -1;
-      }
-      else if (x == 0) {
-        //speed = Constants.armthings.armstopspeed;
-        //speedw = Constants.armthings.wriststopspeed;
-      }*/
+      
       if (RobotContainer.controller.getRawAxis(1) > 0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
       else if (RobotContainer.controller.getRawAxis(1) < -0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
 
@@ -232,8 +220,8 @@ public class ArmControls extends CommandBase{
       //if (w == 1) {speedw = Constants.armthings.wristspeed;}
       //else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
 
-      if (RobotContainer.controller.getRawButton(7)) {speedw = Constants.armthings.wristspeed;}
-      else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.wristspeed * -1;}
+      if (RobotContainer.controller.getRawButton(7)) {speedw = Constants.armthings.NOTAUTOwristspeed;}
+      else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.NOTAUTOwristspeed * -1;}
 
       if (RobotContainer.controller.getRawButton(6)){wristGoBrrr.iveGotANeed();}
       else if (RobotContainer.controller.getRawButton(5)){wristGoBrrr.forSpeed();}
@@ -274,11 +262,16 @@ public class ArmControls extends CommandBase{
       //buttons might be mapped wrong
       //if (RobotContainer.controller.getRawButtonPressed(9)){setPoint = 30;}//change depending on the angle for goals
       //if (RobotContainer.controller.getRawButtonPressed(10)){setPoint = 60;}
-
       if (speed == 0){
-        armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
-        //ledSubsystem.bitesTheDust = true;
-        //ledSubsystem.zaWauldo = false;
+        if (adjust >= 90){
+          armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
+        }
+        else if (adjust > setPoint){
+          armSubsystem.movemotor(adjustUp(adjust, setPoint));
+        }
+        else if (adjust < setPoint){
+          armSubsystem.movemotor(adjustDown(adjust, setPoint));
+        }
       }
       else{
         armSubsystem.movemotor(speed);
@@ -288,6 +281,7 @@ public class ArmControls extends CommandBase{
         System.out.println("set point "+setPoint);
         //ledSubsystem.zaWauldo = true;
         //ledSubsystem.bitesTheDust = false;
+        adjust = 100;
       }
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
@@ -313,7 +307,7 @@ public class ArmControls extends CommandBase{
 
     private double poswammy(double value){
       if (value == 1){return 1;}
-      value = Math.log(((1.264241118*Math.E*x)/2) + 1 );
+      value = Math.log(((1.264241118*Math.E*value)/2) + 1 );
       return value;
     }
 
@@ -321,6 +315,57 @@ public class ArmControls extends CommandBase{
       if (value == 1){return -1;}
       value = Math.log(((1.264241118*Math.E*value)/2) + 1 ) * -1;
       return value;
+    }
+
+    private double adjustUp(int currentPos, double initPos){
+      //adjust is the position its moving to
+      multiplyer = (adjust - initPos)/adjust;
+      if (multiplyer > 0.4){multiplyer = 0.4;}
+      else if (multiplyer < 0.05){multiplyer = 0.05;}
+      double speed;
+      double fthird = (adjust - initPos) / 3;
+      double sthird = fthird * 2;
+      if (currentPos < fthird){
+        speed = currentPos / (fthird);
+      }
+      else if (currentPos < sthird){
+        speed = 1;
+      }
+      else if (currentPos > adjust - 0.5 || currentPos < adjust + 0.5){
+        speed = 0;
+      }
+      else{
+        speed = (currentPos / (-1 * adjust)) + 1;
+      }
+      if (speed * multiplyer < 0.05){
+        return 0.05;
+      }
+      return speed * multiplyer;
+    }
+
+    private double adjustDown(int currentPos, double initPos){
+      multiplyer = (adjust - initPos)/adjust;
+      if (multiplyer > 0.4){multiplyer = 0.4;}
+      else if (multiplyer < 0.05){multiplyer = 0.05;}
+      double speed;
+      double fthird = (initPos - adjust) / 3;
+      double sthird = fthird * 2;
+      if (currentPos < fthird){
+        speed = (currentPos / (-1 * adjust)) + 1;
+      }
+      else if (currentPos < sthird){
+        speed = 1;
+      }
+      else if (currentPos > adjust - 0.5 || currentPos < adjust + 0.5){
+        speed = 0;
+      }
+      else{
+        speed = currentPos / (fthird);
+      }
+      if ((speed * multiplyer)/2 < 0.05){
+         return -0.05;
+      }
+      return speed * multiplyer * -0.5;
     }
 
     /*double controlslb(double speed) {

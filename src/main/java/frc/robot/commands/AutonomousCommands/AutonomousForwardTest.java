@@ -41,36 +41,39 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
     this.wheelCommand = wheelCommand;
 
     System.out.println("AutonomousForwardTest initialized");
-    addCommands(
+    addCommands(//time removed check not center for original
       new SequentialCommandGroup(
 
-        new PneumaticCommand(false, a_pneumatics),
         new ParallelCommandGroup(
-          new MoveArm(40, ar_ArmSubsystem, ar_wristSubsystem, true),
-          new ExtenderCommand(2, a_extender, true, 0.3)
+          new PneumaticCommand(false, a_pneumatics),
+          new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
+          new ExtenderCommand(2, a_extender, true, 0.3),
+          new WristCommand(-30, ar_wristSubsystem, true)
         ),
-        new WristCommand(-30, ar_wristSubsystem, true),
-        new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
+        
+        //new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
         new ParallelCommandGroup(
-          new ArmScore(ar_ArmSubsystem).withTimeout(5),
+          new ArmScore(ar_ArmSubsystem).withTimeout(3.5),
           new SequentialCommandGroup(
             new ExtenderCommand(1.5, a_extender, false, 0.5),
             //new MoveArm(80, ar_ArmSubsystem, ar_wristSubsystem, true),
             new WristCommand(-110, ar_wristSubsystem, true),
-            new WaitCommand(1),
+            //new WaitCommand(0.2),
             new PneumaticCommand(true, a_pneumatics),
-            new WheelCommand(wheelCommand, true).withTimeout(1),
+            new WheelCommand(wheelCommand, true).withTimeout(0.5),
             /*new ParallelCommandGroup(
             )*/
-            new WristCommand(-10, ar_wristSubsystem, false),
-            new ExtenderCommand(2, a_extender, true, 0.5)
+            new ParallelCommandGroup(
+              new WristCommand(-10, ar_wristSubsystem, false),
+              new ExtenderCommand(1, a_extender, true, 1)
             )
+          )
         ),
         new ParallelCommandGroup(
           new MoveArm(1, ar_ArmSubsystem, ar_wristSubsystem, false),
-          new ExtenderCommand(3, a_extender, true, 0.3)
-        )
-        
+          new ExtenderCommand(3, a_extender, true, 0.3),
+          new DriveAndBalance(ar_drivetrain, true, true, 70) 
+        ) 
       )
         /*new ParallelCommandGroup(
           new PIDArm(ar_ArmSubsystem, 80),
@@ -154,7 +157,6 @@ public class AutonomousForwardTest extends SequentialCommandGroup {
 
         //new DriveAndBalance(ar_driveTrain, true, false, 108), // fix
 
-        //new DriveAndBalance(ar_drivetrain, false, true, 60),
     
         //new MoveArm(5, .2, ar_ArmSubsystem),
 
