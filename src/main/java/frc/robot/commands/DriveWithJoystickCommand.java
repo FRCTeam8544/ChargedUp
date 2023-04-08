@@ -30,8 +30,9 @@ public class DriveWithJoystickCommand extends CommandBase {
   int balancenum = 0;
   int balancetri = 4;
   boolean swerve = false;
-  boolean tb = false;//twist boolean
-  double xPos, yPos, angle, swerveSpeed, twist, kP, kI, kD;
+  double thirtySixtyEncoder = 360;//spin the wheels 360 degrees and change this value to the encoders
+  double xPos, yPos, angle, swerveSpeed, twist, kP, kI, kD, multiplyer = thirtySixtyEncoder / 360;
+  double topLeft, topRight, bottomLeft, bottomRight;
   PIDController swervePID;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveSubsystem swerveSubsystem){
@@ -175,31 +176,71 @@ public class DriveWithJoystickCommand extends CommandBase {
     //double turningSpeed = RemoteObjectInvocationHandler
   }
   else{
+    /**
+     * Hello!
+     * This was made without a swerve drive
+     * does it work you ask
+     * well I dont know
+     * check the subsystem for more information
+     */
     yPos = RobotContainer.rightJoystick.getY();
     xPos = RobotContainer.rightJoystick.getX();
     twist = RobotContainer.rightJoystick.getTwist();
-    angle = Math.atan(yPos/xPos);
     swerveSpeed = wammy(Math.sqrt(yPos*yPos + xPos*xPos));
 
-    if (RobotContainer.controller.getRawButtonPressed(11)){tb = !tb;}
-
-    if (yPos > 0 && xPos < 0){//II
-      angle = 180 - angle;
-    }
-    else if (yPos < 0){
-      if (xPos < 0){//III
-        angle = angle + 180;
-      }
-      else if (xPos > 0){//VI
-        angle = angle - 360;
-      }
-    }
-
     
     
-    if (!tb){swerveSubsystem.lightning(swervePID.calculate(swerveSubsystem.swerveEncoder(), angle));}//twist bool
-    else{swerveSubsystem.lightning(twist);}
-    swerveSubsystem.mcQeen(swerveSpeed);
+    if (twist < 0.1 && twist > -0.1){
+      angle = Math.atan(yPos/xPos);
+      /*if (yPos > 0 && xPos < 0){//II
+        angle = 180 - angle;
+      }
+      else if (yPos < 0){
+        if (xPos < 0){//III
+          angle = angle + 180;
+        }
+        else if (xPos > 0){//VI
+          angle = angle - 360;
+        }
+      }*/
+      //has to be done like this because the encoders start facing forwards at the position 0
+      if (yPos > 0){
+        if (xPos > 0){//IV
+          angle = 360 - angle;
+        }
+        else if (xPos < 0){//III
+          angle = angle + 180;
+        }
+      }
+      else if (yPos < 0){
+        if (xPos > 0){//II
+          angle = 180 - angle;
+        }
+        //if xPos is greater than zero but the yPos is negative it is qI for the motor
+      }
+      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, angle);
+      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, angle);
+      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, angle);
+      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, angle);
+      
+    }//twist bool
+    else if (twist < 0.9 && twist > -0.9){
+      angle = twist * 45;
+      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, angle);
+      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, angle);
+      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, angle * -1);
+      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, angle * -1);
+    
+    }
+    else{
+      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, 45);
+      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, 135);
+      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, 315);
+      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, 225);
+      
+      
+    }
+    swerveSubsystem.lightningMcQueen(swerveSpeed, topLeft, topRight, bottomLeft, bottomRight);
   }
   }
   //y=x^2 function

@@ -263,7 +263,8 @@ public class ArmControls extends CommandBase{
       //if (RobotContainer.controller.getRawButtonPressed(9)){setPoint = 30;}//change depending on the angle for goals
       //if (RobotContainer.controller.getRawButtonPressed(10)){setPoint = 60;}
       if (speed == 0){
-        if (adjust >= 90){
+        armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));//adjust is a test for moving the arm to the scoring position with a single button
+        /*if (adjust >= 90){
           armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
         }
         else if (adjust > setPoint){
@@ -271,7 +272,7 @@ public class ArmControls extends CommandBase{
         }
         else if (adjust < setPoint){
           armSubsystem.movemotor(adjustDown(adjust, setPoint));
-        }
+        }*/
       }
       else{
         armSubsystem.movemotor(speed);
