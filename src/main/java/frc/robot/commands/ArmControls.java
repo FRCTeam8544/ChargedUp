@@ -15,6 +15,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
+import frc.robot.utils.RampUp;
 import frc.robot.utils.math.Point;
 
 public class ArmControls extends CommandBase{
@@ -25,6 +26,7 @@ public class ArmControls extends CommandBase{
   ArmPneumaticsSubsystem armPneumaticsSubsystem;
   WristGoBRRR wristGoBrrr;
   LedSubsystem ledSubsystem;
+  RampUp rampUp = new RampUp(0.3);
 
   int x = 0;
   int y = 0;
@@ -44,6 +46,7 @@ public class ArmControls extends CommandBase{
   double multiplyer = 0.4;
   //boolean pid = false;
   PIDController pid;
+  int rampUpGo = 0;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, setPoint;
 
@@ -127,13 +130,14 @@ public class ArmControls extends CommandBase{
       //speede = RightControllerPoint.y / 2;
 
       if (RobotContainer.controller.getPOV() == -1) {
-        
+        rampUpGo = 0;
+        rampUp.setTarg(0, rampUpGo);
       }
       //else if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}//exe
       //else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
 
-      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {adjust = 80;}//was both now noth (im a poet)
-      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {adjust = 0;}//tis thy high and the low
+      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {rampUp.setTarg(0.3, rampUpGo);rampUpGo++;speed = rampUp.getVal();}//was both now noth (im a poet)
+      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {rampUp.setTarg(-0.3, rampUpGo);rampUpGo++;speed = rampUp.getVal();}//tis thy high and the low
 
       else{//does this do anything? no it doesnt
       }
@@ -282,7 +286,7 @@ public class ArmControls extends CommandBase{
         System.out.println("set point "+setPoint);
         //ledSubsystem.zaWauldo = true;
         //ledSubsystem.bitesTheDust = false;
-        adjust = 100;
+        //adjust = 100;
       }
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
@@ -317,8 +321,8 @@ public class ArmControls extends CommandBase{
       value = Math.log(((1.264241118*Math.E*value)/2) + 1 ) * -1;
       return value;
     }
-
-    private double adjustUp(int currentPos, double initPos){
+//dont even worry about this
+    /*private double adjustUp(int currentPos, double initPos){
       //adjust is the position its moving to
       multiplyer = (adjust - initPos)/adjust;
       if (multiplyer > 0.4){multiplyer = 0.4;}
@@ -367,7 +371,7 @@ public class ArmControls extends CommandBase{
          return -0.05;
       }
       return speed * multiplyer * -0.5;
-    }
+    }*/
 
     /*double controlslb(double speed) {
 

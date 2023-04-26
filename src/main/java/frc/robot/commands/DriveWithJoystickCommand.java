@@ -182,6 +182,9 @@ public class DriveWithJoystickCommand extends CommandBase {
      * does it work you ask
      * well I dont know
      * check the subsystem for more information
+     * 
+     * this is also not designed for a controller so like minor adjustments need to be made
+     * it woudld be easier just to use swerve kinematics
      */
     yPos = RobotContainer.rightJoystick.getY();
     xPos = RobotContainer.rightJoystick.getX();

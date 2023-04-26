@@ -47,38 +47,39 @@ public class LedSubsystem extends SubsystemBase{
             ledBuffer.setRGB(i, 255, 100, 0);
          }
 
-         madeInHeaven(69);
+         //madeInHeaven(69);
 
         led.setData(ledBuffer);
         led.start();
     }
 
-    public void madeInHeaven(int keep){
+    public void madeInHeaven(int keep){//could this be optemized by setting everything false in the begining?
+        //yes but the booleans could also just be removed
         switch (keep){
             case 1:
                 bitesTheDust = true;
-                zaWauldo = false; kingCrimson = false; stoneFree = false;
+                zaWauldo = false; kingCrimson = false; stoneFree = false; eyesOfHeaven = false;
                 bitesTheDust();
                 break;
             case 2:
                 zaWauldo = true;
-                bitesTheDust = false; kingCrimson = false; stoneFree = false;
+                bitesTheDust = false; kingCrimson = false; stoneFree = false; eyesOfHeaven = false;
                 zaWauldo();
                 break;
             case 3:
                 kingCrimson = true;
-                bitesTheDust = false; zaWauldo = false; stoneFree = false;
+                bitesTheDust = false; zaWauldo = false; stoneFree = false; eyesOfHeaven = false;
                 kingCrimson();
                 break;
             case 4:
                 stoneFree = true;
-                bitesTheDust = false; zaWauldo = false; kingCrimson = false;
+                bitesTheDust = false; zaWauldo = false; kingCrimson = false; eyesOfHeaven = false;
                 stoneFree();
                 break;
             default:
                 GER();
         }
-        eyesOfHeaven = false;
+        
     }
 
     public void bitesTheDust(){name = "Bites the Dust";
@@ -106,6 +107,7 @@ public class LedSubsystem extends SubsystemBase{
     }
 
     public void lovetrain(){
+        System.out.println("we are in quite a bad position");
         if (lovetrain >= 1 && !forward){
             lovetrain -= 1;
             r = randcolorr;
@@ -158,8 +160,14 @@ public class LedSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
-        if (slay && !eyesOfHeaven){GER();}
-        if (eyesOfHeaven){lovetrain();}
+        System.out.println("we are here (that means its ians fault)");
+        if (slay){GER();}
+        else if (eyesOfHeaven){lovetrain();}
+        led.setData(ledBuffer);
+    }
+
+    public void disabled(){//called periodically while disabled
+        GER();
         led.setData(ledBuffer);
     }
 

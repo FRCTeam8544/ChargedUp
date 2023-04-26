@@ -62,6 +62,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {
+      right = right/3;
+      left = left/3;
       differentialDrive.tankDrive(left, right);
       //leftControllerGroup.set(left);
       //righControllerGroup.set(right);

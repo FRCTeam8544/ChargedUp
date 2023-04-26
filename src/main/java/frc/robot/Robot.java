@@ -20,6 +20,7 @@ import frc.robot.subsystems.LedSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private LedSubsystem ledSubsystem = new LedSubsystem();
 
   private RobotContainer m_robotContainer;
 
@@ -56,7 +57,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    ledSubsystem.disabled();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
