@@ -13,7 +13,6 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 //import java.rmi.server.RemoteObjectInvocationHandler;
 import frc.robot.subsystems.LedSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 
 
 
@@ -23,7 +22,6 @@ public class DriveWithJoystickCommand extends CommandBase {
   public static final double navXYawinit = RobotContainer.ahrs.getYaw();
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final DrivetrainSubsystem drivetrainSubsystem;
-  private final SwerveSubsystem swerveSubsystem;
   int m_val ;
   public int uwu = 0;
   int coastnum = 0;
@@ -35,15 +33,14 @@ public class DriveWithJoystickCommand extends CommandBase {
   double topLeft, topRight, bottomLeft, bottomRight;
   PIDController swervePID;
 
-  public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem, SwerveSubsystem swerveSubsystem){
+  public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
-    this.swerveSubsystem = swerveSubsystem;
      //kP = 5e-5;
      kP = 0.1; 
      //kI = 1e-6;
      kI = 0;
      kD = 0; 
-    addRequirements(drivetrainSubsystem, swerveSubsystem);
+    addRequirements(drivetrainSubsystem);
   }
 
      @Override
@@ -56,7 +53,6 @@ public class DriveWithJoystickCommand extends CommandBase {
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
-    if (!swerve){
     if (RobotContainer.rightJoystick.getRawButtonPressed(12)){swerve = true;}
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
@@ -174,77 +170,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     SmartDashboard.putNumber("navroll", RobotContainer.ahrs.getRoll());
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
-  }
-  else{
-    /**
-     * Hello!
-     * This was made without a swerve drive
-     * does it work you ask
-     * well I dont know
-     * check the subsystem for more information
-     * 
-     * this is also not designed for a controller so like minor adjustments need to be made
-     * it woudld be easier just to use swerve kinematics
-     */
-    yPos = RobotContainer.rightJoystick.getY();
-    xPos = RobotContainer.rightJoystick.getX();
-    twist = RobotContainer.rightJoystick.getTwist();
-    swerveSpeed = wammy(Math.sqrt(yPos*yPos + xPos*xPos));
-
-    
-    
-    if (twist < 0.1 && twist > -0.1){
-      angle = Math.atan(yPos/xPos);
-      /*if (yPos > 0 && xPos < 0){//II
-        angle = 180 - angle;
-      }
-      else if (yPos < 0){
-        if (xPos < 0){//III
-          angle = angle + 180;
-        }
-        else if (xPos > 0){//VI
-          angle = angle - 360;
-        }
-      }*/
-      //has to be done like this because the encoders start facing forwards at the position 0
-      if (yPos > 0){
-        if (xPos > 0){//IV
-          angle = 360 - angle;
-        }
-        else if (xPos < 0){//III
-          angle = angle + 180;
-        }
-      }
-      else if (yPos < 0){
-        if (xPos > 0){//II
-          angle = 180 - angle;
-        }
-        //if xPos is greater than zero but the yPos is negative it is qI for the motor
-      }
-      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, angle);
-      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, angle);
-      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, angle);
-      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, angle);
-      
-    }//twist bool
-    else if (twist < 0.9 && twist > -0.9){
-      angle = twist * 45;
-      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, angle);
-      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, angle);
-      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, angle * -1);
-      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, angle * -1);
-    
-    }
-    else{
-      topLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(1) * multiplyer, 45);
-      topRight = swervePID.calculate(swerveSubsystem.swerveEncoders(2) * multiplyer, 135);
-      bottomLeft = swervePID.calculate(swerveSubsystem.swerveEncoders(3) * multiplyer, 315);
-      bottomRight = swervePID.calculate(swerveSubsystem.swerveEncoders(4) * multiplyer, 225);
-      
-      
-    }
-    swerveSubsystem.lightningMcQueen(swerveSpeed, topLeft, topRight, bottomLeft, bottomRight);
-  }
+  
   }
   //y=x^2 function
   private double formulaEx (double value) {

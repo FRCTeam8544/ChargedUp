@@ -15,7 +15,6 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.utils.RampUp;
 import frc.robot.utils.math.Point;
 
 public class ArmControls extends CommandBase{
@@ -26,7 +25,9 @@ public class ArmControls extends CommandBase{
   ArmPneumaticsSubsystem armPneumaticsSubsystem;
   WristGoBRRR wristGoBrrr;
   LedSubsystem ledSubsystem;
-  RampUp rampUp = new RampUp(0.3);
+  
+  
+  boolean ramp = false;
 
   int x = 0;
   int y = 0;
@@ -130,17 +131,14 @@ public class ArmControls extends CommandBase{
       //speede = RightControllerPoint.y / 2;
 
       if (RobotContainer.controller.getPOV() == -1) {
-        rampUpGo = 0;
-        rampUp.setTarg(0, rampUpGo);
+        
       }
       //else if (RobotContainer.controller.getPOV() > 45 && RobotContainer.controller.getPOV() <= 135){y = 1;}//exe
       //else if(RobotContainer.controller.getPOV() > 225 && RobotContainer.controller.getPOV() <= 315){y = 2;}
 
-      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {rampUp.setTarg(0.3, rampUpGo);rampUpGo++;speed = rampUp.getVal();}//was both now noth (im a poet)
-      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {rampUp.setTarg(-0.3, rampUpGo);rampUpGo++;speed = rampUp.getVal();}//tis thy high and the low
+      else if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {speed = 0.3;}//was both now noth (im a poet)
+      else if (RobotContainer.controller.getPOV() > 315 || RobotContainer.controller.getPOV() < 45) {speed = 0.3;}//tis thy high and the low
 
-      else{//does this do anything? no it doesnt
-      }
 
       //if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
       if (RobotContainer.controller.getButtonStateB()) {speede = Constants.armthings.armexespeed;}
@@ -196,8 +194,8 @@ public class ArmControls extends CommandBase{
       //if (Constants.armthings.morecontrol){speed = controlslb(speed);}
 
       
-      if (RobotContainer.controller.getRawAxis(1) > 0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
-      else if (RobotContainer.controller.getRawAxis(1) < -0.05){speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
+      if (RobotContainer.controller.getRawAxis(1) > 0.05){ramp = false;speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
+      else if (RobotContainer.controller.getRawAxis(1) < -0.05){ramp = false;speed = RobotContainer.controller.getRawAxis(1) * 0.3;}
 
       //if (RobotContainer.controller.getPOV() == -1){wajah = 0;}
       //if (RobotContainer.controller.getPOV() > 135 && RobotContainer.controller.getPOV() <= 225) {speed = poswammy(up())*0.3;goinup = true;}//was both now noth (im a poet)
@@ -266,7 +264,7 @@ public class ArmControls extends CommandBase{
       //buttons might be mapped wrong
       //if (RobotContainer.controller.getRawButtonPressed(9)){setPoint = 30;}//change depending on the angle for goals
       //if (RobotContainer.controller.getRawButtonPressed(10)){setPoint = 60;}
-      if (speed == 0){
+      if (speed == 0 && !ramp){
         armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));//adjust is a test for moving the arm to the scoring position with a single button
         /*if (adjust >= 90){
           armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));

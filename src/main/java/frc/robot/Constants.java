@@ -38,7 +38,7 @@ public final class Constants {
   }
 
   public static final class led{//did you know people used to think tomatoes were poisonous because they were served on lead plates
-    public static final int ledport = 1;//change
+    public static final int ledport = 3;//change
     public static final int length = 84;//change 84 on actual robot (probably)
   }
 

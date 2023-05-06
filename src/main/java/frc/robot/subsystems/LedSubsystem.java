@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class LedSubsystem extends SubsystemBase{
-
-
-    AddressableLED led = new AddressableLED(Constants.led.ledport);
-
+    AddressableLED led;
+    boolean noleds = false;
+    
+    
     AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(Constants.led.length);
 
     Random rand = new Random();
@@ -41,20 +41,29 @@ public class LedSubsystem extends SubsystemBase{
     
     // purple is one yellow is two red is three and blue is yellow
     public LedSubsystem(){
-        led.setLength(ledBuffer.getLength());
+        try{
+            led = new AddressableLED(Constants.led.ledport);
+        }catch(Exception e){
+            System.out.println("missing leds maybe wrong port");
+            noleds = true;
+        };
+        if (!noleds){
+            led.setLength(ledBuffer.getLength());
 
-        for (var i = 0; i < ledBuffer.getLength(); i++) {
-            ledBuffer.setRGB(i, 255, 100, 0);
-         }
+            for (var i = 0; i < ledBuffer.getLength(); i++) {
+                ledBuffer.setRGB(i, 255, 100, 0);
+            }
 
-         //madeInHeaven(69);
+            //madeInHeaven(69);
 
-        led.setData(ledBuffer);
-        led.start();
+            if (!noleds){led.setData(ledBuffer);}
+            led.start();
+        }
     }
 
     public void madeInHeaven(int keep){//could this be optemized by setting everything false in the begining?
         //yes but the booleans could also just be removed
+        if (!noleds){
         switch (keep){
             case 1:
                 bitesTheDust = true;
@@ -79,34 +88,43 @@ public class LedSubsystem extends SubsystemBase{
             default:
                 GER();
         }
+    }
         
     }
 
-    public void bitesTheDust(){name = "Bites the Dust";
+    public void bitesTheDust(){if (!noleds){
+        name = "Bites the Dust";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, 177, 14, 227);
          }
+        }
     }
 
-    public void zaWauldo(){name = "ZAWARLDO";
+    public void zaWauldo(){if (!noleds){
+        name = "ZAWARLDO";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, 223, 227, 14);
          }
+        }
     }
 
-    public void kingCrimson(){name = "King Crimson";
+    public void kingCrimson(){if (!noleds){
+        name = "King Crimson";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, 168, 25, 35);
          }
+        }
     }
 
-    public void stoneFree(){name = "StoneFree";
+    public void stoneFree(){if (!noleds){
+        name = "StoneFree";
         for (var i = 0; i < ledBuffer.getLength(); i++) {
             ledBuffer.setRGB(i, 25, 68, 168);
          }
+        }
     }
 
-    public void lovetrain(){
+    public void lovetrain(){if (!noleds){
         System.out.println("we are in quite a bad position");
         if (lovetrain >= 1 && !forward){
             lovetrain -= 1;
@@ -140,8 +158,10 @@ public class LedSubsystem extends SubsystemBase{
         }
         current = forward;
     }
+    }
 
-    public void GER(){name = "This is Requiem";
+    public void GER(){if (!noleds){
+        name = "This is Requiem";
         
         //in Rainbows by radiohead amirite
         for (var i = 0; i < ledBuffer.getLength(); i++) {
@@ -155,24 +175,24 @@ public class LedSubsystem extends SubsystemBase{
           m_rainbowFirstPixelHue += 3;
           // Check bounds
           m_rainbowFirstPixelHue %= 180;
+        }
     }
 
 
     @Override
     public void periodic(){
-        System.out.println("we are here (that means its ians fault)");
         if (slay){GER();}
         else if (eyesOfHeaven){lovetrain();}
-        led.setData(ledBuffer);
+        if (!noleds){led.setData(ledBuffer);}
     }
 
     public void disabled(){//called periodically while disabled
         GER();
-        led.setData(ledBuffer);
+        if (!noleds){led.setData(ledBuffer);}
     }
 
     public void setdata(){
-        led.setData(ledBuffer);
+        if (!noleds){led.setData(ledBuffer);}
     }
     
 }
