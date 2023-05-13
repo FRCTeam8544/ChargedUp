@@ -28,6 +28,7 @@ public class ArmControls extends CommandBase{
   
   
   boolean ramp = false;
+  boolean autoLevel = true;
 
   int x = 0;
   int y = 0;
@@ -42,11 +43,13 @@ public class ArmControls extends CommandBase{
   boolean needForSpeed = false;
   boolean sickdrift = false;
   boolean isrun = false;
-  double wsetPoint = 0;
+  double setPointW= 0;
   double wajah = 0;//wajah
   double multiplyer = 0.4;
   //boolean pid = false;
   PIDController pid;
+  PIDController pidW;
+
   int rampUpGo = 0;
 
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, setPoint;
@@ -73,8 +76,11 @@ public class ArmControls extends CommandBase{
         armSubsystem.setBreakMode();
         armExtenderSubsystem.setBreakMode();
         pid = new PIDController(kP, kI, kD);
+        pidW = new PIDController(kP, kI, kD);
         pid.enableContinuousInput(0, 110);
+        //pidW.enableContinuousInput(-30 ,60);
         setPoint = armSubsystem.getEncoder();
+        setPointW = wristSubsystem.getEncoder();
     }
     
     @Override
@@ -264,7 +270,7 @@ public class ArmControls extends CommandBase{
       //buttons might be mapped wrong
       //if (RobotContainer.controller.getRawButtonPressed(9)){setPoint = 30;}//change depending on the angle for goals
       //if (RobotContainer.controller.getRawButtonPressed(10)){setPoint = 60;}
-      if (speed == 0 && !ramp){
+      if (speed == 0){
         armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));//adjust is a test for moving the arm to the scoring position with a single button
         /*if (adjust >= 90){
           armSubsystem.movemotor(pid.calculate(armSubsystem.getEncoder(), setPoint));
@@ -286,7 +292,20 @@ public class ArmControls extends CommandBase{
         //ledSubsystem.bitesTheDust = false;
         //adjust = 100;
       }
-      wristSubsystem.wristWatch(speedw);
+      System.out.println("french "+wristSubsystem.getEncoder());
+      if (!ofTheRing){
+        wristSubsystem.wristWatch(speedw);
+      }
+      /*else if (speedw == 0){
+        wristSubsystem.wristWatch(speedw);
+      }*/
+      else{
+        //setPointW = (armSubsystem.getEncoder() * -110)/ -80;
+        setPointW = 0.7875 * armSubsystem.getEncoder() - 47;
+        
+        wristSubsystem.wristWatch(pidW.calculate(wristSubsystem.getEncoder(), setPointW));
+      }
+      //wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
     }
     }
