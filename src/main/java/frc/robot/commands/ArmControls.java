@@ -36,8 +36,7 @@ public class ArmControls extends CommandBase{
   int phd = 0;
   int adjust = 100;//when over 90 it does nothing
   boolean goinup = false;
-  int fellowship = 1;
-  boolean ofTheRing = false;
+  boolean fellowshipOfTheRing = false;
   boolean stopnow = false;
   boolean openClaw = false;
   boolean needForSpeed = false;
@@ -147,8 +146,8 @@ public class ArmControls extends CommandBase{
 
 
       //if (RobotContainer.controller.getButtonStateA() == false && RobotContainer.controller.getButtonStateY() == false) {speede = 0;}
-      if (RobotContainer.controller.getButtonStateB()) {speede = Constants.armthings.armexespeed;}
-      if (RobotContainer.controller.getButtonStateY()) {speede = Constants.armthings.armexespeed * -1;}
+      //if (RobotContainer.controller.getButtonStateB()) {speede = Constants.armthings.armexespeed;}
+      //if (RobotContainer.controller.getButtonStateY()) {speede = Constants.armthings.armexespeed * -1;}
 
 
       /*if (RobotContainer.controller.getLeftBumperPressed()) {x = 1;}
@@ -223,16 +222,18 @@ public class ArmControls extends CommandBase{
         speede = Constants.armthings.armexespeed * -1;
       }
       else {speede = 0;}*/
+//if (w == 1) {speedw = Constants.armthings.wristspeed;}
+        //else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
+    
+      else{
+        if (RobotContainer.controller.getRawButton(7)) {fellowshipOfTheRing = false;speedw = Constants.armthings.NOTAUTOwristspeed;}
+        else if (RobotContainer.controller.getRawButton(8)) {fellowshipOfTheRing = false;speedw = Constants.armthings.NOTAUTOwristspeed * -1;}
+      }
+      
 
-
-      //if (w == 1) {speedw = Constants.armthings.wristspeed;}
-      //else if (w == 2) {speedw = Constants.armthings.wristspeed * -1;}
-
-      if (RobotContainer.controller.getRawButton(7)) {speedw = Constants.armthings.NOTAUTOwristspeed;}
-      else if (RobotContainer.controller.getRawButton(8)) {speedw = Constants.armthings.NOTAUTOwristspeed * -1;}
-
-      if (RobotContainer.controller.getRawButton(6)){wristGoBrrr.iveGotANeed();}
-      else if (RobotContainer.controller.getRawButton(5)){wristGoBrrr.forSpeed();}
+      
+      if (RobotContainer.controller.getButtonStateY()){wristGoBrrr.iveGotANeed();}
+      else if (RobotContainer.controller.getButtonStateB()){wristGoBrrr.forSpeed();}
       else{wristGoBrrr.skrrttt();}
       
 
@@ -251,13 +252,7 @@ public class ArmControls extends CommandBase{
       }*/
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
       if (RobotContainer.controller.getRawButtonPressed(1)){
-        fellowship ++;
-        if (fellowship % 2 == 0){
-          ofTheRing = true;
-        }
-        else{
-          ofTheRing = false;
-        }
+        fellowshipOfTheRing = !fellowshipOfTheRing;
         
       }
 
@@ -293,7 +288,7 @@ public class ArmControls extends CommandBase{
         //adjust = 100;
       }
       System.out.println("french "+wristSubsystem.getEncoder());
-      if (!ofTheRing){
+      if (!fellowshipOfTheRing){
         wristSubsystem.wristWatch(speedw);
       }
       /*else if (speedw == 0){
@@ -301,7 +296,7 @@ public class ArmControls extends CommandBase{
       }*/
       else{
         //setPointW = (armSubsystem.getEncoder() * -110)/ -80;
-        setPointW = 0.7875 * armSubsystem.getEncoder() - 47;
+        setPointW = 0.9 * armSubsystem.getEncoder() - 47;
         
         wristSubsystem.wristWatch(pidW.calculate(wristSubsystem.getEncoder(), setPointW));
       }
