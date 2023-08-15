@@ -192,7 +192,7 @@ public class ArmControls extends CommandBase{
         else {speedw = armSubsystem.god() *0.3;}
 
       }
-
+      // reset encoder ref point
       if (RobotContainer.controller.getRawButtonPressed(6)){
         pid = true;
         setPoint = armSubsystem.getEncoder();
@@ -200,7 +200,7 @@ public class ArmControls extends CommandBase{
       if (RobotContainer.controller.getRawButtonPressed(5)){
         pid = false;
       }
-
+      // set speeds
       if (pid == false){ armSubsystem.movemotor(speed);} else{armSubsystem.calc(setPoint);}
       wristSubsystem.wristWatch(speedw);
       armExtenderSubsystem.movemotor(speede);
