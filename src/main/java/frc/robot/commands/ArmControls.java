@@ -23,8 +23,7 @@ public class ArmControls extends CommandBase{
   int y = 0;
   int w = 0;
   int phd = 0;
-  int fellowship = 1;
-  boolean ofTheRing = false;
+  boolean bt1toggled = false;
   boolean stopnow = false;
   boolean openClaw = false;
   boolean pid = false;
@@ -177,19 +176,18 @@ public class ArmControls extends CommandBase{
         x = 0;
         y = 0;
         w = 0;
+        // These different speed variables apply to the different sections with w standing for wrist and 
+        // e standing for extender
         speed = 0;
         speede = 0;
         speedw = 0;
       }*/
       //if (RobotContainer.controller.getRightTriggerAxis() > 0) {stopnow = false;}
-      if (RobotContainer.controller.getRawButtonPressed(1)){
-        fellowship ++;
-        if (fellowship % 2 == 0){ofTheRing = true;}
-        else{ofTheRing = false;}
-        
-      }
 
-      if (ofTheRing) {
+      // This if statement uses button 1 (whatever that is) to toggle the variable bt1toggled
+      if (RobotContainer.controller.getRawButtonPressed(1)){bt1toggled = !bt1toggled;}
+      // This if statement sets the wrist movement speed according to the variable  bt1toggled
+      if (bt1toggled) {
         if (speed > 0){speedw = armSubsystem.god() * 0.4;}
         else {speedw = armSubsystem.god() *0.3;}
 
@@ -218,3 +216,4 @@ public class ArmControls extends CommandBase{
 
     }*/
 }
+
