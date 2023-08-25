@@ -19,8 +19,8 @@ public class ArmExtenderSubsystem extends SubsystemBase {
     VictorSPX armExtender = new VictorSPX(Constants.armthings.extenderCANID);
     //Encoder exeEncoder = new Encoder(0, 1, false, EncodingType.k2X);
 
-    DigitalInput extenderLimitSwitchf = new DigitalInput(0);//forward digital input
-    DigitalInput extenderLimitSwitchr = new DigitalInput(1);//reverse digital input
+    DigitalInput digitF = new DigitalInput(0);//forward digital input
+    DigitalInput digitR = new DigitalInput(1);//reverse digital input
 
 
     public ArmExtenderSubsystem() {
@@ -28,6 +28,8 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         //armExtender.configFactoryDefault();
 
         armExtender.setInverted(false);
+        //useExtender = false;
+
 
     }
 
@@ -37,19 +39,22 @@ public class ArmExtenderSubsystem extends SubsystemBase {
 
 
     public void movemotor(double value) {
-
-       //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
+        //if (extenderLimitSwitchf.get() && extenderLimitSwitchr.get()){armExtender.set(ControlMode.PercentOutput, value);}
         //System.out.println("forward:");
         //System.out.println(extenderLimitSwitchf);
 
-        if (extenderLimitSwitchf.get() && value > 0){
+        /*if (digitF.get() && value > 0){
             armExtender.set(ControlMode.PercentOutput, value);
         }
-        else if (extenderLimitSwitchr.get() && value < 0){
+        else if (digitR.get() && value < 0){
             armExtender.set(ControlMode.PercentOutput, value);
-        }
+        }*/
 
-        SmartDashboard.putBoolean("Limit hit?", extenderLimitSwitchf.get());
+        armExtender.set(ControlMode.PercentOutput, value);
+
+       // System.out.println("how did we get here");
+
+        SmartDashboard.putBoolean("Limit hit?", digitF.get());
 
         //
         
@@ -59,8 +64,6 @@ public class ArmExtenderSubsystem extends SubsystemBase {
         
         
         //SmartDashboard.putNumber("exe encoder", exeEncoder.get());
-
-        armExtender.set(ControlMode.PercentOutput, value);
         //System.out.println("reverse:");
         //System.out.println(extenderLimitSwitchr);
 

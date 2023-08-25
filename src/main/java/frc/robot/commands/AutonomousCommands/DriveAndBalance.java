@@ -36,7 +36,7 @@ public class DriveAndBalance extends CommandBase{
     @Override
     public void execute() {
       double navXRoll = RobotContainer.ahrs.getRoll();
-        if (navXRoll > 16 || navXRoll < -16 || balance) {
+        if (navXRoll > 15 || navXRoll < -15 || balance) {
           double balanceSpeed = balancepwease();
           ar_drivetrain.tankDrive(balanceSpeed, balanceSpeed);
           balance = true;
@@ -58,7 +58,8 @@ public class DriveAndBalance extends CommandBase{
     @Override
     public boolean isFinished(){
 
-      return false;
+      if (autoBalance){return false;}
+      else{return tofar;}
 
     }
 

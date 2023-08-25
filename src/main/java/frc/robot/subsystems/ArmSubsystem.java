@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,11 +16,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 public class ArmSubsystem extends SubsystemBase {
     
     CANSparkMax firstJoint = new CANSparkMax(Constants.armthings.jointoneCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+    CANSparkMax twooooooo = new CANSparkMax(Constants.armthings.twoooooooCANID, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+    MotorControllerGroup armGroup = new MotorControllerGroup(firstJoint, twooooooo);//might cause issues delete if necessary
 
     public RelativeEncoder firstJointEncoder = firstJoint.getEncoder();
 
     public SparkMaxPIDController armPid = firstJoint.getPIDController();
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
     //private SparkMaxLimitSwitch firstlimitforward;
     //private SparkMaxLimitSwitch firstlimitreverse;
@@ -33,24 +36,12 @@ public class ArmSubsystem extends SubsystemBase {
         
         firstJointEncoder.setPosition(0);
 
-        firstJoint.setInverted(false);
+        firstJoint.setInverted(true);
 
-        kP = 5e-5; 
-        kI = 1e-6;
-        kD = 0; 
-        kIz = 0; 
-        kFF = 0.000156; 
-        kMaxOutput = 1; 
-        kMinOutput = -1;
-        maxRPM = 5700;
 
-        armPid.setP(kP);
-        armPid.setI(kI);
-        armPid.setD(kD);
-        armPid.setIZone(kIz);
-        armPid.setFF(kFF);
-        armPid.setOutputRange(kMinOutput, kMaxOutput);
+        twooooooo.follow(firstJoint, true);
 
+        //twooooooo.follow(firstJoint);
         //firstlimitforward = firstJoint.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
         //firstlimitreverse = firstJoint.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyClosed);
 
@@ -64,13 +55,16 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void setBreakMode() {
-        firstJoint.setIdleMode(IdleMode.kBrake);
+        //firstJoint.setIdleMode(IdleMode.kBrake);
     }
 
     public void movemotor(double value) {
         //firstJointSpark.set(value);
 
-        firstJoint.set(value);
+
+        //firstJoint.set(value);
+        //twooooooo.set(value);
+        firstJoint.set(value);//if group is causing issues just change armGroup to firstJoint
     }
 
     @Override
@@ -102,59 +96,12 @@ public class ArmSubsystem extends SubsystemBase {
         return firstJoint.get();
     }
 
+    public void autocalc(double setPoint){
+        //armPid.setOutputRange(-.3, 0.3);
+        armPid.setReference(setPoint, CANSparkMax.ControlType.kSmartVelocity);
+    }
 
-    /*public void movejointssparktrue(int whichone, double howfar, boolean isspark) {
-        if (firstlimitforward.isPressed() == false || firstlimitreverse.isPressed() == false){
-            if (isspark){
-                switch(whichone) {
-                    case 1:
-                        firstJointSpark.set(howfar);
-                        break;
-                }
-            }
-            else{
-                switch (whichone) {
-                    case 1:
-                        firstJointVictor.set(howfar);
-                        break;
-                }
-            }
-        }
-        else if (firstlimitforward.isPressed()){
-            if(firstlimitforward.isPressed() && howfar < 0) {
-                if (isspark){
-                    switch(whichone) {
-                        case 1:
-                            firstJointSpark.set(howfar);
-                            break;
-                    }
-                }
-                else{
-                    switch (whichone) {
-                        case 1:
-                            firstJointVictor.set(howfar);
-                            break;
-                    }
-                }
-            }
-        }
-        else if (firstlimitreverse.isPressed()){
-            if(firstlimitreverse.isPressed() && howfar > 0) {
-                if (isspark){
-                    switch(whichone) {
-                        case 1:
-                            firstJointSpark.set(howfar);
-                            break;
-                    }
-                }
-                else{
-                    switch (whichone) {
-                        case 1:
-                            firstJointVictor.set(howfar);
-                            break;
-                    }
-                }
-            }
-        }
-    }*/
+    public void invert(){
+        firstJoint.setInverted(!firstJoint.getInverted());
+    }
 }

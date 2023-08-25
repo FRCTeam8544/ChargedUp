@@ -43,10 +43,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         //frontRightMotor.restoreFactoryDefaults();
         //backLeftMotor.restoreFactoryDefaults();
         //backRightMotor.restoreFactoryDefaults();
+
+        differentialDrive.setExpiration(.2);
         
         // restoring to defaults incase drivers messed something up (because they suck)
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+
+        
 
         //groups them together
         backLeftMotor.follow(frontLeftMotor);
@@ -59,6 +63,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //does tank drive because chassis didnt want swerve (very lame)
     public void tankDrive(double left, double right) {
       differentialDrive.tankDrive(left, right);
+      //leftControllerGroup.set(left);
+      //righControllerGroup.set(right);
     }
 
     /*public void arcadeDrive(double speed, double rotation){

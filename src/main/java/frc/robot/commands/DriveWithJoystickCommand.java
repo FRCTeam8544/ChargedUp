@@ -4,12 +4,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivetrainSubsystem;
 //import java.rmi.server.RemoteObjectInvocationHandler;
+import frc.robot.subsystems.LedSubsystem;
 
 
 
@@ -24,9 +27,19 @@ public class DriveWithJoystickCommand extends CommandBase {
   int coastnum = 0;
   int balancenum = 0;
   int balancetri = 4;
+  boolean swerve = false;
+  double thirtySixtyEncoder = 360;//spin the wheels 360 degrees and change this value to the encoders
+  double xPos, yPos, angle, swerveSpeed, twist, kP, kI, kD, multiplyer = thirtySixtyEncoder / 360;
+  double topLeft, topRight, bottomLeft, bottomRight;
+  PIDController swervePID;
 
   public DriveWithJoystickCommand(DrivetrainSubsystem drivetrainSubsystem){
     this.drivetrainSubsystem = drivetrainSubsystem;
+     //kP = 5e-5;
+     kP = 0.1; 
+     //kI = 1e-6;
+     kI = 0;
+     kD = 0; 
     addRequirements(drivetrainSubsystem);
   }
 
@@ -34,11 +47,13 @@ public class DriveWithJoystickCommand extends CommandBase {
   public void initialize(){
     System.out.println("use joysticks");
     drivetrainSubsystem.setCoastMode(); //sets coast mode when initialized
+    swervePID = new PIDController(kP, kI, kD);
   }
 
   //this gets controller imput and uses it for the tank drive in drivetrainSubsystem
   @Override
   public void execute() {
+    if (RobotContainer.rightJoystick.getRawButtonPressed(12)){swerve = true;}
     double lForwardSpeed = RobotContainer.leftJoystick.getY();
     double rForwardSpeed = RobotContainer.rightJoystick.getY();
     //SmartDashboard.putNumber("ahrs roll 1", RobotContainer.ahrs.getRoll());
@@ -155,6 +170,7 @@ public class DriveWithJoystickCommand extends CommandBase {
     SmartDashboard.putNumber("navroll", RobotContainer.ahrs.getRoll());
     drivetrainSubsystem.tankDrive(lForwardSpeed, rForwardSpeed);
     //double turningSpeed = RemoteObjectInvocationHandler
+  
   }
   //y=x^2 function
   private double formulaEx (double value) {

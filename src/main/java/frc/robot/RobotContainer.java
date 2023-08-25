@@ -4,14 +4,17 @@
 
 package frc.robot;
 
+import java.lang.reflect.Method;
+import java.util.function.Function;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import frc.robot.Constants.led;
 import frc.robot.commands.ArmControls;
 import frc.robot.commands.BalanceCommand;
 //import frc.robot.Constants.OperatorConstants;
 //import frc.robot.commands.Autos;
 import frc.robot.commands.DriveWithJoystickCommand;
-import frc.robot.commands.TurretCommand;
 import frc.robot.subsystems.ArmExtenderSubsystem;
 import frc.robot.subsystems.ArmPneumaticsSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -21,15 +24,19 @@ import frc.robot.commands.AutonomousCommands.AutoNotCenterCommand;
 //import frc.robot.commands.AutonomousCommands.Autobots;
 import frc.robot.commands.AutonomousCommands.AutonomousForwardTest;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.TurretSubsystem;
+import frc.robot.subsystems.WristGoBRRR;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.utils.Gamepad;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj.RobotBase;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AutonomousCommands.AutonomusRed3Command;
+import frc.robot.commands.AutonomousCommands.WheelCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -55,6 +62,8 @@ public class RobotContainer {
     /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
     /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
  
+  public final LedSubsystem ledSubsystem = new LedSubsystem();
+
   public final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();//who knows
   public final DriveWithJoystickCommand driveWithJoystickCommand = new DriveWithJoystickCommand(drivetrainSubsystem);
   public final BalanceCommand balanceCommand = new BalanceCommand(drivetrainSubsystem);
@@ -63,8 +72,9 @@ public class RobotContainer {
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
   public final ArmExtenderSubsystem armExtenderSubsystem = new ArmExtenderSubsystem();
   public final ArmPneumaticsSubsystem armPneumaticsSubsystem = new ArmPneumaticsSubsystem();
+  public final WristGoBRRR wristGoBrrr = new WristGoBRRR();
 
-  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem);
+  public final ArmControls armControls = new ArmControls(armSubsystem, wristSubsystem, armExtenderSubsystem, armPneumaticsSubsystem, wristGoBrrr, ledSubsystem);
   
   //public final WristCommand wristCommand = new WristCommand(wristSubsystem);
 
@@ -76,6 +86,7 @@ public class RobotContainer {
  // Trigger aButton = controllerCommand.a();
   //Trigger xButton = controllerCommand.x();
 
+
   //private final ArmExtenderCommand armExtenderControls = new ArmExtenderCommand(armExtenderSubsystem);
 
   // Automation Classes
@@ -83,10 +94,10 @@ public class RobotContainer {
   private SendableChooser<Command> toggle = new SendableChooser<>();
     // Our first test automation routine for this bot
     
-    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
-    private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
+    private final AutonomousForwardTest a_AutonomousForwardTest = new AutonomousForwardTest(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
+    private final AutoNotCenterCommand a_AutoNotCenterCommand = new AutoNotCenterCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem, wristGoBrrr);
     //first real command
-    //private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem);
+    private final AutonomousMiddleCommand a_MiddleCommand = new AutonomousMiddleCommand(drivetrainSubsystem, armSubsystem, wristSubsystem, armPneumaticsSubsystem, armExtenderSubsystem);
     //private final AutonomusRed1Command a_AutonomusRed1Command = new AutonomusRed1Command(drivetrainSubsystem);
     //private final AutonomusRed3Command a_AutonomusRed3Command = new AutonomusRed3Command(drivetrainSubsystem);
 
@@ -100,11 +111,16 @@ public class RobotContainer {
       //new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+
+  
   public RobotContainer() {
     // Add the autonomous selection toggle:
     toggle.setDefaultOption("Forward Test", a_AutonomousForwardTest);
-    toggle.setDefaultOption("NOT CENTER", a_AutoNotCenterCommand);
-    //toggle.addOption("Middle Command", a_MiddleCommand);
+    toggle.addOption("NOT CENTER", a_AutoNotCenterCommand);
+
+    // purple is one yellow is two red is three and blue is yellow
+    
+    toggle.addOption("Middle Command", a_MiddleCommand);
     //toggle.addOption("Red1", a_AutonomusRed1Command);
     //toggle.addOption("Red3", a_AutonomusRed3Command);
     //toggle.addOption("Autobots roll out", a_rollout);
@@ -112,13 +128,13 @@ public class RobotContainer {
    
     //toggle.addOption("Middle command", a_AutonomousMiddleCommand);
     SmartDashboard.putData("Select Autonomous", toggle);
+    // purple is one yellow is two red is three and blue is yellow
 
-    // Configure the trigger bindings
     configureBindings();
-    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand); //sets default controller bindings
+    drivetrainSubsystem.setDefaultCommand(driveWithJoystickCommand);
     armSubsystem.setDefaultCommand(armControls);
 
-
+    
   }
 
   /**
@@ -133,6 +149,7 @@ public class RobotContainer {
   private void configureBindings() {
     //what is the point of this
 
+    
     //aButton.onTrue(new HoldCommand(armPneumaticsSubsystem));
     //xButton.onTrue(new ReleaseCommand(armPneumaticsSubsystem));
     
@@ -147,5 +164,6 @@ public class RobotContainer {
     
     // An example command will be run in autonomous
     return toggle.getSelected();
+    //return a_AutonomousForwardTest ;
   }
 }
